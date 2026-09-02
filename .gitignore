@@ -1,0 +1,22 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+*.local
+
+# 环境变量（保留 .env.example 作为模板）
+.env
+.env.*
+!.env.example
+
+# 编辑器与系统文件
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+
+# 日志
+*.log
+# 交付证据日志保留（delivery evidence/logs 不忽略）
+!delivery/**/evidence/logs/**
