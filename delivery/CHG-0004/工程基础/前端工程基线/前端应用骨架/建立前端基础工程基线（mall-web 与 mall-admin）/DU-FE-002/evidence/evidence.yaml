@@ -1,0 +1,48 @@
+evidence:
+  - id: EV-CODE-002
+    type: code-change
+    delivery-unit: DU-FE-002
+    symbol: "mall-web/**::createApp / useAppStore / http / router"
+    commit: 06e6e5f
+    evidence-ref: changeset.md
+    created-at: "2026-09-02T12:52:00Z"
+  - id: EV-INSTALL-002
+    type: command-verification
+    delivery-unit: DU-FE-002
+    symbol: "pnpm install"
+    commit: 06e6e5f
+    evidence-ref: logs/mall-web-install.log
+    created-at: "2026-09-02T12:52:00Z"
+    note: "AC-01：退出码 0，无 WARN/unmet；环境 node v22.22.1 + pnpm 10.32.1"
+  - id: EV-LINT-002
+    type: command-verification
+    delivery-unit: DU-FE-002
+    symbol: "pnpm lint / pnpm type-check"
+    commit: 06e6e5f
+    evidence-ref: logs/mall-web-lint.log
+    created-at: "2026-09-02T12:52:00Z"
+    note: "AC-12：lint 0 error（19 warn 为设计降级样式规则）；type-check 退出码 0（logs/mall-web-type-check.log）"
+  - id: EV-BUILD-002
+    type: command-verification
+    delivery-unit: DU-FE-002
+    symbol: "pnpm build"
+    commit: 06e6e5f
+    evidence-ref: logs/mall-web-build.log
+    created-at: "2026-09-02T12:52:00Z"
+    note: "AC-03：退出码 0，dist/ 9 文件，懒加载 chunk 可观测"
+  - id: EV-RUNTIME-002
+    type: runtime-verification
+    delivery-unit: DU-FE-002
+    symbol: "HomeView / MallLayout / NotFoundView / http.get('__ping')"
+    commit: 06e6e5f
+    evidence-ref: implementation.md#验证记录ac
+    created-at: "2026-09-02T12:52:00Z"
+    note: "AC-02/07/08/09/11：浏览器验证 6 项 PASS；AC-09 实际走错误路径（网关不在线），请求经统一拦截器并展示错误文案"
+  - id: EV-SCAN-002
+    type: static-verification
+    delivery-unit: DU-FE-002
+    symbol: "AC-13 关键字扫描"
+    commit: 06e6e5f
+    evidence-ref: implementation.md#验证记录ac
+    created-at: "2026-09-02T12:52:00Z"
+    note: "命中数=0（仅 CSS border 误报与 http.ts M1 锚点注释），无业务类型/流程"

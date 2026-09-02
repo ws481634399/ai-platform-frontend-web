@@ -1,0 +1,24 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-001
+    symbol: "README.md / .gitignore / templates/**"
+    commit: cc5b3a7
+    evidence-ref: changeset.md
+    created-at: "2026-09-02T12:52:00Z"
+  - id: EV-ENV-001
+    type: env-verification
+    delivery-unit: DU-FE-001
+    symbol: "node -v / pnpm -v"
+    commit: cc5b3a7
+    evidence-ref: implementation.md#自检
+    created-at: "2026-09-02T12:52:00Z"
+    note: "环境核验：node v22.22.1（满足 engines >=22）；pnpm 10.32.1（满足 >=10）"
+  - id: EV-VERIFY-001
+    type: static-verification
+    delivery-unit: DU-FE-001
+    symbol: "templates 完整性与对齐检查"
+    commit: cc5b3a7
+    evidence-ref: implementation.md#自检
+    created-at: "2026-09-02T12:52:00Z"
+    note: "base-files 7 文件 + http.ts + src-skeleton 十目录齐全；实例化文件与模板 diff 一致"

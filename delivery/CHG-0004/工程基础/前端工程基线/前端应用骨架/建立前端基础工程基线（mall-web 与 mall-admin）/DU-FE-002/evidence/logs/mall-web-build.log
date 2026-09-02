@@ -1,0 +1,20 @@
+﻿
+> mall-web@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+鉁?90 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                         0.32 kB 鈹?gzip:  0.24 kB
+dist/assets/NotFoundView-N2rYTcDm.css   0.06 kB 鈹?gzip:  0.08 kB
+dist/assets/HomeView-B3r1Pfqq.css       0.32 kB 鈹?gzip:  0.19 kB
+dist/assets/MallLayout-BJJD1lE9.css     0.42 kB 鈹?gzip:  0.22 kB
+dist/assets/app-BSXI8my8.js             0.17 kB 鈹?gzip:  0.17 kB
+dist/assets/NotFoundView-CKgn_dLd.js    0.41 kB 鈹?gzip:  0.33 kB
+dist/assets/MallLayout-ElA-Y3iJ.js      0.59 kB 鈹?gzip:  0.42 kB
+dist/assets/HomeView-FJQlqpzT.js       51.74 kB 鈹?gzip: 19.71 kB
+dist/assets/index-GVFAD-RB.js          93.12 kB 鈹?gzip: 36.40 kB
+
+[32m鉁?built in 259ms[39m

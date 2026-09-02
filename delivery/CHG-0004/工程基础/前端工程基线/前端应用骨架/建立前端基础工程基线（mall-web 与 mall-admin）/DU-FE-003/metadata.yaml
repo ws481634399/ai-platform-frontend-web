@@ -1,0 +1,73 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制 Workspace PRD / Design（Reference do not duplicate），workspace-source 仅为相对引用。
+
+id: DU-FE-003
+repository: "repo-2"
+parent:
+  change: "CHG-0004"
+feature-path:
+  level-1:
+    id: MOD-1
+    name: 工程基础
+  level-2:
+    id: FEAT-3
+    name: 前端工程基线
+  level-3:
+    id: FEAT-3-01
+    name: 前端应用骨架
+  story:
+    id: STORY-4
+    name: 建立前端基础工程基线（mall-web 与 mall-admin）
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/requirement.md
+  prd: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/prd.md
+  design: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/design.md
+  tasks: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/tasks.md
+scope: []
+implementation-guidance:
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "cc5b3a7a7cce62621c0bfdfc085eba21a17fe87e"
+result:
+  commit: "ffeb7da46ae33800ee30ef2a6306e018e2590a29"
+  paths:
+    - mall-admin/package.json
+    - mall-admin/vite.config.ts
+    - mall-admin/index.html
+    - mall-admin/eslint.config.js
+    - mall-admin/tsconfig.json
+    - mall-admin/tsconfig.node.json
+    - mall-admin/.prettierrc.json
+    - mall-admin/.npmrc
+    - mall-admin/.env.example
+    - mall-admin/src/main.ts
+    - mall-admin/src/App.vue
+    - mall-admin/src/api/http.ts
+    - mall-admin/src/router/index.ts
+    - mall-admin/src/stores/index.ts
+    - mall-admin/src/stores/app.ts
+    - mall-admin/src/layouts/AdminLayout.vue
+    - mall-admin/src/layouts/MenuItems.ts
+    - mall-admin/src/views/LoginView.vue
+    - mall-admin/src/views/WorkbenchView.vue
+    - mall-admin/src/views/UsersPlaceholderView.vue
+    - mall-admin/src/views/ProductsPlaceholderView.vue
+    - mall-admin/src/views/SettingsPlaceholderView.vue
+    - mall-admin/src/views/NotFoundView.vue
+    - mall-admin/src/types/index.ts
+    - mall-admin/src/auto-imports.d.ts
+    - mall-admin/src/components.d.ts
+  symbols:
+    - mall-admin/src/layouts/AdminLayout.vue::AdminLayout
+    - mall-admin/src/stores/app.ts::useAppStore
+    - mall-admin/src/router/index.ts::router

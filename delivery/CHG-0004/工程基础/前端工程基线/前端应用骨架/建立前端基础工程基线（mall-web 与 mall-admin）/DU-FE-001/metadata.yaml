@@ -1,0 +1,64 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制 Workspace PRD / Design（Reference do not duplicate），workspace-source 仅为相对引用。
+
+id: DU-FE-001
+repository: "repo-2"
+parent:
+  change: "CHG-0004"
+feature-path:
+  level-1:
+    id: MOD-1
+    name: 工程基础
+  level-2:
+    id: FEAT-3
+    name: 前端工程基线
+  level-3:
+    id: FEAT-3-01
+    name: 前端应用骨架
+  story:
+    id: STORY-4
+    name: 建立前端基础工程基线（mall-web 与 mall-admin）
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/requirement.md
+  prd: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/prd.md
+  design: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/design.md
+  tasks: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/tasks.md
+scope: []
+implementation-guidance:
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "" # materialize 时仓库无 HEAD（首提交 cc5b3a7 之前为空仓库）
+result:
+  commit: "cc5b3a7a7cce62621c0bfdfc085eba21a17fe87e"
+  paths:
+    - README.md
+    - .gitignore
+    - templates/base-files/eslint.config.js
+    - templates/base-files/tsconfig.json
+    - templates/base-files/tsconfig.node.json
+    - templates/base-files/.prettierrc.json
+    - templates/base-files/.npmrc
+    - templates/base-files/.env.example
+    - templates/base-files/package-scripts.json
+    - templates/http.ts
+    - templates/src-skeleton/api/.gitkeep
+    - templates/src-skeleton/assets/.gitkeep
+    - templates/src-skeleton/components/.gitkeep
+    - templates/src-skeleton/composables/.gitkeep
+    - templates/src-skeleton/layouts/.gitkeep
+    - templates/src-skeleton/router/.gitkeep
+    - templates/src-skeleton/stores/.gitkeep
+    - templates/src-skeleton/types/.gitkeep
+    - templates/src-skeleton/utils/.gitkeep
+    - templates/src-skeleton/views/.gitkeep
+  symbols: [] # 规范底座为模板类交付，无代码符号

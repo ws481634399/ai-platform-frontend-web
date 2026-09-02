@@ -1,0 +1,48 @@
+evidence:
+  - id: EV-CODE-003
+    type: code-change
+    delivery-unit: DU-FE-003
+    symbol: "mall-admin/**::AdminLayout / MenuItems / el-menu / LoginView / WorkbenchView / app store(isCollapsed)"
+    commit: ffeb7da
+    evidence-ref: changeset.md
+    created-at: "2026-09-02T13:30:00Z"
+  - id: EV-LINT-003
+    type: command-verification
+    delivery-unit: DU-FE-003
+    symbol: "pnpm lint / pnpm type-check"
+    commit: ffeb7da
+    evidence-ref: logs/mall-admin-lint.log
+    created-at: "2026-09-02T13:30:00Z"
+    note: "AC-12：lint 0 error（35 warn 为设计降级样式规则）；type-check 退出码 0，含 unplugin 生成 dts（logs/mall-admin-type-check.log）"
+  - id: EV-BUILD-003
+    type: command-verification
+    delivery-unit: DU-FE-003
+    symbol: "pnpm build"
+    commit: ffeb7da
+    evidence-ref: logs/mall-admin-build.log
+    created-at: "2026-09-02T13:30:00Z"
+    note: "AC-06：退出码 0，dist/ 23 文件，AdminLayout/LoginView/WorkbenchView 独立 chunk 可观测，built in 1.71s"
+  - id: EV-INSTALL-003
+    type: indirect-verification
+    delivery-unit: DU-FE-003
+    symbol: "pnpm install"
+    commit: ffeb7da
+    evidence-ref: logs/mall-admin-install.log
+    created-at: "2026-09-02T13:30:00Z"
+    note: "AC-04：依赖树完整（node_modules + pnpm-lock.yaml），lint/type-check/build 成功运行间接证明 install 成功；logs/mall-admin-install.log 为补跑受阻原始输出（sandbox EPERM 限制 D:\\.pnpm-store 写入），非通过证据，留作透明记录"
+  - id: EV-RUNTIME-003
+    type: runtime-verification
+    delivery-unit: DU-FE-003
+    symbol: "AdminLayout / el-menu 折叠同步 / LoginView / WorkbenchView / http.get('__ping')"
+    commit: ffeb7da
+    evidence-ref: implementation.md#验证记录ac
+    created-at: "2026-09-02T13:30:00Z"
+    note: "AC-05/07/08/09/10/11：浏览器验证 PASS（dev 启动 + / 重定向 /dashboard + 4 占位页 + 404 + 折叠同步 + EP 组件渲染 + env 标题）；AC-09 实际走错误路径（网关不在线），请求经统一拦截器并展示错误文案"
+  - id: EV-SCAN-003
+    type: static-verification
+    delivery-unit: DU-FE-003
+    symbol: "AC-13 关键字扫描"
+    commit: ffeb7da
+    evidence-ref: implementation.md#验证记录ac
+    created-at: "2026-09-02T13:30:00Z"
+    note: "命中数=0（仅 CSS border 误报与 http.ts M1 锚点注释），无业务类型/流程"

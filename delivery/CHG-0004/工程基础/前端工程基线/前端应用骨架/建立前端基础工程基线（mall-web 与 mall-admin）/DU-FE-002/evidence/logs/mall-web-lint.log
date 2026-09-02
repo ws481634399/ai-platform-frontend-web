@@ -1,0 +1,33 @@
+﻿
+> mall-web@0.0.0 lint D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> eslint .
+
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\layouts\MallLayout.vue
+  15:41  warning  Expected 1 line break after opening tag (`<footer>`), but no line breaks found    vue/singleline-html-element-content-newline
+  15:73  warning  Expected 1 line break before closing tag (`</footer>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\HomeView.vue
+  34:32  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  34:49  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  39:29  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  39:55  warning  '@click' should be on a new line                                                  vue/max-attributes-per-line
+  39:85  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/singleline-html-element-content-newline
+  39:87  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/singleline-html-element-content-newline
+  44:29  warning  ':disabled' should be on a new line                                               vue/max-attributes-per-line
+  44:53  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  44:76  warning  '@click' should be on a new line                                                  vue/max-attributes-per-line
+  47:29  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  47:33  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  48:33  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  48:60  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  51:32  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  51:57  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\NotFoundView.vue
+  5:25  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  5:29  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+鉁?19 problems (0 errors, 19 warnings)
+  0 errors and 14 warnings potentially fixable with the `--fix` option.
+

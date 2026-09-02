@@ -1,0 +1,66 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制 Workspace PRD / Design（Reference do not duplicate），workspace-source 仅为相对引用。
+
+id: DU-FE-002
+repository: "repo-2"
+parent:
+  change: "CHG-0004"
+feature-path:
+  level-1:
+    id: MOD-1
+    name: 工程基础
+  level-2:
+    id: FEAT-3
+    name: 前端工程基线
+  level-3:
+    id: FEAT-3-01
+    name: 前端应用骨架
+  story:
+    id: STORY-4
+    name: 建立前端基础工程基线（mall-web 与 mall-admin）
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/requirement.md
+  prd: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/prd.md
+  design: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/design.md
+  tasks: delivery/changes/CHG-0004/工程基础/前端工程基线/前端应用骨架/建立前端基础工程基线（mall-web 与
+    mall-admin）/tasks.md
+scope: []
+implementation-guidance:
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "cc5b3a7a7cce62621c0bfdfc085eba21a17fe87e"
+result:
+  commit: "06e6e5f866773d5802beffe7d2b2b7018a27c906"
+  paths:
+    - mall-web/package.json
+    - mall-web/vite.config.ts
+    - mall-web/index.html
+    - mall-web/eslint.config.js
+    - mall-web/tsconfig.json
+    - mall-web/tsconfig.node.json
+    - mall-web/.prettierrc.json
+    - mall-web/.npmrc
+    - mall-web/.env.example
+    - mall-web/src/main.ts
+    - mall-web/src/App.vue
+    - mall-web/src/api/http.ts
+    - mall-web/src/router/index.ts
+    - mall-web/src/stores/index.ts
+    - mall-web/src/stores/app.ts
+    - mall-web/src/layouts/MallLayout.vue
+    - mall-web/src/views/HomeView.vue
+    - mall-web/src/views/NotFoundView.vue
+    - mall-web/src/types/index.ts
+  symbols:
+    - mall-web/src/stores/app.ts::useAppStore
+    - mall-web/src/router/index.ts::router
+    - mall-web/src/api/http.ts::http
