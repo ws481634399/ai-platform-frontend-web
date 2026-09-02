@@ -48,6 +48,12 @@
 - 原因: 本 DU 采用 app/node 双 tsconfig（无 references 组合），需分别检查 src 与 vite.config.ts
 - 影响评估: 命令名与语义不变（镜像 scripts 一致），覆盖面更完整
 
+### DEV-4
+- 原 DU 建议: design §2.3 声明 vue-router 4 / ESLint 9
+- 实际实现: vue-router ^5.3.0 / eslint ^10.9.1（+ @eslint/js ^10.0.1 显式声明，见 DEV-2 关联）
+- 原因: 安装时锁定当前稳定 major——vue-router 5 为 Vue 3 配套现行 major（守卫 next() 回调已弃用，迁移为返回值式，见 DEV-1）；ESLint 10 为 flat config 现行 major（不再随附 @eslint/js，需显式声明）
+- 影响评估: 版本权威由 pnpm-lock.yaml 承担（design §2.3 一致）；lint/type-check/build/E2E 全链路验证通过，无 API 层破坏；review-finding EV-026 已闭环
+
 ## 自检
 
 - [x] 实施前已读 repo task.md §7/§8/§9 与 design.md 对应设计

@@ -56,6 +56,18 @@
 - 原因: 两文件是 AutoImport/Components 插件声明的 dts 产物，入库可保证新克隆环境无需先跑 dev/build 即可通过 type-check 与 IDE 提示
 - 影响评估: 文件内容确定性生成，无冲突风险；AC-12 明确要求 type-check 覆盖生成声明，入库使该验证可复现
 
+### DEV-5
+- 原 DU 建议: design §2.3 声明 vue-router 4 / ESLint 9
+- 实际实现: vue-router ^5.3.1 / eslint ^10.9.1（+ @eslint/js ^10.0.1 显式声明）
+- 原因: 安装时锁定当前稳定 major（与 DU-FE-002 同因，lockfile 独立故小版本略有差异 5.3.0/5.3.1）——vue-router 5 为 Vue 3 配套现行 major（守卫 next() 弃用，见 DEV-1）；ESLint 10 为 flat config 现行 major
+- 影响评估: 版本权威由 pnpm-lock.yaml 承担（design §2.3 一致）；全链路验证通过，无 API 层破坏；review-finding EV-026 已闭环
+
+### DEV-6
+- 原 DU 建议: design §2.6 最小示例 store（app.ts = 应用名/标题状态 + 一个计数器动作）
+- 实际实现: app.ts = appName + isCollapsed + toggleSidebar（折叠开关替代计数器）
+- 原因: admin 场景下 Sidebar/Header 折叠同步是更具验证价值的跨组件读写载体（AC-08 验证即依赖它），语义等价（ref 状态 + 动作函数，setup 语法）
+- 影响评估: 完全满足 AC-08「最小状态可读取与更新」；M1 按域新增业务 Store 的结构约定不变；review-finding EV-027 已闭环
+
 ## 自检
 
 - [x] 实施前已读 repo task.md §7/§8/§9 与 design.md 对应设计
