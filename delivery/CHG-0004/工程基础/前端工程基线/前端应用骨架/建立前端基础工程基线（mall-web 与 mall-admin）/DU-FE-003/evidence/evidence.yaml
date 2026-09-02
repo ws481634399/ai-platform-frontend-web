@@ -46,3 +46,11 @@ evidence:
     evidence-ref: implementation.md#验证记录ac
     created-at: "2026-09-02T13:30:00Z"
     note: "命中数=0（仅 CSS border 误报与 http.ts M1 锚点注释），无业务类型/流程"
+  - id: EV-TEST-003
+    type: test-run
+    delivery-unit: DU-FE-003
+    symbol: "test 阶段全量复验（lint / type-check / build / AC-13 扫描）"
+    commit: 122fca9
+    evidence-ref: logs/test-build.log
+    created-at: "2026-09-02T14:45:00Z"
+    note: "sdd-test 重跑：lint exit 0（0 error/35 warn 设计降级，logs/test-lint.log）+ type-check exit 0（logs/test-type-check.log）+ build exit 0（dist 23 文件，AdminLayout/WorkbenchView 懒加载 chunk，1.40s）+ AC-13 扫描命中仅 M1 锚点注释/PRD 指定占位 UI 文案/Vue 术语误报（logs/test-ac13-scan.log）；E2E（AC-05/07/08/09/10/11）复用同基线 dev 阶段浏览器验证（无代码变更）"

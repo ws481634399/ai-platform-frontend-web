@@ -1,0 +1,4 @@
+﻿src\api\http.ts:19:  // TODO(M1): config.headers.Authorization = `Bearer ${token}`
+src\api\http.ts:25:// M0：错误进入统一日志后透传；M1 在此填充 401/403/业务错误码处理（M0 不实现 Token 刷新）
+src\api\http.ts:29:    // 统一日志入口；M1 按-UnifyResult 错误码分流（401 重定向登录 / 403 提示无权限 / 业务码提示）
+src\router\index.ts:27:// 路由守卫扩展入口（M1+ 在此填充登录态/权限守卫；默认放行）

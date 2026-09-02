@@ -1,0 +1,34 @@
+﻿
+> mall-admin@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-admin
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 1706 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     0.32 kB │ gzip:  0.25 kB
+dist/assets/ProductsPlaceholderView-DgfSVw0g.css    0.05 kB │ gzip:  0.07 kB
+dist/assets/SettingsPlaceholderView-De7rA_XN.css    0.05 kB │ gzip:  0.07 kB
+dist/assets/UsersPlaceholderView-DgSo6BNw.css       0.05 kB │ gzip:  0.07 kB
+dist/assets/NotFoundView-DlOX6-8_.css               0.06 kB │ gzip:  0.08 kB
+dist/assets/WorkbenchView-BHEZD1oN.css              0.23 kB │ gzip:  0.14 kB
+dist/assets/LoginView-ChRPdtaq.css                  6.00 kB │ gzip:  1.06 kB
+dist/assets/css-BEidv39o.css                       12.11 kB │ gzip:  2.03 kB
+dist/assets/AdminLayout-FBz-9Mrf.css               25.79 kB │ gzip:  3.78 kB
+dist/assets/css-CNpL_Sag.css                       27.75 kB │ gzip:  3.95 kB
+dist/assets/castArray-wlgo5mhM.js                   0.12 kB │ gzip:  0.13 kB
+dist/assets/rolldown-runtime-DK3Fl9T5.js            0.15 kB │ gzip:  0.15 kB
+dist/assets/app-DHhh845m.js                         0.19 kB │ gzip:  0.18 kB
+dist/assets/ProductsPlaceholderView-BSJX0txZ.js     0.32 kB │ gzip:  0.31 kB
+dist/assets/SettingsPlaceholderView-Dk4Ym97l.js     0.32 kB │ gzip:  0.31 kB
+dist/assets/UsersPlaceholderView-Mi-ZTSP-.js        0.32 kB │ gzip:  0.31 kB
+dist/assets/NotFoundView-CR4WA8dW.js                0.41 kB │ gzip:  0.34 kB
+dist/assets/css-buDFbFJl.js                        16.68 kB │ gzip:  5.99 kB
+dist/assets/LoginView-DL-PVxKj.js                  36.17 kB │ gzip: 12.60 kB
+dist/assets/css-CS3wJQxT.js                        50.95 kB │ gzip: 19.41 kB
+dist/assets/WorkbenchView-BBMxIQOF.js              51.97 kB │ gzip: 19.87 kB
+dist/assets/AdminLayout-CwBeItmI.js                86.38 kB │ gzip: 28.82 kB
+dist/assets/index-CY4VUn_-.js                     109.27 kB │ gzip: 42.69 kB
+
+[32m✓ built in 1.40s[39m
