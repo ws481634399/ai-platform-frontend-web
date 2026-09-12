@@ -16,7 +16,7 @@ const authStore = useAuthStore()
 const permissionStore = usePermissionStore()
 const menuItems = computed(() => permissionStore.menus)
 async function logout() {
-  try { await authStore.logout() } finally { clearSession(router) }
+  try { await authStore.logout() } finally { await clearSession(router) }
 }
 </script>
 

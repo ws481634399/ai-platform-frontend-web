@@ -5,6 +5,7 @@ import { usePermissionStore } from '@/stores/permission'
 import { bootstrapSession } from '@/bootstrap/session'
 import { clearSession } from '@/auth/clear-session'
 import axios from 'axios'
+import { resolveRouteAccess } from './access-policy'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -61,8 +62,15 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const auth = useAuthStore(pinia)
-  if (to.path === '/login') return auth.isAuthenticated ? '/' : true
-  if (!auth.isAuthenticated && !(await auth.restore())) return { path: '/login', query: { redirect: to.fullPath } }
+  const access = () => resolveRouteAccess({
+    path: to.path,
+    fullPath: to.fullPath,
+    isAuthenticated: auth.isAuthenticated,
+    requiredPermission: to.meta.permission,
+    hasPermission: (code) => usePermissionStore(pinia).has(code),
+  })
+  if (to.path === '/login') return access()
+  if (!auth.isAuthenticated && !(await auth.restore())) return access()
   const permission = usePermissionStore(pinia)
   if (permission.permissionVersion === 0 && to.path !== '/403') {
     try { await bootstrapSession(router) }
@@ -73,9 +81,7 @@ router.beforeEach(async (to) => {
       return false
     }
   }
-  const required = to.meta.permission
-  if (typeof required === 'string' && !permission.has(required)) return '/403'
-  return true
+  return access()
 })
 
 export { router }

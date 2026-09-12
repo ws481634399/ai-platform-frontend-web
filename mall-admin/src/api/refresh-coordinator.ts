@@ -6,7 +6,7 @@ export function coordinateRefresh(refresh: () => Promise<string>): Promise<strin
       if (typeof window !== 'undefined') {
         const { clearSession } = await import('@/auth/clear-session')
         const { router } = await import('@/router')
-        clearSession(router)
+        await clearSession(router)
       }
       throw error
     })

@@ -11,14 +11,14 @@ const router = () => createRouter({ history:createMemoryHistory(), routes:[] })
 
 describe('session bootstrap', () => {
   beforeEach(() => { vi.clearAllMocks(); useAuthStore(pinia).clear(); usePermissionStore(pinia).clear() })
-  it('shares a concurrent request and atomically applies a valid snapshot', async () => {
+  it('STORY-001-03-01-01/TC-001 and STORY-001-03-01-02/TC-001..002 apply one atomic snapshot', async () => {
     vi.mocked(loadAdminSession).mockResolvedValue({ user:{id:'1',username:'admin',displayName:'Admin'}, menus:[], permissions:['x:read','x:read'], permissionVersion:2 })
     await Promise.all([bootstrapSession(router()), bootstrapSession(router())])
     expect(loadAdminSession).toHaveBeenCalledTimes(1)
     expect(useAuthStore(pinia).user?.displayName).toBe('Admin')
     expect(usePermissionStore(pinia).permissions).toEqual(['x:read'])
   })
-  it('keeps a recoverable token on network failure and rejects invalid menus before store mutation', async () => {
+  it('STORY-001-03-01-01/TC-003 and STORY-001-03-01-02/TC-003 preserve recoverability and reject invalid menus', async () => {
     const auth = useAuthStore(pinia); auth.accessToken = 'still-valid'
     vi.mocked(loadAdminSession).mockRejectedValueOnce(new Error('network'))
     await expect(bootstrapSession(router())).rejects.toThrow('network')

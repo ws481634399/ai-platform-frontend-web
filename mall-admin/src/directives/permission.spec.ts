@@ -5,7 +5,7 @@ import { applyPermission } from './permission'
 
 describe('permission directive', () => {
   beforeEach(() => usePermissionStore(pinia).clear())
-  it('reacts to permission changes in hide and disabled modes', () => {
+  it('STORY-001-03-03-01/TC-001..003 reacts to permission changes in hide and disabled modes', () => {
     const attributes: Record<string, string> = {}
     const element = { hidden: false, disabled: false, setAttribute: (key: string, value: string) => { attributes[key] = value } } as unknown as HTMLElement
     applyPermission(element, { value: 'admin:read' } as never)
