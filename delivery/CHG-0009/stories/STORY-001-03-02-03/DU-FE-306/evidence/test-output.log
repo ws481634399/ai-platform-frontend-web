@@ -1,0 +1,12 @@
+Independent test evidence — DU-FE-306
+
+Tested at: 2026-09-12T17:02:00+08:00
+Repository: repo-2
+Command: vitest run + vue-tsc + eslint + vite build
+Exit result: PASSED
+Automated checks: Vitest 5 files / 10 tests 通过；vue-tsc 通过；ESLint 0 error / 46 warnings；Vite build 通过。
+Operational note: 系统 pnpm.ps1 首次因 Node PATH/非交互重装保护失败；改用工程现有 node_modules/.bin 与绑定 Node 运行时后全部退出码 0。
+
+Acceptance trace status: PARTIAL
+Reason: 自动化套件通过，但当前测试名称/报告未按 test-design.md 的 TC 编号逐条输出，无法独立证明该 DU 的全部验收意图。
+
