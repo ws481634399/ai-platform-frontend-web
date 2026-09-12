@@ -1,8 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { pinia } from '@/stores'
+import { useAuthStore } from '@/stores/auth'
+import { usePermissionStore } from '@/stores/permission'
+import { bootstrapSession } from '@/bootstrap/session'
+import { clearSession } from '@/auth/clear-session'
+import axios from 'axios'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: '/403', name: 'forbidden', component: () => import('@/views/ForbiddenView.vue'),
+      meta: { title: '无权访问' },
+    },
     {
       path: '/login',
       name: 'login',
@@ -49,7 +59,23 @@ const router = createRouter({
   ],
 })
 
-// 权限守卫扩展入口（M1+ 在此填充 RBAC/动态菜单守卫；默认放行）
-router.beforeEach(() => true)
+router.beforeEach(async (to) => {
+  const auth = useAuthStore(pinia)
+  if (to.path === '/login') return auth.isAuthenticated ? '/' : true
+  if (!auth.isAuthenticated && !(await auth.restore())) return { path: '/login', query: { redirect: to.fullPath } }
+  const permission = usePermissionStore(pinia)
+  if (permission.permissionVersion === 0 && to.path !== '/403') {
+    try { await bootstrapSession(router) }
+    catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        clearSession(); return { path: '/login', query: { redirect: to.fullPath } }
+      }
+      return false
+    }
+  }
+  const required = to.meta.permission
+  if (typeof required === 'string' && !permission.has(required)) return '/403'
+  return true
+})
 
 export { router }

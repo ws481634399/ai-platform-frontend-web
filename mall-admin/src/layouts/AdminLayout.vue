@@ -1,13 +1,23 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import { useAppStore } from '@/stores/app'
-import { menuItems } from './MenuItems'
+import { useAuthStore } from '@/stores/auth'
+import { usePermissionStore } from '@/stores/permission'
+import { clearSession } from '@/auth/clear-session'
+import DynamicMenuItem from '@/components/DynamicMenuItem.vue'
 
 const appStore = useAppStore()
 const route = useRoute()
+const router = useRouter()
 const isCollapse = computed(() => appStore.isCollapsed)
+const authStore = useAuthStore()
+const permissionStore = usePermissionStore()
+const menuItems = computed(() => permissionStore.menus)
+async function logout() {
+  try { await authStore.logout() } finally { clearSession(router) }
+}
 </script>
 
 <template>
@@ -17,10 +27,7 @@ const isCollapse = computed(() => appStore.isCollapsed)
         {{ isCollapse ? 'M' : appStore.appName }}
       </div>
       <el-menu :default-active="route.path" :collapse="isCollapse" router>
-        <el-menu-item v-for="item in menuItems" :key="item.path" :index="item.path">
-          <el-icon><component :is="item.icon" /></el-icon>
-          <template #title>{{ item.title }}</template>
-        </el-menu-item>
+        <DynamicMenuItem v-for="item in menuItems" :key="item.id" :item="item" />
       </el-menu>
     </el-aside>
     <el-container>
@@ -29,11 +36,11 @@ const isCollapse = computed(() => appStore.isCollapsed)
           {{ isCollapse ? '展开侧栏' : '折叠侧栏' }}
         </el-button>
         <el-dropdown>
-          <span class="admin-layout__user">admin（占位）</span>
+          <span class="admin-layout__user">{{ authStore.user?.username ?? '管理员' }}</span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>个人中心（占位）</el-dropdown-item>
-              <el-dropdown-item>退出（占位）</el-dropdown-item>
+              <el-dropdown-item>个人中心</el-dropdown-item>
+              <el-dropdown-item @click="logout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

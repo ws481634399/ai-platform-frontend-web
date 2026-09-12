@@ -1,5 +1,8 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import type { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import { pinia } from '@/stores'
+import { useAuthStore } from '@/stores/auth'
+import { coordinateRefresh } from './refresh-coordinator'
 
 /**
  * 统一 HTTP Client（业务代码唯一 HTTP 出口，禁止直接 import axios）。
@@ -16,8 +19,9 @@ const http: AxiosInstance = axios.create({
 // ── Request 拦截器 ──────────────────────────────────────────────
 // M0 仅透传；M1 在此填充扩展头（Authorization / X-Trace-Id 注入锚点）
 http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  // TODO(M1): config.headers.Authorization = `Bearer ${token}`
-  // TODO(M1): config.headers['X-Trace-Id'] = crypto.randomUUID()
+  const token = useAuthStore(pinia).accessToken
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  config.headers['X-Trace-Id'] = crypto.randomUUID()
   return config
 })
 
@@ -25,9 +29,16 @@ http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 // M0：错误进入统一日志后透传；M1 在此填充 401/403/业务错误码处理（M0 不实现 Token 刷新）
 http.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error: unknown) => {
-    // 统一日志入口；M1 按-UnifyResult 错误码分流（401 重定向登录 / 403 提示无权限 / 业务码提示）
-    console.error('[http] request failed:', error instanceof Error ? error.message : error)
+  async (error: AxiosError) => {
+    const request = error.config as (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined
+    if (error.response?.status === 401 && request && !request._retry && !request.url?.endsWith('/refresh')) {
+      request._retry = true
+      const auth = useAuthStore(pinia)
+      try {
+        await coordinateRefresh(() => auth.refresh())
+        return http.request(request)
+      } catch { /* coordinator performs one centralized cleanup */ }
+    }
     return Promise.reject(error)
   },
 )
