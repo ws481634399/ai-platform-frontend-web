@@ -17,12 +17,12 @@ evidence:
     type: test-run
     delivery-unit: DU-FE-309
     command: "vitest run + vue-tsc + eslint + vite build"
-    result: partial
+    result: passed
     summary:
-      total: 10
-      passed: 10
+      total: 22
+      passed: 22
       failed: 0
       skipped: 0
     covers: [AC-001, AC-002, AC-003]
     evidence-ref: evidence/test-output.log
-    created-at: "2026-09-12T17:02:00+08:00"
+    created-at: "2026-09-12T23:51:17+08:00"
