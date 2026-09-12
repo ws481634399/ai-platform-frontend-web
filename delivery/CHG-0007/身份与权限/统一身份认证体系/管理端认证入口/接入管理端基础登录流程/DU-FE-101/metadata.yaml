@@ -30,7 +30,7 @@ evidence-ref: []
 baseline:
   commit: "677133f17186cdcca4c5afa302cd07ed2ac7435e"
 result:
-  commit: "fc7d0f7e657d7659b6c6f162c2f06e0ab5d51339"
+  commit: "0be3b000e99afe4a7dda006c9c7788e3841769e2"
   paths:
     - mall-admin/src/api/auth.ts
     - mall-admin/src/stores/auth.ts

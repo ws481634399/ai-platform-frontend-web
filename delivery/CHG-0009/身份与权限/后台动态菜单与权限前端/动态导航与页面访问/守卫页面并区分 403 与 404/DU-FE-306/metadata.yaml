@@ -30,7 +30,7 @@ evidence-ref: []
 baseline:
   commit: "677133f17186cdcca4c5afa302cd07ed2ac7435e"
 result:
-  commit: "fc7d0f7e657d7659b6c6f162c2f06e0ab5d51339"
+  commit: "0be3b000e99afe4a7dda006c9c7788e3841769e2"
   paths:
     - mall-admin/src/router/index.ts
     - mall-admin/src/views/ForbiddenView.vue
@@ -39,6 +39,9 @@ result:
     - "router.beforeEach"
 
 workspace-source:
-  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/story-spec.md
-  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/story-design.md
-  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/tasks.md
+  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与
+    404/story-spec.md
+  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403
+    与 404/story-design.md
+  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与
+    404/tasks.md
