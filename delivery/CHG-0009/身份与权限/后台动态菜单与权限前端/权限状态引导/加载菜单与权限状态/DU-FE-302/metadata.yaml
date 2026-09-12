@@ -1,0 +1,43 @@
+id: DU-FE-302
+repository: repo-2
+parent:
+  change: CHG-0009
+feature-path:
+  level-1:
+    id: FEAT-001
+    name: 身份与权限
+  level-2:
+    id: FEAT-001-03
+    name: 后台动态菜单与权限前端
+  level-3:
+    id: FEAT-001-03-01
+    name: 权限状态引导
+  story:
+    id: STORY-001-03-01-02
+    name: 加载菜单与权限状态
+scope:
+  - "DES-002：实现本 Story 在 repo-2 的职责"
+dependencies: [ DU-BE-302 ]
+acceptance:
+  - "AC-001, AC-002, AC-003"
+implementation-guidance:
+  sketch: true
+  pseudocode: true
+  complexity-trigger: [ business-flow ]
+
+status: completed
+evidence-ref: []
+baseline:
+  commit: "677133f17186cdcca4c5afa302cd07ed2ac7435e"
+result:
+  commit: "72cb028ce43977862c7ef6a1c535078e7df08e54"
+  paths:
+    - mall-admin/src/stores/permission.ts
+    - mall-admin/src/api/session.ts
+  symbols:
+    - "usePermissionStore#applyBootstrap"
+
+workspace-source:
+  story-spec: delivery/changes/CHG-0009/stories/STORY-001-03-01-02/story-spec.md
+  story-design: delivery/changes/CHG-0009/stories/STORY-001-03-01-02/story-design.md
+  tasks: delivery/changes/CHG-0009/stories/STORY-001-03-01-02/tasks.md
