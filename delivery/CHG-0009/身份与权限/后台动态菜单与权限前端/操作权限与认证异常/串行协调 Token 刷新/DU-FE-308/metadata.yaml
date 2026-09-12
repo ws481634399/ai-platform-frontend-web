@@ -38,6 +38,6 @@ result:
     - "coordinateRefresh, http interceptors"
 
 workspace-source:
-  story-spec: delivery/changes/CHG-0009/stories/STORY-001-03-03-02/story-spec.md
-  story-design: delivery/changes/CHG-0009/stories/STORY-001-03-03-02/story-design.md
-  tasks: delivery/changes/CHG-0009/stories/STORY-001-03-03-02/tasks.md
+  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/串行协调 Token 刷新/story-spec.md
+  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/串行协调 Token 刷新/story-design.md
+  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/串行协调 Token 刷新/tasks.md

@@ -39,6 +39,6 @@ result:
     - "router.beforeEach"
 
 workspace-source:
-  story-spec: delivery/changes/CHG-0009/stories/STORY-001-03-02-03/story-spec.md
-  story-design: delivery/changes/CHG-0009/stories/STORY-001-03-02-03/story-design.md
-  tasks: delivery/changes/CHG-0009/stories/STORY-001-03-02-03/tasks.md
+  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/story-spec.md
+  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/story-design.md
+  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/守卫页面并区分 403 与 404/tasks.md

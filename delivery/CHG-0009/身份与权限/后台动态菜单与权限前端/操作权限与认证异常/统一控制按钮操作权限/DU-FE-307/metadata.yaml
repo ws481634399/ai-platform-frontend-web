@@ -38,6 +38,6 @@ result:
     - "applyPermission, usePermission"
 
 workspace-source:
-  story-spec: delivery/changes/CHG-0009/stories/STORY-001-03-03-01/story-spec.md
-  story-design: delivery/changes/CHG-0009/stories/STORY-001-03-03-01/story-design.md
-  tasks: delivery/changes/CHG-0009/stories/STORY-001-03-03-01/tasks.md
+  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一控制按钮操作权限/story-spec.md
+  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一控制按钮操作权限/story-design.md
+  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一控制按钮操作权限/tasks.md

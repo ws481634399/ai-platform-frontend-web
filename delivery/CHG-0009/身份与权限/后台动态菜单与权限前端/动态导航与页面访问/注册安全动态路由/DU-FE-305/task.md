@@ -1,6 +1,6 @@
 # DU Task — DU-FE-305
 
-> Workspace 权威来源：delivery/changes/CHG-0009/stories/STORY-001-03-02-02/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/注册安全动态路由/tasks.md
 
 ### DU-FE-305: 注册安全动态路由
 

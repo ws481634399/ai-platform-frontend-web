@@ -1,6 +1,6 @@
 # DU Task — DU-FE-101
 
-> Workspace 权威来源：delivery/changes/CHG-0007/stories/STORY-001-01-04-01/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0007/身份与权限/统一身份认证体系/管理端认证入口/接入管理端基础登录流程/tasks.md
 
 ### DU-FE-101: 接入管理端基础登录流程
 

@@ -1,6 +1,6 @@
 # DU Task — DU-FE-307
 
-> Workspace 权威来源：delivery/changes/CHG-0009/stories/STORY-001-03-03-01/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一控制按钮操作权限/tasks.md
 
 ### DU-FE-307: 统一控制按钮操作权限
 

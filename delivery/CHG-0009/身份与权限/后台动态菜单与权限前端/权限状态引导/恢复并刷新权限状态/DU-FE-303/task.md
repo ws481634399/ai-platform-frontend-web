@@ -1,6 +1,6 @@
 # DU Task — DU-FE-303
 
-> Workspace 权威来源：delivery/changes/CHG-0009/stories/STORY-001-03-01-03/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/权限状态引导/恢复并刷新权限状态/tasks.md
 
 ### DU-FE-303: 恢复并刷新权限状态
 

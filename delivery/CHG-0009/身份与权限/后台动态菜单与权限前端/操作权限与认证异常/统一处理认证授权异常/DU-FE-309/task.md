@@ -1,6 +1,6 @@
 # DU Task — DU-FE-309
 
-> Workspace 权威来源：delivery/changes/CHG-0009/stories/STORY-001-03-03-03/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一处理认证授权异常/tasks.md
 
 ### DU-FE-309: 统一处理认证授权异常
 

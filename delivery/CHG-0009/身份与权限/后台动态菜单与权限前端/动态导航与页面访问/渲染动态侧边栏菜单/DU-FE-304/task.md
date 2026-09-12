@@ -1,6 +1,6 @@
 # DU Task — DU-FE-304
 
-> Workspace 权威来源：delivery/changes/CHG-0009/stories/STORY-001-03-02-01/tasks.md
+> Workspace 权威来源：delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/动态导航与页面访问/渲染动态侧边栏菜单/tasks.md
 
 ### DU-FE-304: 渲染动态侧边栏菜单
 

@@ -39,6 +39,6 @@ result:
     - "clearSession"
 
 workspace-source:
-  story-spec: delivery/changes/CHG-0009/stories/STORY-001-03-03-03/story-spec.md
-  story-design: delivery/changes/CHG-0009/stories/STORY-001-03-03-03/story-design.md
-  tasks: delivery/changes/CHG-0009/stories/STORY-001-03-03-03/tasks.md
+  story-spec: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一处理认证授权异常/story-spec.md
+  story-design: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一处理认证授权异常/story-design.md
+  tasks: delivery/changes/CHG-0009/身份与权限/后台动态菜单与权限前端/操作权限与认证异常/统一处理认证授权异常/tasks.md
