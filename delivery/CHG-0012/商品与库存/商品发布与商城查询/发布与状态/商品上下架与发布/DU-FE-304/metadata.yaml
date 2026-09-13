@@ -38,6 +38,10 @@ status: completed
 baseline:
   commit: "036a77c"
 result:
-  commit: "83d7458"
-  paths: []
-  symbols: []
+  commit: "2af5f93"
+  paths:
+    - mall-admin/src/api/product
+    - mall-admin/src/views/product
+  symbols:
+    - "api/product/product.ts::productApi"
+    - "views/product/ProductListView.vue::ProductListView"
