@@ -8,6 +8,8 @@ const components: Record<string, () => Promise<Component>> = {
   CategoryTree: () => import('@/views/product/CategoryTreeView.vue'),
   BrandList: () => import('@/views/product/BrandListView.vue'),
   ProductList: () => import('@/views/product/ProductListView.vue'),
+  InventoryList: () => import('@/views/inventory/InventoryListView.vue'),
+  InventoryLog: () => import('@/views/inventory/InventoryLogView.vue'),
 }
 
 export function resolveComponent(key: string) {
