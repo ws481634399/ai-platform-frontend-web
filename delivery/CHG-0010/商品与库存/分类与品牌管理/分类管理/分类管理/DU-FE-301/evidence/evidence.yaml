@@ -1,0 +1,43 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-301
+    symbol: "categoryApi, CategoryTreeView"
+    commit: c2f2c9c
+    evidence-ref: evidence/changeset.md
+    created-at: "2026-09-13T14:20:00+08:00"
+  - id: EV-TEST-002
+    type: test-run
+    delivery-unit: DU-FE-301
+    command: "pnpm test"
+    result: passed
+    summary:
+      total: 25
+      passed: 25
+      failed: 0
+      skipped: 0
+    covers: [AC-011]
+    evidence-ref: evidence/logs/test.log
+    created-at: "2026-09-13T14:18:00+08:00"
+  - id: EV-TYPECHECK-003
+    type: static-check
+    delivery-unit: DU-FE-301
+    command: "pnpm type-check"
+    result: passed
+    evidence-ref: evidence/logs/type-check.log
+    created-at: "2026-09-13T14:18:00+08:00"
+  - id: EV-LINT-004
+    type: static-check
+    delivery-unit: DU-FE-301
+    command: "pnpm lint"
+    result: passed
+    note: "0 error；66 warning 为全仓既有模板格式风格提示"
+    evidence-ref: evidence/logs/lint.log
+    created-at: "2026-09-13T14:18:00+08:00"
+  - id: EV-BUILD-005
+    type: build
+    delivery-unit: DU-FE-301
+    command: "pnpm build"
+    result: passed
+    evidence-ref: evidence/logs/build.log
+    created-at: "2026-09-13T14:18:00+08:00"
