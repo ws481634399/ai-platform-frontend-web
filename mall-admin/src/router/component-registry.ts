@@ -5,6 +5,7 @@ const components: Record<string, () => Promise<Component>> = {
   Users: () => import('@/views/UsersPlaceholderView.vue'),
   Products: () => import('@/views/ProductsPlaceholderView.vue'),
   Settings: () => import('@/views/SettingsPlaceholderView.vue'),
+  CategoryTree: () => import('@/views/product/CategoryTreeView.vue'),
 }
 
 export function resolveComponent(key: string) {

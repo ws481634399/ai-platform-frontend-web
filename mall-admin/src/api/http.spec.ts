@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { AxiosRequestConfig } from 'axios'
+import type { InternalAxiosRequestConfig } from 'axios'
 import { AxiosError } from 'axios'
 
 import http from './http'
@@ -27,7 +27,7 @@ const attempts = new Map<string, number>()
 function resetAdapter() {
   plans.clear()
   attempts.clear()
-  http.defaults.adapter = async (config: AxiosRequestConfig) => {
+  http.defaults.adapter = async (config: InternalAxiosRequestConfig) => {
     const url = config.url ?? ''
     const attempt = (attempts.get(url) ?? 0) + 1
     attempts.set(url, attempt)
