@@ -1,0 +1,50 @@
+﻿
+> mall-admin@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-admin
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 1760 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     0.49 kB │ gzip:  0.31 kB
+dist/assets/ProductsPlaceholderView-DgfSVw0g.css    0.05 kB │ gzip:  0.07 kB
+dist/assets/SettingsPlaceholderView-De7rA_XN.css    0.05 kB │ gzip:  0.07 kB
+dist/assets/UsersPlaceholderView-DgSo6BNw.css       0.05 kB │ gzip:  0.07 kB
+dist/assets/NotFoundView-DlOX6-8_.css               0.06 kB │ gzip:  0.08 kB
+dist/assets/WorkbenchView-BHEZD1oN.css              0.23 kB │ gzip:  0.14 kB
+dist/assets/CategoryTreeView-BLWSVt3_.css           0.34 kB │ gzip:  0.20 kB
+dist/assets/css-BAyktVMS.css                        0.92 kB │ gzip:  0.32 kB
+dist/assets/LoginView-Vajkt3rH.css                  3.69 kB │ gzip:  0.82 kB
+dist/assets/css-C8-vPSoj.css                        3.80 kB │ gzip:  0.89 kB
+dist/assets/css-DgHkEboq.css                        5.77 kB │ gzip:  0.98 kB
+dist/assets/css-Nqb2n_Xn.css                       11.18 kB │ gzip:  1.86 kB
+dist/assets/BrandListView-CoYIGdWP.css             18.26 kB │ gzip:  3.41 kB
+dist/assets/AdminLayout-CLRjod9i.css               21.99 kB │ gzip:  3.20 kB
+dist/assets/css-CNpL_Sag.css                       27.75 kB │ gzip:  3.95 kB
+dist/assets/usePermission-DDrDkNRj.css             41.53 kB │ gzip:  6.09 kB
+dist/assets/castArray-IuvdZCNo.js                   0.12 kB │ gzip:  0.13 kB
+dist/assets/app-CDAbTzuH.js                         0.24 kB │ gzip:  0.22 kB
+dist/assets/ForbiddenView-CQsK2l_8.js               0.30 kB │ gzip:  0.27 kB
+dist/assets/vnode-Cqfy9riV.js                       0.37 kB │ gzip:  0.25 kB
+dist/assets/ProductsPlaceholderView-aGvyqfTJ.js     0.38 kB │ gzip:  0.34 kB
+dist/assets/SettingsPlaceholderView-CAxQ59Ts.js     0.38 kB │ gzip:  0.34 kB
+dist/assets/UsersPlaceholderView-B2KP6q8C.js        0.38 kB │ gzip:  0.34 kB
+dist/assets/NotFoundView-DUEiQnaE.js                0.46 kB │ gzip:  0.38 kB
+dist/assets/click-outside-CJzepvhf.js               0.95 kB │ gzip:  0.53 kB
+dist/assets/css-DNRokZEC.js                         1.21 kB │ gzip:  0.54 kB
+dist/assets/WorkbenchView-DoOESEM9.js               1.90 kB │ gzip:  1.11 kB
+dist/assets/LoginView-D6w4mzdx.js                   3.58 kB │ gzip:  1.69 kB
+dist/assets/CategoryTreeView-3CRoVh65.js            5.54 kB │ gzip:  2.37 kB
+dist/assets/css-DCd3Kwry.js                        15.77 kB │ gzip:  5.76 kB
+dist/assets/css-BuGhpgvr.js                        31.34 kB │ gzip: 10.84 kB
+dist/assets/AdminLayout-BcCAUVLP.js                33.64 kB │ gzip: 11.22 kB
+dist/assets/index-CvjDbg1E.js                      43.62 kB │ gzip: 17.33 kB
+dist/assets/css-E0RyQmMz.js                        52.26 kB │ gzip: 18.48 kB
+dist/assets/BrandListView-B4oeFQCm.js              59.15 kB │ gzip: 19.69 kB
+dist/assets/auth-DQ-5tHut.js                       59.23 kB │ gzip: 22.48 kB
+dist/assets/runtime-core.esm-bundler-Cw1lz2Vi.js   64.63 kB │ gzip: 25.36 kB
+dist/assets/css-CMYFGapN.js                        69.06 kB │ gzip: 24.87 kB
+dist/assets/usePermission-DHib92Aa.js             131.18 kB │ gzip: 44.25 kB
+
+[32m✓ built in 1.50s[39m

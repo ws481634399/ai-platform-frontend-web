@@ -1,0 +1,56 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制外部 Spec/Design（Reference do not duplicate），workspace-source 仅为相对引用。
+# Phase 4.4：DU 实体只存在于实现仓；本文件由 task 阶段物化生成，Agent 更新 status/result。
+
+id: DU-FE-302
+repository: "repo-2"
+parent:
+  change: "CHG-0010"
+feature-path:
+  level-1:
+    id: FEAT-002
+    name: 商品与库存
+  level-2:
+    id: FEAT-002-01
+    name: 分类与品牌管理
+  level-3:
+    id: FEAT-002-01-02
+    name: 品牌管理
+  story:
+    id: STORY-002-01-02-01
+    name: 品牌管理
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0010/requirement.md
+  spec: delivery/changes/CHG-0010/requirement-spec.md
+  design: delivery/changes/CHG-0010/requirement-design.md
+  story-design: delivery/changes/CHG-0010/商品与库存/分类与品牌管理/品牌管理/品牌管理/story-design.md
+  test-design: delivery/changes/CHG-0010/商品与库存/分类与品牌管理/品牌管理/品牌管理/test-design.md
+scope:
+  - "[S5] 品牌新增/编辑交互"
+  - "[S6] 品牌分页与筛选页"
+  - "[S7] 品牌启停交互"
+  - "[S9] 同名冲突的页面反馈"
+acceptance:
+  - AC-008
+dependencies:
+  - DU-BE-303
+implementation-guidance:
+  # Dev 前置实现指导声明（正文在 task-design.md，metadata 只存声明）
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "df16f318735fbcf161dfd8e20fa35388be415d22"
+result:
+  commit: "0789e6b"
+  paths:
+    - mall-admin/src/api/product/brand.ts
+    - mall-admin/src/views/product/BrandListView.vue
+    - mall-admin/src/router/component-registry.ts
+  symbols:
+    - "mall-admin/src/api/product/brand.ts::brandApi"
+    - "mall-admin/src/views/product/BrandListView.vue::BrandListView"
