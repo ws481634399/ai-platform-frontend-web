@@ -142,6 +142,14 @@ export const productApi = {
     await http.put(`/api/admin/products/${id}/status`, { status })
   },
 
+  async publish(id: number): Promise<void> {
+    await http.post(`/api/admin/products/${id}/publish`)
+  },
+
+  async unpublish(id: number): Promise<void> {
+    await http.post(`/api/admin/products/${id}/unpublish`)
+  },
+
   // ---------- SKU 子资源 ----------
 
   async addSku(productId: number, payload: SaveSkuPayload): Promise<{ id: number }> {

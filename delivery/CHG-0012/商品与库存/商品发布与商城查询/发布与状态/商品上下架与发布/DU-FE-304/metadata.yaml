@@ -1,0 +1,43 @@
+# OpenSpec Repository Delivery Unit Metadata
+
+id: DU-FE-304
+repository: "repo-2"
+parent:
+  change: "CHG-0012"
+feature-path:
+  level-1:
+    id: FEAT-002
+    name: 商品与库存
+  level-2:
+    id: FEAT-002-03
+    name: 商品发布与商城查询
+  level-3:
+    id: FEAT-002-03-01
+    name: 发布与状态
+  story:
+    id: STORY-002-03-01-01
+    name: 商品上下架与发布
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0012/requirement.md
+  spec: delivery/changes/CHG-0012/requirement-spec.md
+  design: delivery/changes/CHG-0012/requirement-design.md
+  story-design: delivery/changes/CHG-0012/商品与库存/商品发布与商城查询/发布与状态/商品上下架与发布/story-design.md
+  test-design: delivery/changes/CHG-0012/商品与库存/商品发布与商城查询/发布与状态/商品上下架与发布/test-design.md
+scope: [S8, S9]
+acceptance:
+  - AC-008
+  - AC-009
+dependencies:
+  - DU-BE-306
+implementation-guidance:
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: pending
+baseline:
+  commit: ""
+result:
+  commit: ""
+  paths: []
+  symbols: []

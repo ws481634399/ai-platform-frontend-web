@@ -102,7 +102,7 @@
             <el-tag :type="statusTagType((row as ProductItem).status)">{{ statusLabel((row as ProductItem).status) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center" fixed="right">
+        <el-table-column label="操作" width="240" align="center" fixed="right">
           <template #default="{ row }">
             <el-button
               v-if="has('product:product:update')"
@@ -111,6 +111,22 @@
               @click="openEdit(row as ProductItem)"
             >
               编辑
+            </el-button>
+            <el-button
+              v-if="has('product:product:publish') && (row as ProductItem).status !== 'ON_SALE' && (row as ProductItem).status !== 'DISABLED'"
+              link
+              type="success"
+              @click="confirmPublish(row as ProductItem)"
+            >
+              上架
+            </el-button>
+            <el-button
+              v-if="has('product:product:publish') && (row as ProductItem).status === 'ON_SALE'"
+              link
+              type="warning"
+              @click="confirmUnpublish(row as ProductItem)"
+            >
+              下架
             </el-button>
             <el-button
               v-if="has('product:product:disable')"
@@ -261,6 +277,44 @@ async function confirmDisable(row: ProductItem): Promise<void> {
   try {
     await productApi.changeStatus(row.id, 'DISABLED')
     ElMessage.success('已禁用')
+    await loadPage()
+  } catch {
+    // 错误由拦截器提示
+  }
+}
+
+async function confirmPublish(row: ProductItem): Promise<void> {
+  try {
+    await ElMessageBox.confirm(`确认上架商品「${row.name}」？`, '上架确认', {
+      type: 'success',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+    })
+  } catch {
+    return
+  }
+  try {
+    await productApi.publish(row.id)
+    ElMessage.success('上架成功')
+    await loadPage()
+  } catch {
+    // 错误由拦截器提示
+  }
+}
+
+async function confirmUnpublish(row: ProductItem): Promise<void> {
+  try {
+    await ElMessageBox.confirm(`确认下架商品「${row.name}」？`, '下架确认', {
+      type: 'warning',
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+    })
+  } catch {
+    return
+  }
+  try {
+    await productApi.unpublish(row.id)
+    ElMessage.success('已下架')
     await loadPage()
   } catch {
     // 错误由拦截器提示
