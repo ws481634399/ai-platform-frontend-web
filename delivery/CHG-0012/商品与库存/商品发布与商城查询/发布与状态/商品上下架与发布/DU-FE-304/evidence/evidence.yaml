@@ -1,0 +1,8 @@
+evidence:
+  - id: EV-CODE-304-001
+    type: code-change
+    delivery-unit: DU-FE-304
+    symbol: api/product/product.ts#publish
+    commit: d7f9034
+    evidence-ref: changeset.md#DU-FE-304
+    created-at: "2026-09-13T09:20:00Z"

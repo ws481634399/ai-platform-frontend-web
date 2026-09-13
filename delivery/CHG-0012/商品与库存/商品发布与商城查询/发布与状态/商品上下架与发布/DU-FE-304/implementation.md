@@ -6,16 +6,25 @@
 
 ## 变更内容
 
+在商品管理列表增加上架/下架操作按钮，调用后端 publish/unpublish 接口。
+
+- `src/api/product/product.ts`：新增 `publish(id)` 调用 `POST /products/{id}/publish`、`unpublish(id)` 调用 `POST /products/{id}/unpublish`。
+- `src/views/product/ProductListView.vue`：操作列增加「上架」（DRAFT/OFF_SALE 时显示）和「下架」（ON_SALE 时显示）按钮，带确认弹窗，成功后刷新列表。
+
 ## Commits
+
+| Commit | DU | 消息 | 文件数 |
+| --- | --- | --- | --- |
+| d7f9034 | DU-FE-304 | feat(CHG-0012): 商品列表增加上架/下架操作 | 6 |
 
 ## Deviations
 
-<!-- 实现与 DU 建议（Sketch / Pseudocode）明显偏离时必须记录；无偏离写「无」。
-     每条偏离三要素缺一不可：原 DU 建议 / 实际实现 / 原因（建议附影响评估）。
-     格式：### DEV-N
-           - 原 DU 建议:
-           - 实际实现:
-           - 原因:
-           - 影响评估: -->
+无。
 
 ## 自检
+
+- [x] publish/unpublish API 客户端已新增
+- [x] 列表操作列按状态显示上架/下架按钮
+- [x] 操作带二次确认
+- [x] 操作成功后刷新列表
+- [x] pnpm type-check / build / test 通过
