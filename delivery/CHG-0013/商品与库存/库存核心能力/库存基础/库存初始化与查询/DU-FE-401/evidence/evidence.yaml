@@ -1,0 +1,22 @@
+evidence:
+  - id: EV-CODE-FE401-001
+    type: code-change
+    delivery-unit: DU-FE-401
+    symbol: api/inventory/inventory.ts
+    commit: 8a52622
+    evidence-ref: changeset.md#DU-FE-401
+    created-at: "2026-09-13T10:00:00Z"
+  - id: EV-CODE-FE401-002
+    type: code-change
+    delivery-unit: DU-FE-401
+    symbol: views/inventory/InventoryListView.vue
+    commit: 8a52622
+    evidence-ref: changeset.md#DU-FE-401
+    created-at: "2026-09-13T10:00:00Z"
+  - id: EV-CODE-FE401-003
+    type: code-change
+    delivery-unit: DU-FE-401
+    symbol: views/inventory/InventoryLogView.vue
+    commit: 8a52622
+    evidence-ref: changeset.md#DU-FE-401
+    created-at: "2026-09-13T10:00:00Z"
