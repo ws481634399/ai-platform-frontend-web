@@ -44,6 +44,18 @@ const router = createRouter({
           meta: { title: '商品管理（占位）' },
         },
         {
+          path: 'products/list',
+          name: 'ProductList',
+          component: () => import('@/views/product/ProductListView.vue'),
+          meta: { title: '商品列表' },
+        },
+        {
+          path: 'products/edit',
+          name: 'ProductEdit',
+          component: () => import('@/views/product/ProductEditView.vue'),
+          meta: { title: '商品编辑' },
+        },
+        {
           path: 'settings',
           name: 'settings',
           component: () => import('@/views/SettingsPlaceholderView.vue'),
