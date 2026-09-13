@@ -47,7 +47,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "df16f318735fbcf161dfd8e20fa35388be415d22"
 result:
-  commit: "c2f2c9c"
+  commit: "6feacef8176a0e2bce912af86c240dbc7705b620"
   paths:
     - mall-admin/src/api/product/category.ts
     - mall-admin/src/views/product/CategoryTreeView.vue
