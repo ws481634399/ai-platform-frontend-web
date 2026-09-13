@@ -1,9 +1,5 @@
 <template>
   <div class="product-edit-page">
-    <el-page-header @back="goBack">
-      <template #content>{{ editingId ? '编辑商品' : '新增商品' }}</template>
-    </el-page-header>
-
     <el-card shadow="never">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="100px" @submit.prevent>
         <el-form-item label="商品编码" prop="code">

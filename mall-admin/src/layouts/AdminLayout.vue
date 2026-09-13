@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth'
 import { usePermissionStore } from '@/stores/permission'
 import { clearSession } from '@/auth/clear-session'
 import DynamicMenuItem from '@/components/DynamicMenuItem.vue'
+import PageHeader from '@/components/PageHeader.vue'
 
 const appStore = useAppStore()
 const route = useRoute()
@@ -46,6 +47,7 @@ async function logout() {
         </el-dropdown>
       </el-header>
       <el-main class="admin-layout__main">
+        <PageHeader />
         <router-view />
       </el-main>
     </el-container>

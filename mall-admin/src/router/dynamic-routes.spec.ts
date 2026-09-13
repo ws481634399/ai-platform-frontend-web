@@ -3,7 +3,11 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 import { registerDynamicRoutes, removeDynamicRoutes } from './dynamic-routes'
 
 describe('dynamic routes', () => {
-  const router = () => createRouter({ history: createMemoryHistory(), routes: [] })
+  // 与生产一致：动态路由挂到 admin-layout（AdminLayout）下
+  const router = () => createRouter({
+    history: createMemoryHistory(),
+    routes: [{ path: '/', name: 'admin-layout', component: { template: '<router-view/>' }, children: [] }],
+  })
   it('STORY-001-03-02-02/TC-001 registers only compiled components', () => {
     const instance = router()
     registerDynamicRoutes(instance, [{ id:'1', name:'工作台', path:'/dashboard', componentKey:'Workbench', sortOrder:0, visible:true }])

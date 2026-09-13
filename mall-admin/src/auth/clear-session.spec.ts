@@ -19,6 +19,7 @@ describe('centralized session cleanup acceptance', () => {
       routes: [
         { path: '/login', name: 'login', component: {} },
         { path: '/403', name: 'forbidden', component: {} },
+        { path: '/', name: 'admin-layout', component: { template: '<router-view/>' }, children: [] },
       ],
     })
     await router.push('/403')
