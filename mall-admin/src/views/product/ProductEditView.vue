@@ -152,13 +152,13 @@ import { Plus } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { productApi } from '@/api/product/product'
-import type { AttributePayload, CreateProductPayload, ImagePayload, SaveProductPayload,
-  SaveSkuPayload, SkuStatus, SpecificationView } from '@/api/product/product'
+import type { AttributePayload, ImagePayload, SaveSkuPayload, SkuStatus, SpecificationView } from '@/api/product/product'
 import { categoryApi } from '@/api/product/category'
 import type { CategoryNode } from '@/api/product/category'
 import { brandApi } from '@/api/product/brand'
 import type { BrandItem } from '@/api/product/brand'
 import { usePermission } from '@/composables/usePermission'
+import { buildCreateProductPayload, buildProductPayload } from './product-editor'
 
 const SectionTitle = defineComponent({
   props: { title: { type: String, required: true }, hint: { type: String, required: true } },
@@ -269,6 +269,8 @@ async function submitSku(): Promise<void> {
       ElMessage.success('SKU 已更新')
     }
     skuDialogVisible.value = false
+  } catch {
+    // HTTP 拦截器统一展示请求错误，这里只负责终止页面异步链。
   } finally { skuSubmitting.value = false }
 }
 function resetSkuForm(): void {
@@ -284,9 +286,13 @@ async function toggleSku(row: EditableSku): Promise<void> {
     await ElMessageBox.confirm(enabling ? `确认启用 SKU「${row.skuCode}」？` : `确认禁用 SKU「${row.skuCode}」？`,
       '状态变更确认', { type: 'warning', confirmButtonText: '确定', cancelButtonText: '取消' })
   } catch { return }
-  await productApi.changeSkuStatus(editingId.value, row.id, enabling ? 'ENABLED' : 'DISABLED')
-  await reloadProduct()
-  ElMessage.success(enabling ? '已启用' : '已禁用')
+  try {
+    await productApi.changeSkuStatus(editingId.value, row.id, enabling ? 'ENABLED' : 'DISABLED')
+    await reloadProduct()
+    ElMessage.success(enabling ? '已启用' : '已禁用')
+  } catch {
+    // HTTP 拦截器统一展示请求错误。
+  }
 }
 
 async function loadOptions(): Promise<void> {
@@ -311,24 +317,11 @@ function validateCollections(): boolean {
 }
 async function submit(): Promise<void> {
   if (!formRef.value || !(await formRef.value.validate().catch(() => false)) || !validateCollections()) return
-  const payload: SaveProductPayload = {
-    name: form.name.trim(), subtitle: form.subtitle.trim() || undefined,
-    description: form.description.trim() || undefined,
-    categoryId: form.categoryId[form.categoryId.length - 1], brandId: form.brandId!,
-    images: images.value.map((image, index) => ({ objectKey: image.objectKey.trim(),
-      imageUrl: image.imageUrl.trim(), imageType: index === mainImageIndex.value
-        ? 'MAIN'
-        : image.imageType === 'MAIN' ? 'GALLERY' : image.imageType,
-      sortOrder: index, mainFlag: index === mainImageIndex.value })),
-    attributes: attributes.value.map((attribute, index) => ({ name: attribute.name.trim(),
-      value: attribute.value.trim(), sortOrder: attribute.sortOrder ?? index })),
-  }
+  const payload = buildProductPayload(form, images.value, attributes.value, mainImageIndex.value)
   submitting.value = true
   try {
     if (!editingId.value) {
-      const createPayload: CreateProductPayload = { ...payload, code: form.code.trim(),
-        skus: skus.value.map((sku) => ({ skuCode: sku.skuCode, specifications: sku.specifications,
-          salePriceInCents: sku.salePriceInCents, mainImageUrl: sku.mainImageUrl ?? undefined })) }
+      const createPayload = buildCreateProductPayload(form, payload, skus.value)
       editingId.value = (await productApi.create(createPayload)).id
       ElMessage.success('商品与 SKU 已创建')
     } else {
@@ -336,11 +329,13 @@ async function submit(): Promise<void> {
       ElMessage.success('商品已更新')
     }
     await reloadProduct()
+  } catch {
+    // HTTP 拦截器统一展示请求错误，这里只负责恢复提交状态。
   } finally { submitting.value = false }
 }
 function goBack(): void { router.push({ name: 'ProductList' }) }
 
-onMounted(async () => {
+async function initialize(): Promise<void> {
   await loadOptions()
   if (!route.query.id) return
   editingId.value = Number(route.query.id)
@@ -351,6 +346,12 @@ onMounted(async () => {
   attributes.value = view.attributes.map((attribute) => ({ ...attribute }))
   skus.value = view.skus.map((sku) => ({ ...sku }))
   mainImageIndex.value = images.value.findIndex((image) => image.mainFlag)
+}
+
+onMounted(() => {
+  void initialize().catch(() => {
+    // HTTP 拦截器统一展示初始化请求错误。
+  })
 })
 </script>
 
