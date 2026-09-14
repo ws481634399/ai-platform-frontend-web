@@ -1,0 +1,22 @@
+evidence:
+  - id: EV-CODE-FE-001
+    type: code-change
+    delivery-unit: DU-FE-402
+    commit: b34ae62
+    symbol: mall-admin/src/views/product/ProductEditView.vue#saveProduct
+    evidence-ref: changeset.md
+    created-at: "2026-09-14T08:32:00+08:00"
+  - id: EV-TEST-FE-001
+    type: test-run
+    delivery-unit: DU-FE-402
+    command: pnpm test && pnpm type-check && pnpm lint && pnpm build
+    result: PASS
+    summary:
+      total: 29
+      passed: 29
+      failed: 0
+      skipped: 0
+    covers: [TC-003, TC-004, TC-008, TC-009]
+    log: test-output.log
+    screenshot: product-editor-browser.png
+    created-at: "2026-09-14T08:32:00+08:00"
