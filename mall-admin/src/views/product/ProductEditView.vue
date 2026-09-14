@@ -28,44 +28,8 @@
       </el-form>
     </el-card>
 
-    <el-card shadow="never">
-      <template #header>
-        <SectionTitle title="商品图片" hint="有图片时必须且只能指定一张主图">
-          <el-button :icon="Plus" @click="addImage">添加图片</el-button>
-        </SectionTitle>
-      </template>
-      <el-empty v-if="images.length === 0" description="暂未添加商品图片" :image-size="64" />
-      <el-radio-group v-else v-model="mainImageIndex" class="editor-list">
-        <div v-for="(image, index) in images" :key="index" class="editor-row image-row">
-          <el-radio :value="index">主图</el-radio>
-          <el-input v-model="image.objectKey" placeholder="对象存储 Key" />
-          <el-input v-model="image.imageUrl" placeholder="https://... 图片地址" />
-          <el-select v-model="image.imageType" class="image-type">
-            <el-option label="展示图" value="GALLERY" />
-            <el-option label="详情图" value="DETAIL" />
-            <el-option label="SKU 图" value="SKU" />
-          </el-select>
-          <el-button link type="danger" @click="removeImage(index)">删除</el-button>
-        </div>
-      </el-radio-group>
-    </el-card>
-
-    <el-card shadow="never">
-      <template #header>
-        <SectionTitle title="商品属性" hint="例如材质、产地、保修期等非销售规格">
-          <el-button :icon="Plus" @click="addAttribute">添加属性</el-button>
-        </SectionTitle>
-      </template>
-      <el-empty v-if="attributes.length === 0" description="暂未添加商品属性" :image-size="64" />
-      <div v-else class="editor-list">
-        <div v-for="(attribute, index) in attributes" :key="index" class="editor-row attribute-row">
-          <el-input v-model="attribute.name" placeholder="属性名，如材质" />
-          <el-input v-model="attribute.value" placeholder="属性值，如铝合金" />
-          <el-input-number v-model="attribute.sortOrder" :min="0" controls-position="right" />
-          <el-button link type="danger" @click="attributes.splice(index, 1)">删除</el-button>
-        </div>
-      </div>
-    </el-card>
+    <ProductAssetsEditor v-model:images="images" v-model:attributes="attributes"
+      v-model:main-image-index="mainImageIndex" />
 
     <el-card shadow="never">
       <template #header>
@@ -146,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, h, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -159,16 +123,8 @@ import { brandApi } from '@/api/product/brand'
 import type { BrandItem } from '@/api/product/brand'
 import { usePermission } from '@/composables/usePermission'
 import { buildCreateProductPayload, buildProductPayload } from './product-editor'
-
-const SectionTitle = defineComponent({
-  props: { title: { type: String, required: true }, hint: { type: String, required: true } },
-  setup(props, { slots }) {
-    return () => h('div', { class: 'section-heading' }, [
-      h('div', [h('strong', props.title), h('p', props.hint)]),
-      slots.default?.(),
-    ])
-  },
-})
+import ProductAssetsEditor from './ProductAssetsEditor.vue'
+import SectionTitle from './ProductSectionTitle.vue'
 
 interface EditableSku extends Omit<SaveSkuPayload, 'mainImageUrl'> {
   id: number
@@ -197,20 +153,6 @@ const rules: FormRules = {
   name: [{ required: true, whitespace: true, message: '商品名称不能为空', trigger: 'blur' }],
   categoryId: [{ required: true, message: '请选择分类', trigger: 'change' }],
   brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],
-}
-
-function addImage(): void {
-  images.value.push({ objectKey: '', imageUrl: '', imageType: 'GALLERY', sortOrder: images.value.length, mainFlag: false })
-  if (mainImageIndex.value < 0) mainImageIndex.value = 0
-}
-function removeImage(index: number): void {
-  images.value.splice(index, 1)
-  if (!images.value.length) mainImageIndex.value = -1
-  else if (mainImageIndex.value === index) mainImageIndex.value = 0
-  else if (mainImageIndex.value > index) mainImageIndex.value -= 1
-}
-function addAttribute(): void {
-  attributes.value.push({ name: '', value: '', sortOrder: attributes.value.length })
 }
 
 const skuDialogVisible = ref(false)
@@ -355,26 +297,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-.product-edit-page { display: flex; flex-direction: column; gap: 16px; max-width: 1200px; margin: 0 auto; }
-:deep(.section-heading) { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-:deep(.section-heading strong) { color: var(--el-text-color-primary); font-size: 16px; }
-:deep(.section-heading p) { margin: 5px 0 0; color: var(--el-text-color-secondary); font-size: 13px; }
-.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
-.field-control { width: 100%; }
-.editor-list { display: flex; width: 100%; flex-direction: column; gap: 10px; }
-.editor-row { display: grid; align-items: center; gap: 10px; padding: 12px;
-  border: 1px solid var(--el-border-color-lighter); border-radius: 6px; background: var(--el-fill-color-extra-light); }
-.image-row { grid-template-columns: 68px minmax(140px, .8fr) minmax(230px, 1.5fr) 110px 48px; }
-.attribute-row { grid-template-columns: minmax(180px, .8fr) minmax(250px, 1.4fr) 130px 48px; }
-.image-type { width: 110px; }
-.spec-tag { margin: 2px 6px 2px 0; }
-.spec-list { display: flex; width: 100%; flex-direction: column; gap: 8px; }
-.spec-row { display: grid; grid-template-columns: 1fr 1fr 48px; gap: 8px; }
-.price-preview, .save-hint { color: var(--el-text-color-secondary); font-size: 13px; }
-.price-preview { margin-left: 12px; }
-.actions { position: sticky; z-index: 4; bottom: 0; display: flex; align-items: center; justify-content: flex-end;
-  gap: 10px; padding: 14px 18px; border: 1px solid var(--el-border-color-lighter); border-radius: 8px;
-  background: color-mix(in srgb, var(--el-bg-color) 94%, transparent); box-shadow: 0 -6px 20px rgb(15 23 42 / 6%); }
-.save-hint { margin-right: auto; }
-</style>
+<style scoped src="./product-edit.css"></style>

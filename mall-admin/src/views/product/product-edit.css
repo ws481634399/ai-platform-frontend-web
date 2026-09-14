@@ -1,0 +1,12 @@
+.product-edit-page { display: flex; flex-direction: column; gap: 16px; max-width: 1200px; margin: 0 auto; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+.field-control { width: 100%; }
+.spec-tag { margin: 2px 6px 2px 0; }
+.spec-list { display: flex; width: 100%; flex-direction: column; gap: 8px; }
+.spec-row { display: grid; grid-template-columns: 1fr 1fr 48px; gap: 8px; }
+.price-preview, .save-hint { color: var(--el-text-color-secondary); font-size: 13px; }
+.price-preview { margin-left: 12px; }
+.actions { position: sticky; z-index: 4; bottom: 0; display: flex; align-items: center; justify-content: flex-end;
+  gap: 10px; padding: 14px 18px; border: 1px solid var(--el-border-color-lighter); border-radius: 8px;
+  background: color-mix(in srgb, var(--el-bg-color) 94%, transparent); box-shadow: 0 -6px 20px rgb(15 23 42 / 6%); }
+.save-hint { margin-right: auto; }
