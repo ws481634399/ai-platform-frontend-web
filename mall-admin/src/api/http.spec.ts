@@ -113,6 +113,18 @@ describe('centralized 401 refresh pipeline (STORY-001-03-03-02/STORY-001-03-01-0
     expect(attempts.get('/api/admin/auth/refresh')).toBe(1)
   })
 
+  it('CHG-0014 wrong login credentials never trigger token refresh', async () => {
+    plans.set('/api/admin/auth/login', { status: 401, retries: 0 })
+
+    await expect(http.post('/api/admin/auth/login', {
+      username: 'admin',
+      password: 'wrong-password',
+    })).rejects.toMatchObject({ response: { status: 401 } })
+
+    expect(authApi.refresh).not.toHaveBeenCalled()
+    expect(attempts.get('/api/admin/auth/login')).toBe(1)
+  })
+
   it('FE-301/TC-002 bootstrap 401 flows into centralized session cleanup', async () => {
     useAuthStore(pinia).accessToken = 'old-access'
     ;(globalThis as { window?: unknown }).window = {}

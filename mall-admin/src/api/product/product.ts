@@ -70,7 +70,6 @@ export interface PageView<T> {
 }
 
 export interface SaveProductPayload {
-  code?: string
   name: string
   subtitle?: string
   description?: string
@@ -78,6 +77,11 @@ export interface SaveProductPayload {
   brandId: number
   images: ImagePayload[]
   attributes: AttributePayload[]
+}
+
+export interface CreateProductPayload extends SaveProductPayload {
+  code: string
+  skus: SaveSkuPayload[]
 }
 
 export interface ImagePayload {
@@ -130,7 +134,7 @@ export const productApi = {
     return unwrap(await http.get(`/api/admin/products/${id}`))
   },
 
-  async create(payload: SaveProductPayload): Promise<{ id: number }> {
+  async create(payload: CreateProductPayload): Promise<{ id: number }> {
     return unwrap(await http.post('/api/admin/products', payload))
   },
 

@@ -16,7 +16,7 @@ const visible = computed(() => showBack.value || breadcrumb.value.length > 0)
 
 function goBack() {
   // history.state.back 为 null 表示无栈内上一页（新开标签页/直接输入 URL）
-  if (window.history.state?.back) {
+  if (globalThis.history.state?.back) {
     router.back()
   } else if (route.meta.back?.fallback) {
     router.push(route.meta.back.fallback)

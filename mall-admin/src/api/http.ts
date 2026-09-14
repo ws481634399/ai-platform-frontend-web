@@ -31,7 +31,8 @@ http.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     const request = error.config as (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined
-    if (error.response?.status === 401 && request && !request._retry && !request.url?.endsWith('/refresh')) {
+    const isAuthenticationRequest = request?.url?.endsWith('/login') || request?.url?.endsWith('/refresh')
+    if (error.response?.status === 401 && request && !request._retry && !isAuthenticationRequest) {
       request._retry = true
       const auth = useAuthStore(pinia)
       try {
