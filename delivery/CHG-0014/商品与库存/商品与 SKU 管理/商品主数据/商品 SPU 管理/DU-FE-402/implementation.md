@@ -10,12 +10,15 @@
 - `product.ts`：区分创建与更新契约，创建类型强制要求 `code` 与 `skus`。
 - `http.ts`：认证端点 401 不再递归调用 refresh，并新增错误密码登录回归测试。
 - `router/index.ts` 与 `PageHeader.vue`：消除空路径子路由警告及 lint error。
+- `product-editor.ts` / `product-editor.spec.ts`：提取聚合 payload 纯函数并覆盖 TC-003/004。
+- `ProductAssetsEditor.vue` / `ProductSectionTitle.vue`：按组件职责拆分资源编辑区，主页面收敛至 300 行。
 - 在实际运行的 mall-admin 中完成管理员登录与商品新建页桌面浏览器检查。
 
 ## Commits
 
 - 开发基线：`71d7bef`。
 - 结果 Commit：`b34ae62`（`feat(admin): complete product aggregate editor`）。
+- 评审修复：`a89fe9e`（payload 测试与异步错误收口）、`5f9067c`（组件拆分）。
 
 ## Deviations
 
@@ -33,6 +36,6 @@
 
 - [x] TC-003/TC-004：页面支持图片、主图、属性和创建前 SKU；主图切换会将旧主图降为普通图。
 - [x] TC-008：错误登录 401 不请求 refresh；其他 API 的刷新逻辑保持不变。
-- [x] TC-009：Vitest 29/29、type-check、lint（0 error）与 production build 全通过。
+- [x] TC-009：Vitest 31/31、type-check、lint（0 error）与 production build 全通过。
 - [x] 浏览器：真实登录成功并打开 `/products/edit`，页面关键区块均渲染。
 - [x] `git diff --check`：通过。

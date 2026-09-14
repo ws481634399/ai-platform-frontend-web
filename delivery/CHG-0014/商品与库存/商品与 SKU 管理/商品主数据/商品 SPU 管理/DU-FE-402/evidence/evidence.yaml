@@ -12,11 +12,25 @@ evidence:
     command: pnpm test && pnpm type-check && pnpm lint && pnpm build
     result: PASS
     summary:
-      total: 29
-      passed: 29
+      total: 31
+      passed: 31
       failed: 0
       skipped: 0
     covers: [TC-003, TC-004, TC-008, TC-009]
     log: test-output.log
     screenshot: product-editor-browser.png
     created-at: "2026-09-14T08:32:00+08:00"
+  - id: EV-CODE-FE-002
+    type: code-change
+    delivery-unit: DU-FE-402
+    commit: a89fe9e
+    symbol: mall-admin/src/views/product/product-editor.ts#buildCreateProductPayload
+    evidence-ref: changeset.md
+    created-at: "2026-09-14T08:43:00+08:00"
+  - id: EV-CODE-FE-003
+    type: code-change
+    delivery-unit: DU-FE-402
+    commit: 5f9067c
+    symbol: mall-admin/src/views/product/ProductAssetsEditor.vue
+    evidence-ref: changeset.md
+    created-at: "2026-09-14T08:45:00+08:00"

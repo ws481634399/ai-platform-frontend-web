@@ -45,16 +45,18 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: testing # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
   commit: "71d7bef"
 result:
-  commit: "b34ae62"
+  commit: "5f9067c"
   paths:
     - mall-admin/src/views/product/ProductEditView.vue
     - mall-admin/src/api/http.ts
     - mall-admin/src/api/product/product.ts
     - mall-admin/src/router/index.ts
+    - mall-admin/src/views/product/product-editor.ts
+    - mall-admin/src/views/product/ProductAssetsEditor.vue
   symbols:
     - mall-admin/src/views/product/ProductEditView.vue::saveProduct
     - mall-admin/src/api/http.ts::responseInterceptor
