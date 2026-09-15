@@ -41,10 +41,18 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: pending # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
   commit: "6bc7af608560c188de07f267a3d9b65deff57e9a"
 result:
-  commit: ""
-  paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
-  symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
+  commit: "2c85e521ca24adc8ed5c768bd1c4fb8ea0fefc53"
+  paths:
+    - mall-web/src/api/catalog.ts
+    - mall-web/src/components/ProductCard.vue
+    - mall-web/src/components/PriceText.vue
+    - mall-web/src/components/StateView.vue
+    - mall-web/src/components/BannerSlot.vue
+    - mall-web/src/views/HomeView.vue
+  symbols:
+    - catalogApi::getHome
+    - PriceText::formatFen
