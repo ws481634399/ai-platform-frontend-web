@@ -1,0 +1,22 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-601
+    symbol: "mall-web/src/api/{http.ts,auth.ts}, mall-web/src/stores/member.ts, mall-web/src/utils/refresh-coordinator.ts, mall-web/src/auth/clear-session.ts, mall-web/src/router/{index.ts,access-policy.ts}, mall-web/src/views/auth/{LoginView,RegisterView}.vue"
+    commits:
+      - 97b8310
+    evidence-ref: evidence/changeset.md
+    created-at: "2026-09-15T12:20:00+08:00"
+  - id: EV-TEST-002
+    type: test-run
+    delivery-unit: DU-FE-601
+    scope: 静态门禁与单元测试（type-check / lint / vitest / build）
+    commands:
+      - "pnpm type-check（vue-tsc 双 tsconfig，0 错误，一次通过）"
+      - "pnpm lint（0 errors / 56 样式 warnings）"
+      - "pnpm test（vitest 6 文件 22/22；首跑 2 失败修断言后转绿）"
+      - "pnpm build（vite build 成功，路由级分包）"
+    result: passed
+    covers: [AC-014, AC-015]
+    evidence-ref: evidence/red-green.md
+    created-at: "2026-09-15T12:20:00+08:00"

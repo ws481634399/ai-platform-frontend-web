@@ -1,0 +1,36 @@
+﻿
+> mall-web@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 103 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                    0.42 kB │ gzip:  0.29 kB
+dist/assets/NotFoundView-N2rYTcDm.css              0.06 kB │ gzip:  0.08 kB
+dist/assets/HomeView-B3r1Pfqq.css                  0.32 kB │ gzip:  0.19 kB
+dist/assets/MallLayout-BUdDqlRP.css                0.70 kB │ gzip:  0.30 kB
+dist/assets/LoginView-BqPftbIZ.css                 0.87 kB │ gzip:  0.38 kB
+dist/assets/RegisterView-Dpmy2-K3.css              0.87 kB │ gzip:  0.38 kB
+dist/assets/clear-session-B0FOvK_9.js              0.22 kB │ gzip:  0.19 kB
+dist/assets/app-DSq85FOW.js                        0.23 kB │ gzip:  0.21 kB
+dist/assets/NotFoundView-CHTE3_mF.js               0.46 kB │ gzip:  0.37 kB
+dist/assets/http-error-CacVI1PP.js                 0.59 kB │ gzip:  0.43 kB
+dist/assets/MallLayout-DlgeTeaf.js                 1.26 kB │ gzip:  0.74 kB
+dist/assets/HomeView-CF0U4BG2.js                   1.50 kB │ gzip:  0.91 kB
+dist/assets/LoginView-xoCNJHHu.js                  1.88 kB │ gzip:  1.03 kB
+dist/assets/RegisterView-Dt35n5q8.js               1.92 kB │ gzip:  1.05 kB
+dist/assets/runtime-core.esm-bundler-uW0aD35Q.js  55.98 kB │ gzip: 21.97 kB
+dist/assets/index-DRtToF7q.js                     92.94 kB │ gzip: 35.28 kB
+
+node.exe : [33m[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/router/index.ts is dynamically imported by src/utils/refresh-
+coordinator.ts but also statically imported by src/main.ts, dynamic import will not move module into another chunk.
+At D:\nodejs\node_global\pnpm.ps1:24 char:5
++     & "node$exe"  "$basedir/node_modules/pnpm/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([33m[33m[INEF... another chunk.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[39m
+[32m✓ built in 165ms[39m
