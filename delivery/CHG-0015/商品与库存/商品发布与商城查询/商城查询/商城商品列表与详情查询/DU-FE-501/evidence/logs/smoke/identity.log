@@ -1,0 +1,114 @@
+﻿# [归档] 本文件由 identity.log 原始运行日志精简：保留完整启动段（至 Started）与全部业务时间戳行；
+# 剔除的仅为每 5 秒一次 /actuator/health 探测产生的重复 NoResourceFoundException 堆栈（该服务未启用 actuator）。
+# 原始运行时间 2026-09-15，DU-FE-501 五页面冒烟。
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.15)
+
+2026-09-15 01:45:41.291 [main] INFO  [] c.a.m.identity.MallIdentityApplication - Starting MallIdentityApplication using Java 21.0.12 with PID 38616 (D:\Desktop\ai-platform\implementation\ai-platform-backend\mall-services\mall-identity\target\mall-identity-1.0.0-SNAPSHOT.jar started by 2025 in D:\Desktop\ai-platform\implementation\ai-platform-backend)
+2026-09-15 01:45:41.295 [main] INFO  [] c.a.m.identity.MallIdentityApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-15 01:45:42.399 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-15 01:45:42.401 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-15 01:45:42.421 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-09-15 01:45:42.652 [main] INFO  [] o.s.cloud.context.scope.GenericScope - BeanFactory id=7e72db0e-75fb-3609-9ba5-a9adcc7b69fc
+2026-09-15 01:45:43.403 [main] INFO  [] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8101 (http)
+2026-09-15 01:45:43.433 [main] INFO  [] o.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-15 01:45:43.434 [main] INFO  [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-15 01:45:43.505 [main] INFO  [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-15 01:45:43.508 [main] INFO  [] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2161 ms
+2026-09-15 01:45:43.891 [main] INFO  [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-15 01:45:44.010 [main] INFO  [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1bdafb01
+2026-09-15 01:45:44.011 [main] INFO  [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-15 01:45:44.064 [main] INFO  [] org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:13306/mall_identity?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.4)
+2026-09-15 01:45:44.366 [main] WARN  [] o.f.core.internal.database.base.Database - Flyway upgrade recommended: MySQL 8.4 is newer than this version of Flyway and support has not been tested. The latest supported version of MySQL is 8.1.
+2026-09-15 01:45:44.418 [main] INFO  [] o.f.core.internal.command.DbValidate - Successfully validated 6 migrations (execution time 00:00.039s)
+2026-09-15 01:45:44.433 [main] INFO  [] o.f.core.internal.command.DbMigrate - Current version of schema `mall_identity`: 6
+2026-09-15 01:45:44.436 [main] INFO  [] o.f.core.internal.command.DbMigrate - Schema `mall_identity` is up to date. No migration necessary.
+ _ _   |_  _ _|_. ___ _ |    _ 
+| | |\/|_)(_| | |_\  |_)||_|_\ 
+     /               |         
+                        3.5.12 
+2026-09-15 01:45:47.338 [main] INFO  [] c.b.m.e.s.MybatisPlusApplicationContextAware - Register ApplicationContext instances org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4b9df8a
+2026-09-15 01:45:47.510 [main] INFO  [] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat started on port 8101 (http) with context path '/'
+2026-09-15 01:45:47.520 [Thread-3] INFO  [] c.a.n.c.a.ram.identify.CredentialWatcher - null No credential found
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
+2026-09-15 01:45:47.603 [main] INFO  [] c.a.n.p.a.s.c.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-09-15 01:45:47.603 [main] INFO  [] c.a.n.p.a.s.c.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-09-15 01:45:47.998 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Ready to get current node abilities...
+2026-09-15 01:45:47.999 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Ready to initialize current node abilities, support modes: [SDK_CLIENT]
+2026-09-15 01:45:48.000 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Initialize current abilities finish...
+2026-09-15 01:45:48.000 [main] INFO  [] c.a.n.c.a.d.NacosAbilityManagerHolder - [AbilityControlManager] Successfully initialize AbilityControlManager
+2026-09-15 01:45:48.036 [main] INFO  [] c.a.c.n.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP mall-identity 192.168.1.2:8101 register finished
+2026-09-15 01:45:48.045 [main] INFO  [] c.a.m.identity.MallIdentityApplication - Started MallIdentityApplication in 7.217 seconds (process running for 7.687)
+
+# ---- 业务运行期时间戳日志（health 探测噪声已剔除）----
+2026-09-15 01:45:41.291 [main] INFO  [] c.a.m.identity.MallIdentityApplication - Starting MallIdentityApplication using Java 21.0.12 with PID 38616 (D:\Desktop\ai-platform\implementation\ai-platform-backend\mall-services\mall-identity\target\mall-identity-1.0.0-SNAPSHOT.jar started by 2025 in D:\Desktop\ai-platform\implementation\ai-platform-backend)
+2026-09-15 01:45:41.295 [main] INFO  [] c.a.m.identity.MallIdentityApplication - No active profile set, falling back to 1 default profile: "default"
+2026-09-15 01:45:42.399 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-15 01:45:42.401 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-15 01:45:42.421 [main] INFO  [] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-09-15 01:45:42.652 [main] INFO  [] o.s.cloud.context.scope.GenericScope - BeanFactory id=7e72db0e-75fb-3609-9ba5-a9adcc7b69fc
+2026-09-15 01:45:43.403 [main] INFO  [] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8101 (http)
+2026-09-15 01:45:43.433 [main] INFO  [] o.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-09-15 01:45:43.434 [main] INFO  [] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-09-15 01:45:43.505 [main] INFO  [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-09-15 01:45:43.508 [main] INFO  [] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2161 ms
+2026-09-15 01:45:43.891 [main] INFO  [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-09-15 01:45:44.010 [main] INFO  [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1bdafb01
+2026-09-15 01:45:44.011 [main] INFO  [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-09-15 01:45:44.064 [main] INFO  [] org.flywaydb.core.FlywayExecutor - Database: jdbc:mysql://localhost:13306/mall_identity?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.4)
+2026-09-15 01:45:44.366 [main] WARN  [] o.f.core.internal.database.base.Database - Flyway upgrade recommended: MySQL 8.4 is newer than this version of Flyway and support has not been tested. The latest supported version of MySQL is 8.1.
+2026-09-15 01:45:44.418 [main] INFO  [] o.f.core.internal.command.DbValidate - Successfully validated 6 migrations (execution time 00:00.039s)
+2026-09-15 01:45:44.433 [main] INFO  [] o.f.core.internal.command.DbMigrate - Current version of schema `mall_identity`: 6
+2026-09-15 01:45:44.436 [main] INFO  [] o.f.core.internal.command.DbMigrate - Schema `mall_identity` is up to date. No migration necessary.
+2026-09-15 01:45:47.338 [main] INFO  [] c.b.m.e.s.MybatisPlusApplicationContextAware - Register ApplicationContext instances org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4b9df8a
+2026-09-15 01:45:47.510 [main] INFO  [] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat started on port 8101 (http) with context path '/'
+2026-09-15 01:45:47.520 [Thread-3] INFO  [] c.a.n.c.a.ram.identify.CredentialWatcher - null No credential found
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapterBuilder
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter: com.alibaba.nacos.logger.adapter.logback14.LogbackNacosLoggingAdapter match ch.qos.logback.classic.Logger success.
+2026-09-15 01:45:47.524 [main] INFO  [] c.a.nacos.client.logging.NacosLogging - Nacos Logging Adapter Builder: com.alibaba.nacos.logger.adapter.log4j2.Log4j2NacosLoggingAdapterBuilder
+2026-09-15 01:45:47.603 [main] INFO  [] c.a.n.p.a.s.c.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.impl.NacosClientAuthServiceImpl success.
+2026-09-15 01:45:47.603 [main] INFO  [] c.a.n.p.a.s.c.ClientAuthPluginManager - [ClientAuthPluginManager] Load ClientAuthService com.alibaba.nacos.client.auth.ram.RamClientAuthServiceImpl success.
+2026-09-15 01:45:47.998 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Ready to get current node abilities...
+2026-09-15 01:45:47.999 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Ready to initialize current node abilities, support modes: [SDK_CLIENT]
+2026-09-15 01:45:48.000 [main] INFO  [] c.a.n.c.a.AbstractAbilityControlManager - Initialize current abilities finish...
+2026-09-15 01:45:48.000 [main] INFO  [] c.a.n.c.a.d.NacosAbilityManagerHolder - [AbilityControlManager] Successfully initialize AbilityControlManager
+2026-09-15 01:45:48.036 [main] INFO  [] c.a.c.n.registry.NacosServiceRegistry - nacos registry, DEFAULT_GROUP mall-identity 192.168.1.2:8101 register finished
+2026-09-15 01:45:48.045 [main] INFO  [] c.a.m.identity.MallIdentityApplication - Started MallIdentityApplication in 7.217 seconds (process running for 7.687)
+2026-09-15 01:46:14.935 [http-nio-8101-exec-3] INFO  [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-15 01:46:14.935 [http-nio-8101-exec-3] INFO  [] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-09-15 01:46:14.937 [http-nio-8101-exec-3] INFO  [] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-09-15 01:46:14.970 [http-nio-8101-exec-3] ERROR [d013f3ba123941cf8246735a0d828d8c] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:20.025 [http-nio-8101-exec-2] ERROR [f212f1c3c2b44139a7c653cd9def2638] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:25.054 [http-nio-8101-exec-1] ERROR [096649826db64e7bbdc500857db30d9b] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:30.088 [http-nio-8101-exec-4] ERROR [bc0dfdb776a54f41bd21fad1b5bf6dd7] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:35.116 [http-nio-8101-exec-5] ERROR [21269b1f42264582b48d76a9d1bebee2] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:40.142 [http-nio-8101-exec-6] ERROR [a03c897b2363478598c642172ba98bac] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:45.168 [http-nio-8101-exec-7] ERROR [bd91d91a67de4adf8331bdadffe1837d] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:50.187 [http-nio-8101-exec-8] ERROR [08881430a0e345859f0c994499cb5ec8] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:46:55.214 [http-nio-8101-exec-9] ERROR [a0e1eb8f00854e6c9812da656a26e858] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:00.239 [http-nio-8101-exec-10] ERROR [2501bae24ac84534bbeaf50138617c81] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:05.266 [http-nio-8101-exec-3] ERROR [56c5784a3db0481a91f7474d56dbe873] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:10.295 [http-nio-8101-exec-2] ERROR [2a5129b32a0e485380830794afe71180] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:15.326 [http-nio-8101-exec-1] ERROR [710f4a3bc8cf49148fef8e757a6707d8] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:20.358 [http-nio-8101-exec-4] ERROR [5d7c36fbcf0441809f34c2ca31393af5] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:25.378 [http-nio-8101-exec-5] ERROR [d815ab0b1c42466d9f8bdf517154b513] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:30.404 [http-nio-8101-exec-6] ERROR [2c21cf86d4074cf7b8805a00bcb13260] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:35.437 [http-nio-8101-exec-7] ERROR [b00eb1869fcf4c52b3a1f4a901243906] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:40.460 [http-nio-8101-exec-8] ERROR [33c110c34507488cb0a1685eb62e471e] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:45.486 [http-nio-8101-exec-9] ERROR [7709122aebe64e4787f283a21fec03fe] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:50.508 [http-nio-8101-exec-10] ERROR [07410b21cca14bf7b9c431fe98426cb1] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:47:55.539 [http-nio-8101-exec-3] ERROR [f0d590a5d9584ddda20b22a523d33f67] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:48:00.556 [http-nio-8101-exec-2] ERROR [c7d2e001c27645ce95e37da1a3b416d5] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:48:05.578 [http-nio-8101-exec-1] ERROR [e74839c68fe44cd798ae72df3db5ca66] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:48:10.594 [http-nio-8101-exec-4] ERROR [c28da98df451410b9df0baeb18178e8d] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
+2026-09-15 01:48:15.619 [http-nio-8101-exec-5] ERROR [180d32879e9c47568d714112418c86e8] c.a.m.c.w.advice.GlobalExceptionHandler - 未预期异常
