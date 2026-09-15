@@ -18,6 +18,11 @@ export default tseslint.config(
         parser: tseslint.parser,
       },
     },
+    rules: {
+      // SFC <script lang="ts"> 由 vue-tsc 承担未定义符号检查（含 DOM lib 全局），
+      // 核心 no-undef 不识别 TS/DOM 声明，按 typescript-eslint 官方建议关闭
+      'no-undef': 'off',
+    },
   },
   {
     rules: {

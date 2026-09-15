@@ -28,6 +28,12 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue'),
           meta: { title: '首页' },
         },
+        {
+          path: 'member/profile',
+          name: 'member-profile',
+          component: () => import('@/views/member/ProfileView.vue'),
+          meta: { title: '个人资料', requiresMember: true },
+        },
       ],
     },
     {

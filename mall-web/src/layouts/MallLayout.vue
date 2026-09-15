@@ -16,6 +16,13 @@ async function handleLogout() {
       <span class="mall-layout__title">{{ appStore.appName }}</span>
       <nav class="mall-layout__user" data-testid="mall-user-area">
         <template v-if="member.isAuthenticated">
+          <router-link
+            to="/member/profile"
+            class="mall-layout__profile-link"
+            data-testid="mall-profile-link"
+          >
+            个人中心
+          </router-link>
           <span class="mall-layout__member" data-testid="mall-member-id">
             会员 #{{ member.memberId }}
           </span>
@@ -59,6 +66,11 @@ async function handleLogout() {
   align-items: center;
   gap: 12px;
   font-size: 13px;
+}
+
+.mall-layout__profile-link {
+  color: #2563eb;
+  text-decoration: none;
 }
 
 .mall-layout__member {
