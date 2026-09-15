@@ -11,8 +11,9 @@ export interface ProductFormInput {
   name: string
   subtitle: string
   description: string
-  categoryId: number[]
-  brandId: number | null
+  // CHG-0015：级联选择路径与品牌 ID 均为字符串雪花 ID
+  categoryId: string[]
+  brandId: string | null
 }
 
 export type EditableSkuPayload = Omit<SaveSkuPayload, 'mainImageUrl'> & {

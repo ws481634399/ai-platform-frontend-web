@@ -77,7 +77,7 @@
       </div>
 
       <el-table v-loading="loading" :data="records" border stripe>
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="190" />
         <el-table-column label="主图" width="80" align="center">
           <template #default="{ row }">
             <el-image
@@ -182,8 +182,9 @@ const brands = ref<BrandItem[]>([])
 
 const filters = reactive<{
   keyword: string
-  categoryId: number | undefined
-  brandId: number | undefined
+  // CHG-0015：分类/品牌雪花 ID 全程字符串
+  categoryId: string | undefined
+  brandId: string | undefined
   status: ProductStatus | ''
 }>({
   keyword: '',

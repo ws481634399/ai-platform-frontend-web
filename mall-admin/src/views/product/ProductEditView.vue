@@ -127,7 +127,8 @@ import ProductAssetsEditor from './ProductAssetsEditor.vue'
 import SectionTitle from './ProductSectionTitle.vue'
 
 interface EditableSku extends Omit<SaveSkuPayload, 'mainImageUrl'> {
-  id: number
+  // CHG-0015：已存 SKU 为字符串雪花 ID；未保存商品的本地 SKU 使用 local-<n> 临时键
+  id: string
   status: SkuStatus
   mainImageUrl: string | null
 }
@@ -135,7 +136,7 @@ interface EditableSku extends Omit<SaveSkuPayload, 'mainImageUrl'> {
 const { has } = usePermission()
 const route = useRoute()
 const router = useRouter()
-const editingId = ref<number | null>(null)
+const editingId = ref<string | null>(null)
 const submitting = ref(false)
 const formRef = ref<FormInstance>()
 const categoryTree = ref<CategoryNode[]>([])
@@ -147,7 +148,7 @@ const mainImageIndex = ref(-1)
 let localSkuId = -1
 
 const form = reactive({ code: '', name: '', subtitle: '', description: '',
-  categoryId: [] as number[], brandId: null as number | null })
+  categoryId: [] as string[], brandId: null as string | null })
 const rules: FormRules = {
   code: [{ required: true, whitespace: true, message: '商品编码不能为空', trigger: 'blur' }],
   name: [{ required: true, whitespace: true, message: '商品名称不能为空', trigger: 'blur' }],
@@ -157,7 +158,7 @@ const rules: FormRules = {
 
 const skuDialogVisible = ref(false)
 const skuSubmitting = ref(false)
-const skuEditingId = ref<number | null>(null)
+const skuEditingId = ref<string | null>(null)
 const skuEditingIndex = ref<number | null>(null)
 const skuFormRef = ref<FormInstance>()
 const skuForm = reactive({ skuCode: '', specifications: [{ name: '', value: '' }] as SpecificationView[],
@@ -195,7 +196,7 @@ async function submitSku(): Promise<void> {
         sku.skuCode === payload.skuCode && index !== skuEditingIndex.value)
       if (duplicate) { ElMessage.warning('SKU 编码不能重复'); return }
       const item: EditableSku = { ...payload,
-        id: skuEditingIndex.value === null ? localSkuId-- : skus.value[skuEditingIndex.value].id,
+        id: skuEditingIndex.value === null ? `local-${localSkuId--}` : skus.value[skuEditingIndex.value].id,
         status: 'ENABLED', mainImageUrl: payload.mainImageUrl ?? null }
       if (skuEditingIndex.value === null) skus.value.push(item)
       else skus.value.splice(skuEditingIndex.value, 1, item)
@@ -280,7 +281,8 @@ function goBack(): void { router.push({ name: 'ProductList' }) }
 async function initialize(): Promise<void> {
   await loadOptions()
   if (!route.query.id) return
-  editingId.value = Number(route.query.id)
+  // CHG-0015：路由参数直接作为字符串雪花 ID 使用，禁止 Number() 丢精度
+  editingId.value = String(route.query.id)
   const view = await productApi.getById(editingId.value)
   Object.assign(form, { code: view.code, name: view.name, subtitle: view.subtitle ?? '',
     description: view.description ?? '', brandId: view.brandId, categoryId: [view.categoryId] })

@@ -7,10 +7,10 @@
       >
         <el-form-item label="SKU ID">
           <el-input
-            v-model.number="filters.skuId"
+            v-model="filters.skuId"
             placeholder="按 SKU ID 过滤"
             clearable
-            style="width: 200px"
+            style="width: 220px"
             @keyup.enter="handleSearch"
             @clear="handleSearch"
           />
@@ -39,12 +39,12 @@
         <el-table-column
           prop="id"
           label="ID"
-          width="80"
+          width="190"
         />
         <el-table-column
           prop="skuId"
           label="SKU ID"
-          width="120"
+          width="200"
         />
         <el-table-column
           label="操作类型"
@@ -139,7 +139,7 @@ const total = ref(0)
 const page = ref(1)
 const size = ref(20)
 
-const filters = reactive<{ skuId: number | undefined }>({
+const filters = reactive<{ skuId: string | undefined }>({
   skuId: undefined,
 })
 
@@ -147,7 +147,8 @@ async function loadPage(): Promise<void> {
   loading.value = true
   try {
     const view = await inventoryApi.logs({
-      skuId: filters.skuId,
+      // CHG-0015：雪花 ID 全程字符串，不做数值转换
+      skuId: filters.skuId?.trim() || undefined,
       page: page.value,
       size: size.value,
     })

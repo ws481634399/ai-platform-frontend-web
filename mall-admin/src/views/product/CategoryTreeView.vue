@@ -19,8 +19,9 @@ const loading = ref(false)
 const dialogVisible = ref(false)
 const dialogSubmitting = ref(false)
 const formMode = ref<'create' | 'update'>('create')
-const editingId = ref<number | null>(null)
-const parentId = ref(0)
+// CHG-0015：分类雪花 ID/parentId 全程字符串，根节点 parentId 为 "0"
+const editingId = ref<string | null>(null)
+const parentId = ref('0')
 const formRef = ref()
 const form = reactive({ name: '', sort: 0 })
 
@@ -44,14 +45,14 @@ async function loadTree() {
 }
 
 function openCreateRoot() {
-  openCreate(0)
+  openCreate('0')
 }
 
 function openCreateChild(row: CategoryNode) {
   openCreate(row.id)
 }
 
-function openCreate(parent: number) {
+function openCreate(parent: string) {
   formMode.value = 'create'
   editingId.value = null
   parentId.value = parent
@@ -199,7 +200,7 @@ onMounted(loadTree)
 
     <el-dialog
       v-model="dialogVisible"
-      :title="formMode === 'create' ? (parentId === 0 ? '新增根分类' : '新增子分类') : '编辑分类'"
+      :title="formMode === 'create' ? (parentId === '0' ? '新增根分类' : '新增子分类') : '编辑分类'"
       width="420px"
       :close-on-click-modal="false"
       data-testid="category-dialog"

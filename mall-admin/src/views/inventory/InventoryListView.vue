@@ -10,10 +10,10 @@
       >
         <el-form-item label="SKU ID">
           <el-input
-            v-model.number="filters.skuId"
+            v-model="filters.skuId"
             placeholder="按 SKU ID 查询"
             clearable
-            style="width: 200px"
+            style="width: 220px"
             @keyup.enter="handleSearch"
             @clear="handleSearch"
           />
@@ -53,7 +53,7 @@
         <el-table-column
           prop="skuId"
           label="SKU ID"
-          width="120"
+          width="200"
         />
         <el-table-column
           prop="totalQuantity"
@@ -128,12 +128,10 @@
           label="SKU ID"
           prop="skuId"
         >
-          <el-input-number
+          <el-input
             v-model="initForm.skuId"
-            :min="1"
-            :max="9223372036854775807"
-            controls-position="right"
-            style="width: 100%"
+            placeholder="粘贴 19 位雪花 SKU ID"
+            maxlength="19"
           />
         </el-form-item>
         <el-form-item
@@ -248,7 +246,7 @@ const total = ref(0)
 const page = ref(1)
 const size = ref(20)
 
-const filters = reactive<{ skuId: number | undefined }>({
+const filters = reactive<{ skuId: string | undefined }>({
   skuId: undefined,
 })
 
@@ -256,7 +254,8 @@ async function loadPage(): Promise<void> {
   loading.value = true
   try {
     const view = await inventoryApi.page({
-      skuId: filters.skuId,
+      // CHG-0015：雪花 ID 全程字符串，不做数值转换
+      skuId: filters.skuId?.trim() || undefined,
       page: page.value,
       size: size.value,
     })
@@ -289,9 +288,12 @@ function handleSizeChange(): void {
 
 const initVisible = ref(false)
 const initFormRef = ref<FormInstance>()
-const initForm = reactive({ skuId: 1, totalQuantity: 0 })
+const initForm = reactive<{ skuId: string; totalQuantity: number }>({ skuId: '', totalQuantity: 0 })
 const initRules: FormRules = {
-  skuId: [{ required: true, type: 'number', min: 1, message: '请输入有效的 SKU ID', trigger: 'blur' }],
+  skuId: [
+    { required: true, message: '请输入 SKU ID', trigger: 'blur' },
+    { pattern: /^\d{1,19}$/, message: 'SKU ID 为纯数字（最长 19 位）', trigger: 'blur' },
+  ],
   totalQuantity: [{ required: true, type: 'number', min: 0, message: '总库存不能为负', trigger: 'blur' }],
 }
 
@@ -305,7 +307,7 @@ async function submitInit(): Promise<void> {
   if (!valid) return
   submitting.value = true
   try {
-    await inventoryApi.init({ skuId: initForm.skuId, totalQuantity: initForm.totalQuantity })
+    await inventoryApi.init({ skuId: initForm.skuId.trim(), totalQuantity: initForm.totalQuantity })
     ElMessage.success('库存初始化成功')
     initVisible.value = false
     await loadPage()
@@ -317,7 +319,7 @@ async function submitInit(): Promise<void> {
 }
 
 function resetInitForm(): void {
-  initForm.skuId = 1
+  initForm.skuId = ''
   initForm.totalQuantity = 0
   initFormRef.value?.clearValidate()
 }
@@ -327,7 +329,12 @@ function resetInitForm(): void {
 const adjustVisible = ref(false)
 const submitting = ref(false)
 const adjustFormRef = ref<FormInstance>()
-const adjustForm = reactive({ skuId: 0, delta: 0, reason: '', businessId: '' })
+const adjustForm = reactive<{ skuId: string; delta: number; reason: string; businessId: string }>({
+  skuId: '',
+  delta: 0,
+  reason: '',
+  businessId: '',
+})
 const adjustRules: FormRules = {
   delta: [{ required: true, type: 'number', message: '请输入调整数量', trigger: 'blur' }],
   reason: [{ max: 128, message: '原因不超过 128 个字符', trigger: 'blur' }],
@@ -364,7 +371,7 @@ async function submitAdjust(): Promise<void> {
 }
 
 function resetAdjustForm(): void {
-  adjustForm.skuId = 0
+  adjustForm.skuId = ''
   adjustForm.delta = 0
   adjustForm.reason = ''
   adjustForm.businessId = ''

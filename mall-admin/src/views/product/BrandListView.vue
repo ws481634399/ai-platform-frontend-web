@@ -72,7 +72,7 @@
         <el-table-column
           prop="id"
           label="ID"
-          width="80"
+          width="190"
         />
         <el-table-column
           label="Logo"
@@ -312,7 +312,8 @@ function handleSizeChange(): void {
 
 const dialogVisible = ref(false)
 const submitting = ref(false)
-const editingId = ref<number | null>(null)
+// CHG-0015：品牌雪花 ID 全程字符串
+const editingId = ref<string | null>(null)
 const formRef = ref<FormInstance>()
 
 const form = reactive({
