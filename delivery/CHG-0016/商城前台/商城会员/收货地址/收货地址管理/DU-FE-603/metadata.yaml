@@ -47,8 +47,9 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "2a595521cdccf3d3886453fd8786f32ddf8df73a"
 result:
-  commit: "6a10cdd2de3d5b317bdc1022cad8382e2e4b70b5"
-  paths: # 实现影响路径（repo 相对路径，目录级覆盖；完整文件清单见 DU evidence/changeset.md）
+  commit: "6bc7af608560c188de07f267a3d9b65deff57e9a"
+  paths:
+    # 实现影响路径（repo 相对路径，目录级覆盖；完整文件清单见 DU evidence/changeset.md）
     - mall-web/src/api
     - mall-web/src/types
     - mall-web/src/utils
@@ -56,7 +57,8 @@ result:
     - mall-web/src/views/member
     - mall-web/src/router
     - mall-web/src/layouts
-  symbols: # 关键代码符号（<file>::<symbol>）
+  symbols:
+    # 关键代码符号（<file>::<symbol>）
     - mall-web/src/api/address.ts::addressApi
     - mall-web/src/types/address.ts
     - mall-web/src/utils/address-form.ts::validateAddressForm

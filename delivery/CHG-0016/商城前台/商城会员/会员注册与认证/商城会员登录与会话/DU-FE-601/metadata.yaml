@@ -43,8 +43,9 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "83fbc90153647ccbf24cbb56a525c7e1cdd4265e"
 result:
-  commit: "97b83107636fbf9051140d591f6addcb86aad0db"
-  paths: # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
+  commit: "6bc7af608560c188de07f267a3d9b65deff57e9a"
+  paths:
+    # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
     - mall-web/src/api
     - mall-web/src/auth
     - mall-web/src/router
@@ -53,7 +54,8 @@ result:
     - mall-web/src/types
     - mall-web/src/views/auth
     - mall-web/src/layouts
-  symbols: # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
+  symbols:
+    # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
     - mall-web/src/api/http.ts::拦截器（Bearer/X-Trace-Id 注入、401 单飞重放）
     - mall-web/src/api/auth.ts::memberAuthApi
     - mall-web/src/stores/member.ts::useMemberStore

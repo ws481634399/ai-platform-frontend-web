@@ -44,8 +44,9 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "d54a6b7836b7d54229387079f32e1252295dbefe"
 result:
-  commit: "c20c24c6230790a8bd5af70571e2165a1d67ff64"
-  paths: # 实现影响路径（repo 相对路径，目录级覆盖；完整文件清单见 DU evidence/changeset.md）
+  commit: "6bc7af608560c188de07f267a3d9b65deff57e9a"
+  paths:
+    # 实现影响路径（repo 相对路径，目录级覆盖；完整文件清单见 DU evidence/changeset.md）
     - mall-web/src/api
     - mall-web/src/types
     - mall-web/src/utils
@@ -54,7 +55,8 @@ result:
     - mall-web/src/router
     - mall-web/src/layouts
     - mall-web/eslint.config.js
-  symbols: # 关键代码符号（<file>::<symbol>）
+  symbols:
+    # 关键代码符号（<file>::<symbol>）
     - mall-web/src/api/member.ts::memberApi
     - mall-web/src/utils/profile-form.ts::validateProfileForm
     - mall-web/src/utils/profile-form.ts::validateAvatarFile
