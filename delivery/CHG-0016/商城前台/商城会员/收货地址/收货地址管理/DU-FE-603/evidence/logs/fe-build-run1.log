@@ -1,0 +1,41 @@
+﻿
+> mall-web@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 114 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                    0.42 kB │ gzip:  0.29 kB
+dist/assets/NotFoundView-N2rYTcDm.css              0.06 kB │ gzip:  0.08 kB
+dist/assets/HomeView-B3r1Pfqq.css                  0.32 kB │ gzip:  0.19 kB
+dist/assets/MallLayout-B08vfzQq.css                0.83 kB │ gzip:  0.35 kB
+dist/assets/LoginView-BqPftbIZ.css                 0.87 kB │ gzip:  0.38 kB
+dist/assets/RegisterView-Dpmy2-K3.css              0.87 kB │ gzip:  0.38 kB
+dist/assets/ProfileView-CbjrD89x.css               2.12 kB │ gzip:  0.60 kB
+dist/assets/AddressListView-C8ND5crD.css           3.20 kB │ gzip:  0.81 kB
+dist/assets/http-error-DpYEQl1V.js                 0.15 kB │ gzip:  0.14 kB
+dist/assets/clear-session-CDxLAEAG.js              0.22 kB │ gzip:  0.19 kB
+dist/assets/app-BuhH7HhR.js                        0.23 kB │ gzip:  0.21 kB
+dist/assets/member-form-BMkERJgz.js                0.44 kB │ gzip:  0.33 kB
+dist/assets/NotFoundView-Xr3RzL2e.js               0.46 kB │ gzip:  0.37 kB
+dist/assets/HomeView-CeKOL4_y.js                   1.49 kB │ gzip:  0.91 kB
+dist/assets/MallLayout-DUXnTN0S.js                 1.58 kB │ gzip:  0.83 kB
+dist/assets/LoginView-D4Tc64E-.js                  1.91 kB │ gzip:  1.05 kB
+dist/assets/RegisterView-CYWEdEYl.js               1.95 kB │ gzip:  1.07 kB
+dist/assets/ProfileView-B_onxEuJ.js                6.00 kB │ gzip:  2.43 kB
+dist/assets/AddressListView-BFpCldKx.js           10.19 kB │ gzip:  3.33 kB
+dist/assets/runtime-core.esm-bundler-DNwdcvxU.js  56.61 kB │ gzip: 22.21 kB
+dist/assets/index-RjgD2gfE.js                     95.31 kB │ gzip: 36.10 kB
+
+node.exe : [33m[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/router/index.ts is dynamically imported by src/utils/refresh-
+coordinator.ts but also statically imported by src/main.ts, dynamic import will not move module into another chunk.
+At D:\nodejs\node_global\pnpm.ps1:24 char:5
++     & "node$exe"  "$basedir/node_modules/pnpm/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([33m[33m[INEF... another chunk.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[39m
+[32m✓ built in 197ms[39m

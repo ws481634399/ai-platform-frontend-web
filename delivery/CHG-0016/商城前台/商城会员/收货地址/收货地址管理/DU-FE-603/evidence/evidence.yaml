@@ -1,0 +1,23 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-603
+    symbol: "mall-web/src/api/address.ts::addressApi, mall-web/src/types/address.ts, mall-web/src/utils/address-form.ts::validateAddressForm/buildAddressRequest/toFormValues, mall-web/src/stores/address.ts::useAddressStore, mall-web/src/views/member/AddressListView.vue, mall-web/src/router/index.ts::member-addresses, mall-web/src/layouts/MallLayout.vue"
+    commits:
+      - 6a10cdd2de3d5b317bdc1022cad8382e2e4b70b5
+    evidence-ref: evidence/changeset.md
+    created-at: "2026-09-15T14:33:00+08:00"
+  - id: EV-TEST-002
+    type: test-run
+    delivery-unit: DU-FE-603
+    scope: 静态门禁与单元测试（type-check / lint / vitest / build）
+    commands:
+      - "pnpm type-check（vue-tsc 双 tsconfig，0 错误）"
+      - "pnpm lint（0 errors / 133 样式 warnings）"
+      - "pnpm test（vitest 12 文件 58/58；基线 37 + 本 DU 21）"
+      - "pnpm build（vite build 成功，AddressListView 路由级分包 10.19 kB）"
+    result: passed
+    covers: [AC-019, AC-020, AC-021, AC-022, AC-023, AC-024, AC-025]
+    tc-mapping-ref: evidence/red-green.md
+    evidence-ref: evidence/red-green.md
+    created-at: "2026-09-15T14:33:00+08:00"

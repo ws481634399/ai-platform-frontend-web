@@ -1,0 +1,155 @@
+﻿
+> mall-web@0.0.0 lint D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> eslint .
+
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\layouts\MallLayout.vue
+  17:38  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  33:45  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  36:33  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  36:59  warning  '@click' should be on a new line                                                       vue/max-attributes-per-line
+  36:81  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found         vue/singleline-html-element-content-newline
+  36:83  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found       vue/singleline-html-element-content-newline
+  39:36  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  39:66  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  39:68  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+  40:39  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  40:72  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  40:74  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+  47:41  warning  Expected 1 line break after opening tag (`<footer>`), but no line breaks found         vue/singleline-html-element-content-newline
+  47:73  warning  Expected 1 line break before closing tag (`</footer>`), but no line breaks found       vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\HomeView.vue
+  34:32  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  34:49  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  39:29  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  39:55  warning  '@click' should be on a new line                                                  vue/max-attributes-per-line
+  39:85  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/singleline-html-element-content-newline
+  39:87  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/singleline-html-element-content-newline
+  44:29  warning  ':disabled' should be on a new line                                               vue/max-attributes-per-line
+  44:53  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  44:76  warning  '@click' should be on a new line                                                  vue/max-attributes-per-line
+  47:29  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  47:33  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  48:33  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  48:60  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  51:32  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  51:57  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\NotFoundView.vue
+  5:25  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  5:29  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\auth\LoginView.vue
+  44:35   warning  '@submit.prevent' should be on a new line                                              vue/max-attributes-per-line
+  45:36   warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found             vue/singleline-html-element-content-newline
+  45:40   warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found           vue/singleline-html-element-content-newline
+  49:35   warning  'type' should be on a new line                                                         vue/max-attributes-per-line
+  49:47   warning  'autocomplete' should be on a new line                                                 vue/max-attributes-per-line
+  49:71   warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  49:100  warning  Disallow self-closing on HTML void elements (<input/>)                                 vue/html-self-closing
+  59:9    warning  Disallow self-closing on HTML void elements (<input/>)                                 vue/html-self-closing
+  62:30   warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+  62:55   warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  62:81   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found              vue/singleline-html-element-content-newline
+  62:99   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found            vue/singleline-html-element-content-newline
+  74:43   warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  74:75   warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  74:79   warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\auth\RegisterView.vue
+  40:35  warning  '@submit.prevent' should be on a new line                                              vue/max-attributes-per-line
+  41:36  warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found             vue/singleline-html-element-content-newline
+  41:40  warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found           vue/singleline-html-element-content-newline
+  51:9   warning  Disallow self-closing on HTML void elements (<input/>)                                 vue/html-self-closing
+  62:9   warning  Disallow self-closing on HTML void elements (<input/>)                                 vue/html-self-closing
+  65:30  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+  65:55  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  79:39  warning  'data-testid' should be on a new line                                                  vue/max-attributes-per-line
+  79:71  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+  79:74  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\member\AddressListView.vue
+  131:33  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  133:39  warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found        vue/singleline-html-element-content-newline
+  133:43  warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found      vue/singleline-html-element-content-newline
+  143:20  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  143:53  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  157:36  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  157:66  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  160:33  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  160:61  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  170:29  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  170:61  warning  '@click' should be on a new line                                                  vue/max-attributes-per-line
+  170:81  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/singleline-html-element-content-newline
+  170:85  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/singleline-html-element-content-newline
+  173:16  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  173:43  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  183:46  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  195:43  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  195:68  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  196:43  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  196:70  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  197:40  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  197:69  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  197:96  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  235:36  warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  235:65  warning  '@submit.prevent' should be on a new line                                         vue/max-attributes-per-line
+  236:43  warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found        vue/singleline-html-element-content-newline
+  236:62  warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found      vue/singleline-html-element-content-newline
+  245:11  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  246:50  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  258:11  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  259:51  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  272:13  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  273:48  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  284:13  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  285:44  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  294:13  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  295:48  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  308:11  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  309:51  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+  321:11  warning  Disallow self-closing on HTML void elements (<input/>)                            vue/html-self-closing
+  322:48  warning  'class' should be on a new line                                                   vue/max-attributes-per-line
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\member\ProfileView.vue
+  131:33   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  132:37   warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found    vue/singleline-html-element-content-newline
+  132:41   warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found  vue/singleline-html-element-content-newline
+  134:23   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  134:53   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  134:83   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found     vue/singleline-html-element-content-newline
+  134:89   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found   vue/singleline-html-element-content-newline
+  135:30   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  135:58   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  147:11   warning  Disallow self-closing on HTML void elements (<img/>)                          vue/html-self-closing
+  148:24   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  148:65   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  160:11   warning  Disallow self-closing on HTML void elements (<input/>)                        vue/html-self-closing
+  161:47   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found     vue/singleline-html-element-content-newline
+  161:69   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found   vue/singleline-html-element-content-newline
+  180:40   warning  '@submit.prevent' should be on a new line                                     vue/max-attributes-per-line
+  183:58   warning  'type' should be on a new line                                                vue/max-attributes-per-line
+  183:70   warning  'disabled' should be on a new line                                            vue/max-attributes-per-line
+  183:79   warning  Disallow self-closing on HTML void elements (<input/>)                        vue/html-self-closing
+  188:42   warning  'type' should be on a new line                                                vue/max-attributes-per-line
+  188:54   warning  'maxlength' should be on a new line                                           vue/max-attributes-per-line
+  188:69   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  188:100  warning  Disallow self-closing on HTML void elements (<input/>)                        vue/html-self-closing
+  189:46   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  196:41   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  201:44   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  208:39   warning  'type' should be on a new line                                                vue/max-attributes-per-line
+  208:50   warning  'maxlength' should be on a new line                                           vue/max-attributes-per-line
+  208:65   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  208:93   warning  Disallow self-closing on HTML void elements (<input/>)                        vue/html-self-closing
+  209:43   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+  216:39   warning  'type' should be on a new line                                                vue/max-attributes-per-line
+  216:52   warning  'maxlength' should be on a new line                                           vue/max-attributes-per-line
+  216:68   warning  'data-testid' should be on a new line                                         vue/max-attributes-per-line
+  216:96   warning  Disallow self-closing on HTML void elements (<input/>)                        vue/html-self-closing
+  217:43   warning  'class' should be on a new line                                               vue/max-attributes-per-line
+
+✖ 133 problems (0 errors, 133 warnings)
+  0 errors and 107 warnings potentially fixable with the `--fix` option.
+
