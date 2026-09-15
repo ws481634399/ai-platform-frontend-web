@@ -1,13 +1,31 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/app'
+import { useMemberStore } from '@/stores/member'
 
 const appStore = useAppStore()
+const member = useMemberStore()
+
+async function handleLogout() {
+  await member.logout()
+}
 </script>
 
 <template>
   <div class="mall-layout">
     <header class="mall-layout__header">
       <span class="mall-layout__title">{{ appStore.appName }}</span>
+      <nav class="mall-layout__user" data-testid="mall-user-area">
+        <template v-if="member.isAuthenticated">
+          <span class="mall-layout__member" data-testid="mall-member-id">
+            会员 #{{ member.memberId }}
+          </span>
+          <button type="button" data-testid="mall-logout" @click="handleLogout">退出</button>
+        </template>
+        <template v-else>
+          <router-link to="/login" data-testid="mall-login-link">登录</router-link>
+          <router-link to="/register" data-testid="mall-register-link">注册</router-link>
+        </template>
+      </nav>
     </header>
     <main class="mall-layout__main">
       <router-view />
@@ -24,6 +42,9 @@ const appStore = useAppStore()
 }
 
 .mall-layout__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 24px;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -31,6 +52,22 @@ const appStore = useAppStore()
 .mall-layout__title {
   font-size: 18px;
   font-weight: 600;
+}
+
+.mall-layout__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.mall-layout__member {
+  color: #374151;
+}
+
+.mall-layout__user button {
+  padding: 4px 12px;
+  cursor: pointer;
 }
 
 .mall-layout__main {
