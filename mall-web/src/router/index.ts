@@ -40,6 +40,12 @@ const router = createRouter({
           component: () => import('@/views/member/AddressListView.vue'),
           meta: { title: '收货地址', requiresMember: true },
         },
+        {
+          path: 'products',
+          name: 'product-list',
+          component: () => import('@/views/product/ProductListView.vue'),
+          meta: { title: '商品列表' },
+        },
       ],
     },
     {
