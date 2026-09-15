@@ -100,6 +100,89 @@ export interface ProductListQuery {
   size?: number
 }
 
+/** 商品图片 */
+export interface ProductImage {
+  id: string
+  imageUrl: string
+  imageType: string
+  sortOrder: number
+  mainFlag: boolean
+}
+
+/** 商品属性 */
+export interface ProductAttribute {
+  id: string
+  name: string
+  value: string
+  sortOrder: number
+}
+
+/** SKU 规格 */
+export interface SkuSpecification {
+  name: string
+  value: string
+}
+
+/** SKU 视图 */
+export interface SkuView {
+  id: string
+  skuCode: string
+  specifications: SkuSpecification[]
+  salePriceInCents: number
+  status: string
+  mainImageUrl: string | null
+}
+
+/** 分类路径节点 */
+export interface CategoryPathNode {
+  id: string
+  name: string
+}
+
+/** 规格维度 */
+export interface SpecDimension {
+  name: string
+  values: string[]
+}
+
+/** SKU 组合索引条目 */
+export interface SkuIndexEntry {
+  skuId: string
+  priceFen: number
+  imageUrl: string | null
+  status: string
+}
+
+/** 商品详情 */
+export interface ProductDetail {
+  id: string
+  productCode: string
+  productName: string
+  subtitle: string | null
+  description: string | null
+  categoryId: string
+  brandId: string
+  brandName: string | null
+  categoryPath: CategoryPathNode[]
+  mainImageUrl: string | null
+  images: ProductImage[]
+  attributes: ProductAttribute[]
+  skus: SkuView[]
+  dimensionsOrder: string[]
+  specDimensions: SpecDimension[]
+  skuIndex: Record<string, SkuIndexEntry>
+  status: string
+}
+
+/** 库存状态：IN_STOCK / LOW_STOCK / OUT_OF_STOCK / UNKNOWN */
+export type StockStatus = 'IN_STOCK' | 'LOW_STOCK' | 'OUT_OF_STOCK' | 'UNKNOWN'
+
+/** SKU 可用性条目 */
+export interface SkuAvailability {
+  skuId: string
+  stockStatus: StockStatus
+}
+
 function unwrap<T>(response: { data: ApiResponse<T> }): T {
   return response.data.data
 }
@@ -136,6 +219,19 @@ export const catalogApi = {
   async getProducts(query: ProductListQuery): Promise<PageView<ProductListItem>> {
     return unwrap<PageView<ProductListItem>>(
       await http.get('/api/mall/products', { params: serializeProductQuery(query) }),
+    )
+  },
+
+  /** GET /api/mall/products/{id} 商品详情 */
+  async getProductDetail(id: string): Promise<ProductDetail> {
+    return unwrap<ProductDetail>(await http.get(`/api/mall/products/${id}`))
+  },
+
+  /** POST /api/mall/skus/availability 批量查询 SKU 可售状态 */
+  async getSkuAvailability(skuIds: string[]): Promise<SkuAvailability[]> {
+    if (!skuIds.length) return []
+    return unwrap<SkuAvailability[]>(
+      await http.post('/api/mall/skus/availability', { skuIds }),
     )
   },
 }

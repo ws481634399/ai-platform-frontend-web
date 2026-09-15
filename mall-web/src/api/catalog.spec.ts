@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const httpMocks = vi.hoisted(() => ({
   get: vi.fn(),
+  post: vi.fn(),
 }))
 
 vi.mock('@/api/http', () => ({ default: httpMocks }))
@@ -62,5 +63,25 @@ describe('商城商品浏览 API（CHG-0017）', () => {
       size: '20',
       sort: 'default',
     })
+  })
+
+  it('getProductDetail 命中 GET /api/mall/products/{id}', async () => {
+    httpMocks.get.mockResolvedValue(envelope({ id: '101', productName: 'iPhone' }))
+    const data = await catalogApi.getProductDetail('101')
+    expect(httpMocks.get).toHaveBeenCalledWith('/api/mall/products/101')
+    expect(data.id).toBe('101')
+  })
+
+  it('getSkuAvailability 命中 POST /api/mall/skus/availability', async () => {
+    httpMocks.post.mockResolvedValue(envelope([{ skuId: '1', stockStatus: 'IN_STOCK' }]))
+    const list = await catalogApi.getSkuAvailability(['1', '2'])
+    expect(httpMocks.post).toHaveBeenCalledWith('/api/mall/skus/availability', { skuIds: ['1', '2'] })
+    expect(list[0].stockStatus).toBe('IN_STOCK')
+  })
+
+  it('getSkuAvailability 空数组不发请求', async () => {
+    const list = await catalogApi.getSkuAvailability([])
+    expect(httpMocks.post).not.toHaveBeenCalled()
+    expect(list).toEqual([])
   })
 })
