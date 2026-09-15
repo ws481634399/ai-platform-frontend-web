@@ -43,10 +43,24 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: pending # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
-  commit: ""
+  commit: "2a595521cdccf3d3886453fd8786f32ddf8df73a"
 result:
-  commit: ""
-  paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
-  symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
+  commit: "6a10cdd2de3d5b317bdc1022cad8382e2e4b70b5"
+  paths: # 实现影响路径（repo 相对路径，目录级覆盖；完整文件清单见 DU evidence/changeset.md）
+    - mall-web/src/api
+    - mall-web/src/types
+    - mall-web/src/utils
+    - mall-web/src/stores
+    - mall-web/src/views/member
+    - mall-web/src/router
+    - mall-web/src/layouts
+  symbols: # 关键代码符号（<file>::<symbol>）
+    - mall-web/src/api/address.ts::addressApi
+    - mall-web/src/types/address.ts
+    - mall-web/src/utils/address-form.ts::validateAddressForm
+    - mall-web/src/utils/address-form.ts::buildAddressRequest
+    - mall-web/src/stores/address.ts::useAddressStore
+    - mall-web/src/views/member/AddressListView.vue
+    - mall-web/src/router/index.ts::member-addresses
