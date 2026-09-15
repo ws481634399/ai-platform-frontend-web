@@ -1,24 +1,24 @@
 import http from '../http'
 import type { ApiResponse } from '@/types'
 
-/** 库存视图（对齐后端 InventoryView） */
+/** 库存视图（对齐后端 InventoryView；雪花 skuId 后端以字符串出参，CHG-0015） */
 export interface InventoryItem {
-  skuId: number
+  skuId: string
   totalQuantity: number
   lockedQuantity: number
   availableQuantity: number
 }
 
-/** 库存流水视图（对齐后端 LogView） */
+/** 库存流水视图（对齐后端 LogView；ID/操作人均为字符串） */
 export interface InventoryLogItem {
-  id: number
-  skuId: number
+  id: string
+  skuId: string
   operationType: string
   quantity: number
   beforeQuantity: number
   afterQuantity: number
   businessId: string | null
-  operator: number | null
+  operator: string | null
   traceId: string | null
   occurredAt: string
 }
@@ -36,23 +36,23 @@ function unwrap<T>(response: { data: ApiResponse<T> }): T {
 }
 
 export const inventoryApi = {
-  async page(params: { skuId?: number; page?: number; size?: number }): Promise<PageView<InventoryItem>> {
+  async page(params: { skuId?: string; page?: number; size?: number }): Promise<PageView<InventoryItem>> {
     return unwrap(await http.get('/api/admin/inventory/stocks', { params }))
   },
 
-  async get(skuId: number): Promise<InventoryItem> {
+  async get(skuId: string): Promise<InventoryItem> {
     return unwrap(await http.get(`/api/admin/inventory/stocks/${skuId}`))
   },
 
-  async init(payload: { skuId: number; totalQuantity: number }): Promise<InventoryItem> {
+  async init(payload: { skuId: string; totalQuantity: number }): Promise<InventoryItem> {
     return unwrap(await http.post('/api/admin/inventory/stocks/init', payload))
   },
 
-  async adjust(skuId: number, payload: { delta: number; reason?: string; businessId?: string }): Promise<InventoryItem> {
+  async adjust(skuId: string, payload: { delta: number; reason?: string; businessId?: string }): Promise<InventoryItem> {
     return unwrap(await http.post(`/api/admin/inventory/stocks/${skuId}/adjust`, payload))
   },
 
-  async logs(params: { skuId?: number; page?: number; size?: number }): Promise<PageView<InventoryLogItem>> {
+  async logs(params: { skuId?: string; page?: number; size?: number }): Promise<PageView<InventoryLogItem>> {
     return unwrap(await http.get('/api/admin/inventory/logs', { params }))
   },
 }

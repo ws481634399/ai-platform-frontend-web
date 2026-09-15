@@ -25,7 +25,8 @@ beforeEach(() => {
 
 describe('brandApi', () => {
   it('page 携带筛选与分页参数并解包 PageView', async () => {
-    const payload = { records: [{ id: 1, name: 'Nike', sort: 0, status: 'ENABLED' }], total: 1, page: 2, size: 10 }
+    // CHG-0015：使用超出 JS 安全整数的字符串雪花 ID，验证端到端不丢精度
+    const payload = { records: [{ id: '1900000000000000001', name: 'Nike', sort: 0, status: 'ENABLED' }], total: 1, page: 2, size: 10 }
     mocks.get.mockResolvedValueOnce(ok(payload))
 
     const result = await brandApi.page({ keyword: 'ni', status: 'ENABLED', page: 2, size: 10 })
@@ -48,16 +49,17 @@ describe('brandApi', () => {
   })
 
   it('create 返回新 id；update/changeStatus 走对应端点', async () => {
-    mocks.post.mockResolvedValueOnce(ok({ id: 7 }))
+    const newId = '1900000000000000007'
+    mocks.post.mockResolvedValueOnce(ok({ id: newId }))
     mocks.put.mockResolvedValue(ok(null))
 
-    await expect(brandApi.create({ name: 'Puma', sort: 0 })).resolves.toEqual({ id: 7 })
+    await expect(brandApi.create({ name: 'Puma', sort: 0 })).resolves.toEqual({ id: newId })
     expect(mocks.post).toHaveBeenCalledWith('/api/admin/brands', { name: 'Puma', sort: 0 })
 
-    await brandApi.update(7, { name: 'Puma2' })
-    expect(mocks.put).toHaveBeenNthCalledWith(1, '/api/admin/brands/7', { name: 'Puma2' })
+    await brandApi.update(newId, { name: 'Puma2' })
+    expect(mocks.put).toHaveBeenNthCalledWith(1, `/api/admin/brands/${newId}`, { name: 'Puma2' })
 
-    await brandApi.changeStatus(7, 'DISABLED')
-    expect(mocks.put).toHaveBeenNthCalledWith(2, '/api/admin/brands/7/status', { status: 'DISABLED' })
+    await brandApi.changeStatus(newId, 'DISABLED')
+    expect(mocks.put).toHaveBeenNthCalledWith(2, `/api/admin/brands/${newId}/status`, { status: 'DISABLED' })
   })
 })

@@ -3,9 +3,9 @@ import type { ApiResponse } from '@/types'
 
 export type BrandStatus = 'ENABLED' | 'DISABLED'
 
-/** 品牌列表项（对齐后端 BrandView） */
+/** 品牌列表项（对齐后端 BrandView；雪花 ID 后端以字符串出参，CHG-0015） */
 export interface BrandItem {
-  id: number
+  id: string
   name: string
   logo: string | null
   description: string | null
@@ -55,15 +55,15 @@ export const brandApi = {
     )
   },
 
-  async create(payload: SaveBrandPayload): Promise<{ id: number }> {
+  async create(payload: SaveBrandPayload): Promise<{ id: string }> {
     return unwrap(await http.post('/api/admin/brands', payload))
   },
 
-  async update(id: number, payload: SaveBrandPayload): Promise<void> {
+  async update(id: string, payload: SaveBrandPayload): Promise<void> {
     await http.put(`/api/admin/brands/${id}`, payload)
   },
 
-  async changeStatus(id: number, status: BrandStatus): Promise<void> {
+  async changeStatus(id: string, status: BrandStatus): Promise<void> {
     await http.put(`/api/admin/brands/${id}/status`, { status })
   },
 }

@@ -6,12 +6,13 @@ export type SkuStatus = 'ENABLED' | 'DISABLED'
 export type ImageType = 'MAIN' | 'GALLERY' | 'DETAIL' | 'SKU'
 
 export interface ProductItem {
-  id: number
+  // 雪花 ID 超出 JS 安全整数，后端以字符串出参（CHG-0015 @StringId），前端全程保持字符串
+  id: string
   code: string
   name: string
   subtitle: string | null
-  categoryId: number
-  brandId: number
+  categoryId: string
+  brandId: string
   status: ProductStatus
   mainImageUrl: string | null
 }
@@ -24,7 +25,7 @@ export interface ProductView extends ProductItem {
 }
 
 export interface ImageView {
-  id: number
+  id: string
   objectKey: string
   imageUrl: string
   imageType: ImageType
@@ -33,14 +34,14 @@ export interface ImageView {
 }
 
 export interface AttributeView {
-  id: number
+  id: string
   name: string
   value: string
   sortOrder: number
 }
 
 export interface SkuView {
-  id: number
+  id: string
   skuCode: string
   specifications: SpecificationView[]
   salePriceInCents: number
@@ -55,8 +56,8 @@ export interface SpecificationView {
 
 export interface ProductQuery {
   keyword?: string
-  categoryId?: number
-  brandId?: number
+  categoryId?: string
+  brandId?: string
   status?: ProductStatus | ''
   page: number
   size: number
@@ -73,8 +74,8 @@ export interface SaveProductPayload {
   name: string
   subtitle?: string
   description?: string
-  categoryId: number
-  brandId: number
+  categoryId: string
+  brandId: string
   images: ImagePayload[]
   attributes: AttributePayload[]
 }
@@ -130,41 +131,41 @@ export const productApi = {
     )
   },
 
-  async getById(id: number): Promise<ProductView> {
+  async getById(id: string): Promise<ProductView> {
     return unwrap(await http.get(`/api/admin/products/${id}`))
   },
 
-  async create(payload: CreateProductPayload): Promise<{ id: number }> {
+  async create(payload: CreateProductPayload): Promise<{ id: string }> {
     return unwrap(await http.post('/api/admin/products', payload))
   },
 
-  async update(id: number, payload: SaveProductPayload): Promise<void> {
+  async update(id: string, payload: SaveProductPayload): Promise<void> {
     await http.put(`/api/admin/products/${id}`, payload)
   },
 
-  async changeStatus(id: number, status: ProductStatus): Promise<void> {
+  async changeStatus(id: string, status: ProductStatus): Promise<void> {
     await http.put(`/api/admin/products/${id}/status`, { status })
   },
 
-  async publish(id: number): Promise<void> {
+  async publish(id: string): Promise<void> {
     await http.post(`/api/admin/products/${id}/publish`)
   },
 
-  async unpublish(id: number): Promise<void> {
+  async unpublish(id: string): Promise<void> {
     await http.post(`/api/admin/products/${id}/unpublish`)
   },
 
   // ---------- SKU 子资源 ----------
 
-  async addSku(productId: number, payload: SaveSkuPayload): Promise<{ id: number }> {
+  async addSku(productId: string, payload: SaveSkuPayload): Promise<{ id: string }> {
     return unwrap(await http.post(`/api/admin/products/${productId}/skus`, payload))
   },
 
-  async updateSku(productId: number, skuId: number, payload: UpdateSkuPayload): Promise<void> {
+  async updateSku(productId: string, skuId: string, payload: UpdateSkuPayload): Promise<void> {
     await http.put(`/api/admin/products/${productId}/skus/${skuId}`, payload)
   },
 
-  async changeSkuStatus(productId: number, skuId: number, status: SkuStatus): Promise<void> {
+  async changeSkuStatus(productId: string, skuId: string, status: SkuStatus): Promise<void> {
     await http.put(`/api/admin/products/${productId}/skus/${skuId}/status`, { status })
   },
 }
