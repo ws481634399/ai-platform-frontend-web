@@ -23,6 +23,13 @@ async function handleLogout() {
           >
             个人中心
           </router-link>
+          <router-link
+            to="/member/addresses"
+            class="mall-layout__address-link"
+            data-testid="mall-address-link"
+          >
+            收货地址
+          </router-link>
           <span class="mall-layout__member" data-testid="mall-member-id">
             会员 #{{ member.memberId }}
           </span>
@@ -68,7 +75,8 @@ async function handleLogout() {
   font-size: 13px;
 }
 
-.mall-layout__profile-link {
+.mall-layout__profile-link,
+.mall-layout__address-link {
   color: #2563eb;
   text-decoration: none;
 }

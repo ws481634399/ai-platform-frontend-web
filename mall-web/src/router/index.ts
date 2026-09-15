@@ -34,6 +34,12 @@ const router = createRouter({
           component: () => import('@/views/member/ProfileView.vue'),
           meta: { title: '个人资料', requiresMember: true },
         },
+        {
+          path: 'member/addresses',
+          name: 'member-addresses',
+          component: () => import('@/views/member/AddressListView.vue'),
+          meta: { title: '收货地址', requiresMember: true },
+        },
       ],
     },
     {
