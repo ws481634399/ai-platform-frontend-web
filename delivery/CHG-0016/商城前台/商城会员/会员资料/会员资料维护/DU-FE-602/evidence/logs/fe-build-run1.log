@@ -1,0 +1,39 @@
+﻿
+> mall-web@0.0.0 build D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web
+> vite build
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 108 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                    0.42 kB │ gzip:  0.29 kB
+dist/assets/NotFoundView-N2rYTcDm.css              0.06 kB │ gzip:  0.08 kB
+dist/assets/HomeView-B3r1Pfqq.css                  0.32 kB │ gzip:  0.19 kB
+dist/assets/MallLayout-CNK_fAu3.css                0.78 kB │ gzip:  0.33 kB
+dist/assets/LoginView-BqPftbIZ.css                 0.87 kB │ gzip:  0.38 kB
+dist/assets/RegisterView-Dpmy2-K3.css              0.87 kB │ gzip:  0.38 kB
+dist/assets/ProfileView-CbjrD89x.css               2.12 kB │ gzip:  0.60 kB
+dist/assets/http-error-DQMh-Aaa.js                 0.15 kB │ gzip:  0.14 kB
+dist/assets/clear-session-DeYC1mHG.js              0.22 kB │ gzip:  0.19 kB
+dist/assets/app-DKL3LHaT.js                        0.23 kB │ gzip:  0.21 kB
+dist/assets/member-form-BMkERJgz.js                0.44 kB │ gzip:  0.33 kB
+dist/assets/NotFoundView-Dad7_d7_.js               0.46 kB │ gzip:  0.37 kB
+dist/assets/MallLayout-ygqm0oYy.js                 1.42 kB │ gzip:  0.78 kB
+dist/assets/HomeView-XdRbErIg.js                   1.50 kB │ gzip:  0.91 kB
+dist/assets/LoginView-BV-mdKlV.js                  1.91 kB │ gzip:  1.05 kB
+dist/assets/RegisterView-D3ySsDVE.js               1.95 kB │ gzip:  1.07 kB
+dist/assets/ProfileView-CbJyx2G_.js                6.00 kB │ gzip:  2.43 kB
+dist/assets/runtime-core.esm-bundler-BihhIVN6.js  56.08 kB │ gzip: 22.02 kB
+dist/assets/index-D0TawhE8.js                     95.05 kB │ gzip: 36.00 kB
+
+node.exe : [33m[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/router/index.ts is dynamically imported by src/utils/refresh-
+coordinator.ts but also statically imported by src/main.ts, dynamic import will not move module into another chunk.
+At D:\nodejs\node_global\pnpm.ps1:24 char:5
++     & "node$exe"  "$basedir/node_modules/pnpm/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([33m[33m[INEF... another chunk.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[39m
+[32m✓ built in 189ms[39m

@@ -1,0 +1,23 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-602
+    symbol: "mall-web/src/api/member.ts::memberApi, mall-web/src/types/member.ts, mall-web/src/utils/profile-form.ts::validateProfileForm/validateAvatarFile, mall-web/src/stores/member.ts::fetchProfile/saveProfile/changeAvatar, mall-web/src/views/member/ProfileView.vue, mall-web/src/router/index.ts::member-profile, mall-web/src/layouts/MallLayout.vue"
+    commits:
+      - c20c24c6230790a8bd5af70571e2165a1d67ff64
+    evidence-ref: evidence/changeset.md
+    created-at: "2026-09-15T16:30:00+08:00"
+  - id: EV-TEST-002
+    type: test-run
+    delivery-unit: DU-FE-602
+    scope: 静态门禁与单元测试（type-check / lint / vitest / build）
+    commands:
+      - "pnpm type-check（vue-tsc 双 tsconfig，0 错误）"
+      - "pnpm lint（0 errors / 92 样式 warnings）"
+      - "pnpm test（vitest 9 文件 37/37；基线 22 + 本 DU 15）"
+      - "pnpm build（vite build 成功，ProfileView 路由级分包 6.00 kB）"
+    result: passed
+    covers: [AC-016, AC-017, AC-018, AC-025]
+    tc-mapping-ref: evidence/red-green.md
+    evidence-ref: evidence/red-green.md
+    created-at: "2026-09-15T16:30:00+08:00"
