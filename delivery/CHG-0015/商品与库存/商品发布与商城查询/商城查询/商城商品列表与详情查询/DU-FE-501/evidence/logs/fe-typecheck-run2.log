@@ -1,0 +1,17 @@
+﻿
+> mall-admin@0.0.0 type-check D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-admin
+> vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json
+
+src/views/product/product-editor.spec.ts(16,7): error TS2345: Argument of type '{ code: string; name: string; subtitle: string; description: string; categoryId: number[]; brandId: number; }' is not assignable to parameter of type 'ProductFormInput'.
+  Types of property 'categoryId' are incompatible.
+    Type 'number[]' is not assignable to type 'string[]'.
+      Type 'number' is not assignable to type 'string'.
+src/views/product/product-editor.spec.ts(33,38): error TS2345: Argument of type '{ code: string; name: string; subtitle: string; description: string; categoryId: number[]; brandId: number; }' is not assignable to parameter of type 'ProductFormInput'.
+  Types of property 'categoryId' are incompatible.
+    Type 'number[]' is not assignable to type 'string[]'.
+      Type 'number' is not assignable to type 'string'.
+src/views/product/product-editor.spec.ts(34,47): error TS2345: Argument of type '{ code: string; name: string; subtitle: string; description: string; categoryId: number[]; brandId: number; }' is not assignable to parameter of type 'ProductFormInput'.
+  Types of property 'categoryId' are incompatible.
+    Type 'number[]' is not assignable to type 'string[]'.
+      Type 'number' is not assignable to type 'string'.
+ ELIFECYCLE  Command failed with exit code 2.

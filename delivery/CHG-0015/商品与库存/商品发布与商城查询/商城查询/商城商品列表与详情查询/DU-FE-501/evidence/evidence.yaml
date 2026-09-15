@@ -1,0 +1,36 @@
+evidence:
+  - id: EV-CODE-001
+    type: code-change
+    delivery-unit: DU-FE-501
+    symbol: "api/product/product.ts, api/product/brand.ts, api/product/category.ts, api/inventory/inventory.ts, views/product/*, views/inventory/*"
+    commits:
+      - dd034e8
+      - ffeb468
+    evidence-ref: evidence/changeset.md
+    created-at: "2026-09-15T02:30:00+08:00"
+  - id: EV-TEST-002
+    type: test-run
+    delivery-unit: DU-FE-501
+    scope: 静态门禁（type-check / lint / vitest / build）
+    commands:
+      - "pnpm type-check（vue-tsc 双 tsconfig，0 错误）"
+      - "pnpm lint（0 errors / 281 存量样式 warnings）"
+      - "pnpm test（vitest 14 文件 31/31）"
+      - "pnpm build（vite build 成功，1800 模块）"
+    result: passed
+    evidence-ref: evidence/red-green.md
+    created-at: "2026-09-15T02:30:00+08:00"
+  - id: EV-E2E-003
+    type: test-run
+    delivery-unit: DU-FE-501
+    scope: 五页面真实后端冒烟 + 接口反证（雪花 ID 端到端不丢精度）
+    commands:
+      - "浏览器：登录→品牌→分类三级→商品+SKU→编辑回显→库存 init/adjust→日志筛选"
+      - "接口固化：详情/库存/日志 JSON 字符串断言；舍入 ID 404；internal 网关 404"
+    result: passed
+    snowflake-ids:
+      product: "2099557758270611458"
+      sku: "2099557758287388674"
+    covers: [AC-011, AC-012]
+    evidence-ref: evidence/logs/smoke-api-verify.log
+    created-at: "2026-09-15T02:30:00+08:00"

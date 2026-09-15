@@ -1,0 +1,31 @@
+﻿=== 1) 商品详情：id/skuId 在 JSON 中必须为带引号字符串 ===
+{"success":true,"code":"0","message":"æå","data":{"id":"2099557758270611458","code":"SMOKE-001","name":"åçåå","subtitle":null,"description":null,"categoryId":"19","brandId":"9","status":"DRAFT","mainImageUrl":null,"images":[],"attributes":[],"skus":[{"id":"2099557758287388674","skuCode":"SKU-SMOKE-001","specifications":[{"name":"é¢è²","value":"é»è²"}],"salePriceInCents":12900,"status":"ENABLED","mainImageUrl":null}]},"traceId":"3fbd83ea76f54693a454cb557289b29b"}
+
+=== 2) 库存分页按字符串 skuId 精确查询（数量应为 150）===
+{"success":true,"code":"0","message":"æå","data":{"records":[{"skuId":"2099557758287388674","totalQuantity":150,"lockedQuantity":0,"availableQuantity":150}],"total":1,"page":1,"size":10},"traceId":"30bef2b814534aa2bc561d8d87ca1af6"}
+
+=== 3) 库存日志按字符串 skuId 筛选 ===
+{"success":true,"code":"0","message":"æå","data":{"records":[{"id":"0","skuId":"2099557758287388674","operationType":"ADJUST","quantity":50,"beforeQuantity":100,"afterQuantity":150,"businessId":null,"operator":null,"traceId":"e483f064d4574f888e1635f8f05bdaaa","occurredAt":"2026-09-14T17:57:58.408Z"},{"id":"0","skuId":"2099557758287388674","operationType":"INIT","quantity":100,"beforeQuantity":0,"afterQuantity":100,"businessId":null,"operator":null,"traceId":"49b3f505225e426a873cd36e45b0ff86","occurredAt":"2026-09-14T17:57:39.727Z"}],"total":2,"page":1,"size":10},"traceId":"67d2e395f8a64ff6b98e996349f03766"}
+
+=== 4) 反证：精度丢失后的舍入 ID 2099557758270611000 必须 404 ===
+
+=== 5a) 网关 /api/internal/** 无凭证 → 期望 404 同构体 ===
+HTTP 404
+=== 5b) 网关 /api/internal/** 持管理员 JWT（JWT 不通内部）→ 仍期望 404 ===
+HTTP 404
+
+=== 6) 重启后重查日志：id 必须回填为 19 位雪花字符串（不再为 "0"）===
+
+=== 4-补) 舍入 ID 反证（精度丢失形态必须查不到）===
+HTTP 401
+=== 6) 重启后重查日志：id 必须回填为 19 位雪花字符串（不再为 0）===
+FAIL HTTP 401
+
+=== 4-补) 舍入 ID 反证（精度丢失形态必须查不到）===
+HTTP 401
+=== bootstrap HTTP 200（触发 identity 写 authz 快照）===
+=== 6) 重启后重查日志：id 必须回填为 19 位雪花字符串（不再为 0）===
+{"success":true,"code":"0","message":"æå","data":{"records":[{"id":"2099558287935709185","skuId":"2099557758287388674","operationType":"ADJUST","quantity":50,"beforeQuantity":100,"afterQuantity":150,"businessId":null,"operator":null,"traceId":"e483f064d4574f888e1635f8f05bdaaa","occurredAt":"2026-09-14T17:57:58.408Z"},{"id":"2099558209569333251","skuId":"2099557758287388674","operationType":"INIT","quantity":100,"beforeQuantity":0,"afterQuantity":100,"businessId":null,"operator":null,"traceId":"49b3f505225e426a873cd36e45b0ff86","occurredAt":"2026-09-14T17:57:39.727Z"}],"total":2,"page":1,"size":10},"traceId":"499f52cad8c4408eaa800e544d6d226d"}
+
+=== 4-补) 舍入 ID 反证（精度丢失形态必须 404）===
+HTTP 404
