@@ -41,10 +41,19 @@ onMounted(loadHome)
 
 <template>
   <section class="home">
-    <StateView :loading="loading" :error="error" :is-empty="isEmpty()" @retry="loadHome">
+    <StateView
+      :loading="loading"
+      :error="error"
+      :is-empty="isEmpty()"
+      @retry="loadHome"
+    >
       <template v-if="data">
         <!-- 分类入口 -->
-        <nav v-if="data.categoryEntries.length" class="home__categories" data-testid="home-categories">
+        <nav
+          v-if="data.categoryEntries.length"
+          class="home__categories"
+          data-testid="home-categories"
+        >
           <button
             v-for="c in data.categoryEntries"
             :key="c.id"
@@ -61,18 +70,36 @@ onMounted(loadHome)
         <BannerSlot :banners="data.banners" />
 
         <!-- 新品 -->
-        <section v-if="data.newArrivals.length" class="home__section">
-          <h2 class="home__section-title">新品上架</h2>
+        <section
+          v-if="data.newArrivals.length"
+          class="home__section"
+        >
+          <h2 class="home__section-title">
+            新品上架
+          </h2>
           <div class="home__grid">
-            <ProductCard v-for="p in data.newArrivals" :key="p.id" :product="p" />
+            <ProductCard
+              v-for="p in data.newArrivals"
+              :key="p.id"
+              :product="p"
+            />
           </div>
         </section>
 
         <!-- 推荐 -->
-        <section v-if="data.recommends.length" class="home__section">
-          <h2 class="home__section-title">为你推荐</h2>
+        <section
+          v-if="data.recommends.length"
+          class="home__section"
+        >
+          <h2 class="home__section-title">
+            为你推荐
+          </h2>
           <div class="home__grid">
-            <ProductCard v-for="p in data.recommends" :key="p.id" :product="p" />
+            <ProductCard
+              v-for="p in data.recommends"
+              :key="p.id"
+              :product="p"
+            />
           </div>
         </section>
       </template>

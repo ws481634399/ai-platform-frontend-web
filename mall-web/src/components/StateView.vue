@@ -18,17 +18,47 @@ const emit = defineEmits<{ retry: [] }>()
 
 <template>
   <div class="state-view">
-    <slot v-if="props.loading" name="loading">
-      <div class="state-view__placeholder" data-testid="state-loading">加载中…</div>
-    </slot>
-    <slot v-else-if="props.error" name="error" :error="props.error" :retry="() => emit('retry')">
-      <div class="state-view__placeholder state-view__error" data-testid="state-error">
-        <p>{{ props.error }}</p>
-        <button type="button" data-testid="state-retry" @click="emit('retry')">重试</button>
+    <slot
+      v-if="props.loading"
+      name="loading"
+    >
+      <div
+        class="state-view__placeholder"
+        data-testid="state-loading"
+      >
+        加载中…
       </div>
     </slot>
-    <slot v-else-if="props.isEmpty" name="empty">
-      <div class="state-view__placeholder" data-testid="state-empty">暂无数据</div>
+    <slot
+      v-else-if="props.error"
+      name="error"
+      :error="props.error"
+      :retry="() => emit('retry')"
+    >
+      <div
+        class="state-view__placeholder state-view__error"
+        data-testid="state-error"
+      >
+        <p>{{ props.error }}</p>
+        <button
+          type="button"
+          data-testid="state-retry"
+          @click="emit('retry')"
+        >
+          重试
+        </button>
+      </div>
+    </slot>
+    <slot
+      v-else-if="props.isEmpty"
+      name="empty"
+    >
+      <div
+        class="state-view__placeholder"
+        data-testid="state-empty"
+      >
+        暂无数据
+      </div>
     </slot>
     <slot v-else />
   </div>

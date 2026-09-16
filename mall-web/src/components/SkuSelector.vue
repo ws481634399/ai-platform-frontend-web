@@ -1,6 +1,10 @@
 <template>
   <div class="sku-selector">
-    <div v-for="dim in dimensions" :key="dim.name" class="dim-row">
+    <div
+      v-for="dim in dimensions"
+      :key="dim.name"
+      class="dim-row"
+    >
       <span class="dim-label">{{ dim.name }}</span>
       <div class="dim-values">
         <button

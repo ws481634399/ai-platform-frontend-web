@@ -128,11 +128,26 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
 </script>
 
 <template>
-  <section class="profile-view" data-testid="member-profile-view">
-    <h1 class="profile-view__title">个人中心</h1>
+  <section
+    class="profile-view"
+    data-testid="member-profile-view"
+  >
+    <h1 class="profile-view__title">
+      个人中心
+    </h1>
 
-    <p v-if="loading" class="profile-view__loading" data-testid="profile-loading">资料加载中…</p>
-    <p v-else-if="loadError" class="profile-view__error" data-testid="profile-load-error">
+    <p
+      v-if="loading"
+      class="profile-view__loading"
+      data-testid="profile-loading"
+    >
+      资料加载中…
+    </p>
+    <p
+      v-else-if="loadError"
+      class="profile-view__error"
+      data-testid="profile-load-error"
+    >
       {{ loadError }}
     </p>
 
@@ -144,8 +159,12 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
             :src="previewUrl || member.profile?.avatarUrl || ''"
             alt="会员头像"
             data-testid="profile-avatar-img"
-          />
-          <span v-else class="profile-view__avatar-placeholder" data-testid="profile-avatar-empty">
+          >
+          <span
+            v-else
+            class="profile-view__avatar-placeholder"
+            data-testid="profile-avatar-empty"
+          >
             暂无头像
           </span>
         </div>
@@ -157,8 +176,10 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
             data-testid="profile-avatar-input"
             :disabled="uploading"
             @change="pickAvatar"
-          />
-          <p class="profile-view__avatar-tip">{{ avatarLimitLabel }}</p>
+          >
+          <p class="profile-view__avatar-tip">
+            {{ avatarLimitLabel }}
+          </p>
           <p
             v-if="uploading"
             class="profile-view__avatar-uploading"
@@ -177,44 +198,81 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
         </div>
       </div>
 
-      <form class="profile-view__form" @submit.prevent="submit">
+      <form
+        class="profile-view__form"
+        @submit.prevent="submit"
+      >
         <label class="profile-view__field profile-view__field--readonly">
           <span>用户名</span>
-          <input :value="member.profile?.username ?? ''" type="text" disabled />
+          <input
+            :value="member.profile?.username ?? ''"
+            type="text"
+            disabled
+          >
         </label>
 
         <label class="profile-view__field">
           <span>昵称</span>
-          <input v-model="form.nickname" type="text" maxlength="32" data-testid="profile-nickname" />
-          <small v-if="fieldErrors.nickname" class="profile-view__field-error">{{
+          <input
+            v-model="form.nickname"
+            type="text"
+            maxlength="32"
+            data-testid="profile-nickname"
+          >
+          <small
+            v-if="fieldErrors.nickname"
+            class="profile-view__field-error"
+          >{{
             fieldErrors.nickname
           }}</small>
         </label>
 
         <label class="profile-view__field">
           <span>性别</span>
-          <select v-model="form.gender" data-testid="profile-gender">
+          <select
+            v-model="form.gender"
+            data-testid="profile-gender"
+          >
             <option value="UNKNOWN">保密</option>
             <option value="MALE">男</option>
             <option value="FEMALE">女</option>
           </select>
-          <small v-if="fieldErrors.gender" class="profile-view__field-error">{{
+          <small
+            v-if="fieldErrors.gender"
+            class="profile-view__field-error"
+          >{{
             fieldErrors.gender
           }}</small>
         </label>
 
         <label class="profile-view__field">
           <span>手机号</span>
-          <input v-model="form.phone" type="tel" maxlength="20" data-testid="profile-phone" />
-          <small v-if="fieldErrors.phone" class="profile-view__field-error">{{
+          <input
+            v-model="form.phone"
+            type="tel"
+            maxlength="20"
+            data-testid="profile-phone"
+          >
+          <small
+            v-if="fieldErrors.phone"
+            class="profile-view__field-error"
+          >{{
             fieldErrors.phone
           }}</small>
         </label>
 
         <label class="profile-view__field">
           <span>邮箱</span>
-          <input v-model="form.email" type="email" maxlength="128" data-testid="profile-email" />
-          <small v-if="fieldErrors.email" class="profile-view__field-error">{{
+          <input
+            v-model="form.email"
+            type="email"
+            maxlength="128"
+            data-testid="profile-email"
+          >
+          <small
+            v-if="fieldErrors.email"
+            class="profile-view__field-error"
+          >{{
             fieldErrors.email
           }}</small>
         </label>

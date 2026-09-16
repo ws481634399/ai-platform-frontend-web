@@ -1,7 +1,15 @@
 <template>
-  <span class="stock-badge" :class="statusClass">
+  <span
+    class="stock-badge"
+    :class="statusClass"
+  >
     <span>{{ label }}</span>
-    <button v-if="status === 'UNKNOWN'" type="button" class="retry-btn" @click="$emit('retry')">
+    <button
+      v-if="status === 'UNKNOWN'"
+      type="button"
+      class="retry-btn"
+      @click="$emit('retry')"
+    >
       重试
     </button>
   </span>

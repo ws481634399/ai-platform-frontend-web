@@ -37,8 +37,13 @@ async function submit() {
 
 <template>
   <section class="auth-view">
-    <form class="auth-view__card" @submit.prevent="submit">
-      <h1 class="auth-view__title">会员注册</h1>
+    <form
+      class="auth-view__card"
+      @submit.prevent="submit"
+    >
+      <h1 class="auth-view__title">
+        会员注册
+      </h1>
 
       <label class="auth-view__field">
         <span>用户名</span>
@@ -48,7 +53,7 @@ async function submit() {
           autocomplete="username"
           placeholder="4-20 位，字母开头"
           data-testid="register-username"
-        />
+        >
       </label>
 
       <label class="auth-view__field">
@@ -59,10 +64,14 @@ async function submit() {
           autocomplete="new-password"
           placeholder="8-32 位，须同时含字母与数字"
           data-testid="register-password"
-        />
+        >
       </label>
 
-      <p v-if="errorMessage" class="auth-view__error" data-testid="register-error">
+      <p
+        v-if="errorMessage"
+        class="auth-view__error"
+        data-testid="register-error"
+      >
         {{ errorMessage }}
       </p>
 
@@ -76,7 +85,12 @@ async function submit() {
       </button>
 
       <p class="auth-view__hint">
-        已有账号？<router-link to="/login" data-testid="register-to-login">去登录</router-link>
+        已有账号？<router-link
+          to="/login"
+          data-testid="register-to-login"
+        >
+          去登录
+        </router-link>
       </p>
     </form>
   </section>

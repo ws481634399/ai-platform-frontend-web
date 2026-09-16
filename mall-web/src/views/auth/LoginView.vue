@@ -41,12 +41,22 @@ async function submit() {
 
 <template>
   <section class="auth-view">
-    <form class="auth-view__card" @submit.prevent="submit">
-      <h1 class="auth-view__title">会员登录</h1>
+    <form
+      class="auth-view__card"
+      @submit.prevent="submit"
+    >
+      <h1 class="auth-view__title">
+        会员登录
+      </h1>
 
       <label class="auth-view__field">
         <span>用户名</span>
-        <input v-model="username" type="text" autocomplete="username" data-testid="login-username" />
+        <input
+          v-model="username"
+          type="text"
+          autocomplete="username"
+          data-testid="login-username"
+        >
       </label>
 
       <label class="auth-view__field">
@@ -56,10 +66,16 @@ async function submit() {
           type="password"
           autocomplete="current-password"
           data-testid="login-password"
-        />
+        >
       </label>
 
-      <p v-if="errorMessage" class="auth-view__error" data-testid="login-error">{{ errorMessage }}</p>
+      <p
+        v-if="errorMessage"
+        class="auth-view__error"
+        data-testid="login-error"
+      >
+        {{ errorMessage }}
+      </p>
 
       <button
         type="submit"
@@ -71,7 +87,12 @@ async function submit() {
       </button>
 
       <p class="auth-view__hint">
-        还没有账号？<router-link to="/register" data-testid="login-to-register">立即注册</router-link>
+        还没有账号？<router-link
+          to="/register"
+          data-testid="login-to-register"
+        >
+          立即注册
+        </router-link>
       </p>
     </form>
   </section>

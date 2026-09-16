@@ -124,7 +124,9 @@ watch(
   <div class="product-list">
     <div class="product-list__sidebar">
       <div class="product-list__filter-group">
-        <h3 class="product-list__filter-title">分类</h3>
+        <h3 class="product-list__filter-title">
+          分类
+        </h3>
         <button
           type="button"
           class="product-list__filter-item"
@@ -134,7 +136,10 @@ watch(
         >
           全部
         </button>
-        <template v-for="cat in categories" :key="cat.id">
+        <template
+          v-for="cat in categories"
+          :key="cat.id"
+        >
           <button
             type="button"
             class="product-list__filter-item"
@@ -148,15 +153,21 @@ watch(
       </div>
 
       <div class="product-list__filter-group">
-        <h3 class="product-list__filter-title">品牌</h3>
-        <label v-for="b in brands" :key="b.id" class="product-list__brand">
+        <h3 class="product-list__filter-title">
+          品牌
+        </h3>
+        <label
+          v-for="b in brands"
+          :key="b.id"
+          class="product-list__brand"
+        >
           <input
             type="checkbox"
             :value="b.id"
             :checked="currentQuery.brandIds?.includes(b.id)"
             :data-testid="`brand-${b.id}`"
             @change="toggleBrand(b.id)"
-          />
+          >
           {{ b.name }}
         </label>
       </div>
@@ -177,24 +188,57 @@ watch(
         </button>
       </div>
 
-      <StateView :loading="loading" :error="error" :is-empty="products.length === 0" @retry="loadProducts">
+      <StateView
+        :loading="loading"
+        :error="error"
+        :is-empty="products.length === 0"
+        @retry="loadProducts"
+      >
         <template #empty>
-          <div class="product-list__empty" data-testid="list-empty">
+          <div
+            class="product-list__empty"
+            data-testid="list-empty"
+          >
             <p>没有符合条件的商品</p>
-            <button type="button" data-testid="clear-filters" @click="router.replace({ query: {} })">清空筛选</button>
+            <button
+              type="button"
+              data-testid="clear-filters"
+              @click="router.replace({ query: {} })"
+            >
+              清空筛选
+            </button>
           </div>
         </template>
-        <div class="product-list__grid" data-testid="product-grid">
+        <div
+          class="product-list__grid"
+          data-testid="product-grid"
+        >
           <ProductCard
             v-for="p in products"
             :key="p.id"
             :product="{ id: p.id, name: p.productName, mainImageUrl: p.mainImageUrl, minPrice: p.minPrice, maxPrice: p.maxPrice }"
           />
         </div>
-        <div v-if="totalPages > 1" class="product-list__pager" data-testid="pager">
-          <button type="button" :disabled="(currentQuery.page || 1) <= 1" @click="goPage((currentQuery.page || 1) - 1)">上一页</button>
+        <div
+          v-if="totalPages > 1"
+          class="product-list__pager"
+          data-testid="pager"
+        >
+          <button
+            type="button"
+            :disabled="(currentQuery.page || 1) <= 1"
+            @click="goPage((currentQuery.page || 1) - 1)"
+          >
+            上一页
+          </button>
           <span>{{ currentQuery.page || 1 }} / {{ totalPages }}</span>
-          <button type="button" :disabled="(currentQuery.page || 1) >= totalPages" @click="goPage((currentQuery.page || 1) + 1)">下一页</button>
+          <button
+            type="button"
+            :disabled="(currentQuery.page || 1) >= totalPages"
+            @click="goPage((currentQuery.page || 1) + 1)"
+          >
+            下一页
+          </button>
         </div>
       </StateView>
     </div>

@@ -128,9 +128,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="address-view" data-testid="member-address-view">
+  <section
+    class="address-view"
+    data-testid="member-address-view"
+  >
     <header class="address-view__header">
-      <h1 class="address-view__title">收货地址</h1>
+      <h1 class="address-view__title">
+        收货地址
+      </h1>
       <button
         v-if="!addressStore.reachLimit"
         type="button"
@@ -140,7 +145,11 @@ onMounted(async () => {
       >
         新增地址
       </button>
-      <span v-else class="address-view__limit-hint" data-testid="address-limit-hint">
+      <span
+        v-else
+        class="address-view__limit-hint"
+        data-testid="address-limit-hint"
+      >
         最多保存 {{ ADDRESS_LIMIT }} 条地址
       </span>
     </header>
@@ -154,10 +163,18 @@ onMounted(async () => {
       {{ pageMessage }}
     </p>
 
-    <p v-if="addressStore.loading" class="address-view__loading" data-testid="address-loading">
+    <p
+      v-if="addressStore.loading"
+      class="address-view__loading"
+      data-testid="address-loading"
+    >
       地址加载中…
     </p>
-    <p v-else-if="loadingError" class="address-view__error" data-testid="address-load-error">
+    <p
+      v-else-if="loadingError"
+      class="address-view__error"
+      data-testid="address-load-error"
+    >
       {{ loadingError }}
     </p>
 
@@ -167,10 +184,20 @@ onMounted(async () => {
       data-testid="address-empty"
     >
       <p>还没有收货地址，新增一个吧。</p>
-      <button type="button" data-testid="address-empty-new" @click="openCreate">新增地址</button>
+      <button
+        type="button"
+        data-testid="address-empty-new"
+        @click="openCreate"
+      >
+        新增地址
+      </button>
     </div>
 
-    <ul v-else class="address-view__list" data-testid="address-list">
+    <ul
+      v-else
+      class="address-view__list"
+      data-testid="address-list"
+    >
       <li
         v-for="address in addressStore.items"
         :key="address.id"
@@ -180,7 +207,10 @@ onMounted(async () => {
       >
         <div class="address-card__main">
           <div class="address-card__head">
-            <span class="address-card__name" data-testid="address-receiver-name">
+            <span
+              class="address-card__name"
+              data-testid="address-receiver-name"
+            >
               {{ address.receiverName }}
             </span>
             <span class="address-card__phone">{{ address.receiverPhone }}</span>
@@ -192,9 +222,18 @@ onMounted(async () => {
               默认
             </span>
           </div>
-          <p class="address-card__region">{{ regionLine(address) }}</p>
-          <p class="address-card__detail">{{ address.detailAddress }}</p>
-          <p v-if="address.postalCode" class="address-card__postal">邮编：{{ address.postalCode }}</p>
+          <p class="address-card__region">
+            {{ regionLine(address) }}
+          </p>
+          <p class="address-card__detail">
+            {{ address.detailAddress }}
+          </p>
+          <p
+            v-if="address.postalCode"
+            class="address-card__postal"
+          >
+            邮编：{{ address.postalCode }}
+          </p>
         </div>
         <div class="address-card__actions">
           <button
@@ -232,8 +271,14 @@ onMounted(async () => {
       data-testid="address-dialog-mask"
       @click.self="closeDialog"
     >
-      <form class="address-dialog" data-testid="address-dialog" @submit.prevent="submitDialog">
-        <h2 class="address-dialog__title">{{ dialogTitle() }}</h2>
+      <form
+        class="address-dialog"
+        data-testid="address-dialog"
+        @submit.prevent="submitDialog"
+      >
+        <h2 class="address-dialog__title">
+          {{ dialogTitle() }}
+        </h2>
 
         <label class="address-dialog__field">
           <span>收货人姓名</span>
@@ -242,8 +287,11 @@ onMounted(async () => {
             type="text"
             maxlength="32"
             data-testid="address-form-receiver"
-          />
-          <small v-if="fieldErrors.receiverName" class="address-dialog__error">{{
+          >
+          <small
+            v-if="fieldErrors.receiverName"
+            class="address-dialog__error"
+          >{{
             fieldErrors.receiverName
           }}</small>
         </label>
@@ -255,8 +303,11 @@ onMounted(async () => {
             type="tel"
             maxlength="11"
             data-testid="address-form-phone"
-          />
-          <small v-if="fieldErrors.receiverPhone" class="address-dialog__error">{{
+          >
+          <small
+            v-if="fieldErrors.receiverPhone"
+            class="address-dialog__error"
+          >{{
             fieldErrors.receiverPhone
           }}</small>
         </label>
@@ -269,8 +320,11 @@ onMounted(async () => {
               type="text"
               maxlength="64"
               data-testid="address-form-province"
-            />
-            <small v-if="fieldErrors.province" class="address-dialog__error">{{
+            >
+            <small
+              v-if="fieldErrors.province"
+              class="address-dialog__error"
+            >{{
               fieldErrors.province
             }}</small>
           </label>
@@ -281,8 +335,11 @@ onMounted(async () => {
               type="text"
               maxlength="64"
               data-testid="address-form-city"
-            />
-            <small v-if="fieldErrors.city" class="address-dialog__error">{{ fieldErrors.city }}</small>
+            >
+            <small
+              v-if="fieldErrors.city"
+              class="address-dialog__error"
+            >{{ fieldErrors.city }}</small>
           </label>
           <label class="address-dialog__field">
             <span>区县</span>
@@ -291,8 +348,11 @@ onMounted(async () => {
               type="text"
               maxlength="64"
               data-testid="address-form-district"
-            />
-            <small v-if="fieldErrors.district" class="address-dialog__error">{{
+            >
+            <small
+              v-if="fieldErrors.district"
+              class="address-dialog__error"
+            >{{
               fieldErrors.district
             }}</small>
           </label>
@@ -305,8 +365,11 @@ onMounted(async () => {
             type="text"
             maxlength="128"
             data-testid="address-form-detail"
-          />
-          <small v-if="fieldErrors.detailAddress" class="address-dialog__error">{{
+          >
+          <small
+            v-if="fieldErrors.detailAddress"
+            class="address-dialog__error"
+          >{{
             fieldErrors.detailAddress
           }}</small>
         </label>
@@ -318,8 +381,11 @@ onMounted(async () => {
             type="text"
             maxlength="6"
             data-testid="address-form-postal"
-          />
-          <small v-if="fieldErrors.postalCode" class="address-dialog__error">{{
+          >
+          <small
+            v-if="fieldErrors.postalCode"
+            class="address-dialog__error"
+          >{{
             fieldErrors.postalCode
           }}</small>
         </label>

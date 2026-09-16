@@ -11,13 +11,28 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="banner-slot" data-testid="banner-slot">
+  <div
+    class="banner-slot"
+    data-testid="banner-slot"
+  >
     <template v-if="props.banners.length > 0">
-      <a v-for="b in props.banners" :key="b.id" :href="b.linkUrl" class="banner-slot__item">
-        <img :src="b.imageUrl" alt="banner" loading="lazy" />
+      <a
+        v-for="b in props.banners"
+        :key="b.id"
+        :href="b.linkUrl"
+        class="banner-slot__item"
+      >
+        <img
+          :src="b.imageUrl"
+          alt="banner"
+          loading="lazy"
+        >
       </a>
     </template>
-    <div v-else class="banner-slot__placeholder">
+    <div
+      v-else
+      class="banner-slot__placeholder"
+    >
       <span>精选好物 · 品质保障</span>
     </div>
   </div>

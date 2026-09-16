@@ -19,24 +19,41 @@ function goDetail() {
 </script>
 
 <template>
-  <article class="product-card" data-testid="product-card" @click="goDetail">
+  <article
+    class="product-card"
+    data-testid="product-card"
+    @click="goDetail"
+  >
     <div class="product-card__image">
       <img
         v-if="props.product.mainImageUrl"
         :src="props.product.mainImageUrl"
         :alt="props.product.name"
         loading="lazy"
-      />
-      <div v-else class="product-card__image-placeholder">暂无图片</div>
+      >
+      <div
+        v-else
+        class="product-card__image-placeholder"
+      >
+        暂无图片
+      </div>
     </div>
     <div class="product-card__body">
-      <h3 class="product-card__name">{{ props.product.name }}</h3>
+      <h3 class="product-card__name">
+        {{ props.product.name }}
+      </h3>
       <div class="product-card__price">
         <PriceText :value="props.product.minPrice" />
-        <span v-if="props.product.maxPrice && props.product.maxPrice !== props.product.minPrice" class="product-card__price-sep">
+        <span
+          v-if="props.product.maxPrice && props.product.maxPrice !== props.product.minPrice"
+          class="product-card__price-sep"
+        >
           ~
         </span>
-        <PriceText v-if="props.product.maxPrice && props.product.maxPrice !== props.product.minPrice" :value="props.product.maxPrice" />
+        <PriceText
+          v-if="props.product.maxPrice && props.product.maxPrice !== props.product.minPrice"
+          :value="props.product.maxPrice"
+        />
       </div>
     </div>
   </article>
