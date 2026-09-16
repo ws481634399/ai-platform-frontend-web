@@ -1,0 +1,6 @@
+[INFO] mall-web 三检执行
+[INFO] type-check: vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json => passed
+[INFO] lint: eslint . => passed (0 errors, 1 pre-existing v-html warning)
+[INFO] build: vite build => BUILD SUCCESS (CartView-CCVq7rzT.js 5.70 kB)
+[INFO] test: vitest run => 85/85 passed (18 test files)
+[INFO] AOF 配置核查: docker-compose.infra.yml redis --appendonly yes --appendfsync everysec => confirmed
