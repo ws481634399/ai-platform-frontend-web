@@ -48,7 +48,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "6bc7af608560c188de07f267a3d9b65deff57e9a"
 result:
-  commit: "5a973921ec2b2c26cab355a502a191dcc2018345"
+  commit: "337f0858767caabe285b399d03deef6042ad1ded"
   paths:
     - mall-web/src/api/catalog.ts
     - mall-web/src/views/product/ProductListView.vue
