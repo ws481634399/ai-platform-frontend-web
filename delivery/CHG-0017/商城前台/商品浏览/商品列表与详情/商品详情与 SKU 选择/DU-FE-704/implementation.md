@@ -34,6 +34,7 @@
 | Hash | 类型 | 说明 |
 |------|------|------|
 | 30712bd | feat | 商品详情页 + SKU 选择器 + StockBadge |
+| 92b0839 | fix | 多维禁用算法/StateView API 对齐/UNKNOWN 降级/tsc 零错误 |
 
 ## Deviations
 
@@ -41,7 +42,8 @@
 
 ## 自检
 
-- SkuSelector 选齐命中唯一 SKU / 未选齐 null / DISABLED 置灰 —— SkuSelector.spec.ts (3)
+- SkuSelector 选齐命中唯一 SKU / 未选齐 null / DISABLED 置灰 / 三维度不误禁用 —— SkuSelector.spec.ts (4)
 - StockBadge 三态文案 + UNKNOWN 重试 —— StockBadge.spec.ts (3)
 - catalog getProductDetail / getSkuAvailability —— catalog.spec.ts (3)
-- mall-web 全量 80 passed；vite build 成功
+- ProductDetailView 渲染/DOMPurify 净化(jsdom)/404/未选齐禁用加购 —— ProductDetailView.spec.ts (4)
+- mall-web 全量 85 passed；vue-tsc 零错误；vite build 成功
