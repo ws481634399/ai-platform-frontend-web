@@ -9,8 +9,16 @@ const catalogMocks = vi.hoisted(() => ({
   getSkuAvailability: vi.fn(),
 }))
 
+const cartMocks = vi.hoisted(() => ({
+  addItem: vi.fn(),
+}))
+
 vi.mock('@/api/catalog', () => ({
   catalogApi: catalogMocks,
+}))
+
+vi.mock('@/stores/cart', () => ({
+  useCartStore: () => cartMocks,
 }))
 
 import ProductDetailView from '@/views/product/ProductDetailView.vue'
@@ -83,6 +91,7 @@ describe('ProductDetailView 商品详情页', () => {
       { skuId: '1', stockStatus: 'IN_STOCK' },
       { skuId: '2', stockStatus: 'OUT_OF_STOCK' },
     ])
+    cartMocks.addItem.mockResolvedValue({ success: true })
   })
 
   it('加载成功渲染名称/品牌/面包屑并查询可售状态', async () => {

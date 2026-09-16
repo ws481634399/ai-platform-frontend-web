@@ -1,17 +1,32 @@
 <template>
-  <StateView :loading="loading" :error="error" :is-empty="notFound" @retry="load">
+  <StateView
+    :loading="loading"
+    :error="error"
+    :is-empty="notFound"
+    @retry="load"
+  >
     <template #empty>
       <div class="not-found">
         <h2>商品不存在</h2>
         <p>该商品可能已下架或链接有误。</p>
-        <router-link to="/products">返回商品列表</router-link>
+        <router-link to="/products">
+          返回商品列表
+        </router-link>
       </div>
     </template>
     <template #default>
-      <div v-if="detail" class="product-detail">
+      <div
+        v-if="detail"
+        class="product-detail"
+      >
         <nav class="breadcrumb">
-          <router-link to="/">首页</router-link>
-          <span v-for="node in detail.categoryPath" :key="node.id">
+          <router-link to="/">
+            首页
+          </router-link>
+          <span
+            v-for="node in detail.categoryPath"
+            :key="node.id"
+          >
             <span class="sep">/</span>
             <router-link :to="`/products?categoryId=${node.id}`">{{ node.name }}</router-link>
           </span>
@@ -24,23 +39,38 @@
                 :src="activeImage"
                 :alt="detail.productName"
                 @error="onImageError"
-              />
+              >
             </div>
-            <div class="thumbs" v-if="detail.images.length">
+            <div
+              v-if="detail.images.length"
+              class="thumbs"
+            >
               <img
                 v-for="img in detail.images"
                 :key="img.id"
                 :src="img.imageUrl"
                 :class="{ active: img.imageUrl === activeImage }"
                 @click="activeImage = img.imageUrl"
-              />
+              >
             </div>
           </div>
 
           <div class="info">
-            <h1 class="name">{{ detail.productName }}</h1>
-            <p v-if="detail.subtitle" class="subtitle">{{ detail.subtitle }}</p>
-            <p v-if="detail.brandName" class="brand">品牌：{{ detail.brandName }}</p>
+            <h1 class="name">
+              {{ detail.productName }}
+            </h1>
+            <p
+              v-if="detail.subtitle"
+              class="subtitle"
+            >
+              {{ detail.subtitle }}
+            </p>
+            <p
+              v-if="detail.brandName"
+              class="brand"
+            >
+              品牌：{{ detail.brandName }}
+            </p>
 
             <div class="price-row">
               <PriceText :value="currentPrice" />
@@ -68,13 +98,24 @@
               >
                 加入购物车
               </button>
+              <span
+                v-if="addMessage"
+                class="add-cart-msg"
+                data-testid="add-cart-message"
+              >{{ addMessage }}</span>
             </div>
           </div>
         </div>
 
-        <section class="description" v-if="detail.description">
+        <section
+          v-if="detail.description"
+          class="description"
+        >
           <h3>商品详情</h3>
-          <div class="rich-text" v-html="sanitizedDescription"></div>
+          <div
+            class="rich-text"
+            v-html="sanitizedDescription"
+          />
         </section>
       </div>
     </template>
@@ -91,12 +132,21 @@ import StateView from '@/components/StateView.vue'
 import PriceText from '@/components/PriceText.vue'
 import SkuSelector from '@/components/SkuSelector.vue'
 import StockBadge from '@/components/StockBadge.vue'
+import { useCartStore } from '@/stores/cart'
+
+const cart = useCartStore()
+
+/** 类型守卫：判断错误是否带有 response.status（兼容 axios 错误与 mock 抛出的普通对象） */
+function hasResponseStatus(e: unknown): e is { response?: { status?: number } } {
+  return typeof e === 'object' && e !== null && 'response' in e
+}
 
 const route = useRoute()
 const detail = ref<ProductDetail | null>(null)
 const loading = ref(true)
 const error = ref('')
 const notFound = ref(false)
+const addMessage = ref('')
 const activeImage = ref<string>('')
 const currentSku = ref<SkuIndexEntry | null>(null)
 const stockMap = ref<Record<string, StockStatus>>({})
@@ -146,8 +196,8 @@ async function load() {
         stockMap.value = {}
       }
     }
-  } catch (e: any) {
-    if (e?.response?.status === 404) {
+  } catch (e) {
+    if (hasResponseStatus(e) && e.response?.status === 404) {
       notFound.value = true
     } else {
       error.value = resolveErrorMessage(e, '商品加载失败，请稍后重试')
@@ -175,9 +225,11 @@ async function retryUnknown() {
   } catch { /* 保持 UNKNOWN */ }
 }
 
-function addToCart() {
-  // CHG-0018 DU-FE-801 接入购物车；本 Story 仅占位事件
-  console.info('addToCart placeholder', currentSku.value?.skuId)
+async function addToCart() {
+  if (!currentSku.value) return
+  const res = await cart.addItem(currentSku.value.skuId, 1)
+  addMessage.value = res.success ? '已加入购物车' : (res.message ?? '加购失败')
+  setTimeout(() => { addMessage.value = '' }, 2000)
 }
 
 load()

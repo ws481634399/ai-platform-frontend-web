@@ -52,6 +52,12 @@ const router = createRouter({
           component: () => import('@/views/product/ProductDetailView.vue'),
           meta: { title: '商品详情' },
         },
+        {
+          path: 'cart',
+          name: 'cart',
+          component: () => import('@/views/cart/CartView.vue'),
+          meta: { title: '购物车' },
+        },
       ],
     },
     {
