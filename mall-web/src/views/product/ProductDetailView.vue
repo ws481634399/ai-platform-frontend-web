@@ -1,11 +1,5 @@
 <template>
-  <StateView :state="state" @retry="load">
-    <template #error>
-      <div class="detail-error">
-        <p>加载失败</p>
-        <button type="button" @click="load">重试</button>
-      </div>
-    </template>
+  <StateView :loading="loading" :error="error" :is-empty="notFound" @retry="load">
     <template #empty>
       <div class="not-found">
         <h2>商品不存在</h2>
@@ -13,11 +7,11 @@
         <router-link to="/products">返回商品列表</router-link>
       </div>
     </template>
-    <template v-if="detail" #default>
-      <div class="product-detail">
+    <template #default>
+      <div v-if="detail" class="product-detail">
         <nav class="breadcrumb">
           <router-link to="/">首页</router-link>
-          <span v-for="(node, i) in detail.categoryPath" :key="node.id">
+          <span v-for="node in detail.categoryPath" :key="node.id">
             <span class="sep">/</span>
             <router-link :to="`/products?categoryId=${node.id}`">{{ node.name }}</router-link>
           </span>
@@ -49,7 +43,7 @@
             <p v-if="detail.brandName" class="brand">品牌：{{ detail.brandName }}</p>
 
             <div class="price-row">
-              <PriceText :fen="currentPrice" />
+              <PriceText :value="currentPrice" />
               <StockBadge
                 v-if="currentSku"
                 :status="stockStatusOf(currentSku.skuId)"
@@ -92,16 +86,17 @@ import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import DOMPurify from 'dompurify'
 import { catalogApi, type ProductDetail, type SkuIndexEntry, type StockStatus } from '@/api/catalog'
+import { resolveErrorMessage } from '@/utils/http-error'
 import StateView from '@/components/StateView.vue'
 import PriceText from '@/components/PriceText.vue'
 import SkuSelector from '@/components/SkuSelector.vue'
 import StockBadge from '@/components/StockBadge.vue'
 
-type LoadState = 'loading' | 'ok' | 'empty' | 'error'
-
 const route = useRoute()
 const detail = ref<ProductDetail | null>(null)
-const state = ref<LoadState>('loading')
+const loading = ref(true)
+const error = ref('')
+const notFound = ref(false)
 const activeImage = ref<string>('')
 const currentSku = ref<SkuIndexEntry | null>(null)
 const stockMap = ref<Record<string, StockStatus>>({})
@@ -130,28 +125,35 @@ function stockStatusOf(skuId: string): StockStatus {
 
 async function load() {
   const id = route.params.id as string
-  if (!id) { state.value = 'empty'; return }
-  state.value = 'loading'
+  if (!id) { notFound.value = true; loading.value = false; return }
+  loading.value = true
+  error.value = ''
+  notFound.value = false
   try {
     const data = await catalogApi.getProductDetail(id)
     detail.value = data
     activeImage.value = data.mainImageUrl || data.images[0]?.imageUrl || ''
     currentSku.value = null
-    // 批量查询所有启用 SKU 的可售状态
+    // 批量查询所有启用 SKU 的可售状态；三态接口失败不阻塞图文浏览（UNKNOWN 降级）
     const skuIds = Object.values(data.skuIndex).map((e) => e.skuId)
     if (skuIds.length) {
-      const list = await catalogApi.getSkuAvailability(skuIds)
-      const map: Record<string, StockStatus> = {}
-      for (const item of list) map[item.skuId] = item.stockStatus
-      stockMap.value = map
+      try {
+        const list = await catalogApi.getSkuAvailability(skuIds)
+        const map: Record<string, StockStatus> = {}
+        for (const item of list) map[item.skuId] = item.stockStatus
+        stockMap.value = map
+      } catch {
+        stockMap.value = {}
+      }
     }
-    state.value = 'ok'
   } catch (e: any) {
     if (e?.response?.status === 404) {
-      state.value = 'empty'
+      notFound.value = true
     } else {
-      state.value = 'error'
+      error.value = resolveErrorMessage(e, '商品加载失败，请稍后重试')
     }
+  } finally {
+    loading.value = false
   }
 }
 

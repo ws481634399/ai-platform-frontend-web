@@ -59,48 +59,27 @@ const currentSku = computed<SkuIndexEntry | null>(() => {
 
 /**
  * 判断某维度值是否禁用：
- * - 该值所在组合的 SKU 状态为 DISABLED（后端 status），置灰不可点
- * - 未选齐时，根据已选其他维度+该值拼出可能组合，若全部命中的组合均为 DISABLED 则禁用
+ * 遍历 skuIndex 全部组合，若存在「包含该值 + 兼容其他已选维度」的非 DISABLED 组合则可选；
+ * 未选维度作为通配（不参与约束）。支持任意维度数。
  */
 function isValueDisabled(dimName: string, value: string): boolean {
-  // 假设已选该值，与其他已选维度拼组合键
-  const parts: string[] = []
-  let missingOther = false
-  for (const name of props.dimensionsOrder) {
-    if (name === dimName) {
-      parts.push(value)
-    } else if (selected.has(name)) {
-      parts.push(selected.get(name)!)
-    } else {
-      missingOther = true
-      parts.push('*')
-    }
-  }
-  if (missingOther) {
-    // 存在未选维度：枚举该维度所有未选值的组合，若全部命中且全 DISABLED 才禁用
-    const unselected = props.dimensionsOrder.filter(
-      (n) => n !== dimName && !selected.has(n),
-    )
-    // 取第一个未选维度做枚举（简化：只检查未选维度是否存在任意组合非 DISABLED）
-    const firstUnselected = unselected[0]
-    if (!firstUnselected) return false
-    const dim = props.dimensions.find((d) => d.name === firstUnselected)
-    if (!dim) return false
-    let hasEnabled = false
-    for (const v of dim.values) {
-      const trial = parts.map((p, i) => (props.dimensionsOrder[i] === firstUnselected ? v : p))
-      const key = trial.join('|')
-      const entry = props.skuIndex[key]
-      if (entry && entry.status !== 'DISABLED') {
-        hasEnabled = true
+  const dimIndex = props.dimensionsOrder.indexOf(dimName)
+  for (const [key, entry] of Object.entries(props.skuIndex)) {
+    if (entry.status === 'DISABLED') continue
+    const parts = key.split('|')
+    if (parts[dimIndex] !== value) continue
+    let compatible = true
+    for (let i = 0; i < props.dimensionsOrder.length; i++) {
+      if (i === dimIndex) continue
+      const chosen = selected.get(props.dimensionsOrder[i])
+      if (chosen && parts[i] !== chosen) {
+        compatible = false
         break
       }
     }
-    return !hasEnabled
+    if (compatible) return false
   }
-  // 已选齐：直接看该组合的 SKU 状态
-  const entry = props.skuIndex[parts.join('|')]
-  return !entry || entry.status === 'DISABLED'
+  return true
 }
 
 function select(dimName: string, value: string) {
