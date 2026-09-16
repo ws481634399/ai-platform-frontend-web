@@ -48,6 +48,6 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: ""
 result:
-  commit: ""
+  commit: "bc61b4d880a1f0cac214ca9d9957e05676300b6c"
   paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
   symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
