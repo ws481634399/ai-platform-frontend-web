@@ -9,12 +9,12 @@ import { resolveErrorMessage } from '@/utils/http-error'
 
 interface DisplayItem {
   skuId: string
-  productId: string
-  productName: string
-  skuName: string
-  specs: string
-  imageUrl: string
-  priceFen: number
+  productId: string | null
+  productName: string | null
+  skuName: string | null
+  specs: Record<string, string>
+  imageUrl: string | null
+  priceFen: number | null
   quantity: number
   selected: boolean
   stockStatus: StockStatus
@@ -51,12 +51,12 @@ const guestItems = computed<DisplayItem[]>(() =>
     const invalid = !sku
     return {
       skuId: it.skuId,
-      productId: sku?.productId ?? '',
+      productId: sku?.productId ?? null,
       productName: sku?.productName ?? '商品信息不可用',
-      skuName: sku?.skuName ?? '',
-      specs: sku?.specs ?? '',
-      imageUrl: sku?.imageUrl ?? '',
-      priceFen: sku?.priceFen ?? 0,
+      skuName: sku?.skuName ?? null,
+      specs: sku?.specs ?? {},
+      imageUrl: sku?.imageUrl ?? null,
+      priceFen: sku?.priceFen ?? null,
       quantity: it.quantity,
       selected: it.selected,
       stockStatus: stockMap.value[it.skuId] ?? 'UNKNOWN',
@@ -78,7 +78,7 @@ const allSelected = computed(() => {
 const selectedTotalFen = computed(() => {
   return items.value
     .filter((it) => it.selected && !it.invalid && (it.stockStatus === 'IN_STOCK' || it.stockStatus === 'LOW_STOCK'))
-    .reduce((sum, it) => sum + it.priceFen * it.quantity, 0)
+    .reduce((sum, it) => sum + (it.priceFen ?? 0) * it.quantity, 0)
 })
 
 const selectedCount = computed(() =>
@@ -87,6 +87,11 @@ const selectedCount = computed(() =>
 
 function fenToYuan(fen: number): string {
   return (fen / 100).toFixed(2)
+}
+
+/** 规格名值对格式化为展示文本：仅拼接值，以「 / 」分隔 */
+function formatSpecs(specs: Record<string, string>): string {
+  return Object.values(specs).join(' / ')
 }
 
 async function loadGuestData() {
@@ -224,19 +229,30 @@ onMounted(() => {
           </label>
           <div class="cart-row__info">
             <img
+              v-if="item.imageUrl"
               :src="item.imageUrl"
               alt=""
               class="cart-row__img"
             >
+            <div
+              v-else
+              class="cart-row__img cart-row__img--placeholder"
+            />
             <div class="cart-row__meta">
               <div class="cart-row__name">
                 {{ item.productName }}
               </div>
-              <div class="cart-row__sku">
+              <div
+                v-if="item.skuName"
+                class="cart-row__sku"
+              >
                 {{ item.skuName }}
               </div>
-              <div class="cart-row__specs">
-                {{ item.specs }}
+              <div
+                v-if="formatSpecs(item.specs)"
+                class="cart-row__specs"
+              >
+                {{ formatSpecs(item.specs) }}
               </div>
               <div
                 v-if="item.invalid"
@@ -247,7 +263,7 @@ onMounted(() => {
             </div>
           </div>
           <div class="cart-row__price">
-            ¥{{ fenToYuan(item.priceFen) }}
+            ¥{{ fenToYuan(item.priceFen ?? 0) }}
           </div>
           <div class="cart-row__qty">
             <div class="stepper">
@@ -279,7 +295,7 @@ onMounted(() => {
             <StockBadge :status="item.stockStatus" />
           </div>
           <div class="cart-row__subtotal">
-            ¥{{ fenToYuan(item.priceFen * item.quantity) }}
+            ¥{{ fenToYuan((item.priceFen ?? 0) * item.quantity) }}
           </div>
           <div class="cart-row__action">
             <button
@@ -327,6 +343,7 @@ onMounted(() => {
 .cart-row__check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
 .cart-row__info { display: flex; gap: 12px; align-items: flex-start; }
 .cart-row__img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f5f5f5; }
+.cart-row__img--placeholder { border: 1px solid #eee; }
 .cart-row__name { font-weight: 500; }
 .cart-row__sku { color: #6b7280; font-size: 13px; }
 .cart-row__specs { color: #9ca3af; font-size: 12px; }

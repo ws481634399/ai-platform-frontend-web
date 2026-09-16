@@ -69,7 +69,9 @@ export const useCartStore = defineStore('cart', () => {
       return guest.add(skuId, quantity)
     }
     try {
-      memberCart.value = await cartApi.addItem({ skuId, quantity })
+      await cartApi.addItem({ skuId, quantity })
+      // 写接口仅返回写模型，展示统一以 GET 读模型为准
+      await loadMemberCart()
       return { success: true }
     } catch (e) {
       return { success: false, message: parseError(e, '加购失败').message }
@@ -79,7 +81,8 @@ export const useCartStore = defineStore('cart', () => {
   async function updateItem(skuId: string, quantity: number) {
     if (isGuest.value) return guest.updateQuantity(skuId, quantity)
     try {
-      memberCart.value = await cartApi.updateItem({ skuId, quantity })
+      await cartApi.updateItem(skuId, { quantity })
+      await loadMemberCart()
       return { success: true }
     } catch (e) {
       return { success: false, message: parseError(e, '修改失败').message }
@@ -92,7 +95,8 @@ export const useCartStore = defineStore('cart', () => {
       return { success: true }
     }
     try {
-      memberCart.value = await cartApi.removeItems({ skuIds })
+      await cartApi.removeItems({ skuIds })
+      await loadMemberCart()
       return { success: true }
     } catch (e) {
       return { success: false, message: parseError(e, '删除失败').message }
@@ -105,7 +109,8 @@ export const useCartStore = defineStore('cart', () => {
       return { success: true }
     }
     try {
-      memberCart.value = await cartApi.setSelected({ skuId, selected })
+      await cartApi.setSelected(skuId, selected)
+      await loadMemberCart()
       return { success: true }
     } catch (e) {
       return { success: false, message: parseError(e, '操作失败').message }
@@ -118,7 +123,8 @@ export const useCartStore = defineStore('cart', () => {
       return { success: true }
     }
     try {
-      memberCart.value = await cartApi.selectAll({ selected })
+      await cartApi.selectAll(selected)
+      await loadMemberCart()
       return { success: true }
     } catch (e) {
       return { success: false, message: parseError(e, '操作失败').message }
@@ -183,11 +189,13 @@ export const useCartStore = defineStore('cart', () => {
   // ── 登录态监听：自动触发合并 ────────────────────────────
   watch(
     () => member.isAuthenticated,
-    (authed) => {
+    async (authed) => {
+      // 先合并再拉取，避免读到合并前的空车
       if (authed && guest.itemCount.value > 0 && !mergedThisSession) {
-        performMerge()
-        // 合并后刷新会员车
-        loadMemberCart()
+        await performMerge()
+      }
+      if (authed) {
+        await loadMemberCart()
       }
     },
   )
