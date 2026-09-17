@@ -10,6 +10,8 @@ const components: Record<string, () => Promise<Component>> = {
   ProductList: () => import('@/views/product/ProductListView.vue'),
   InventoryList: () => import('@/views/inventory/InventoryListView.vue'),
   InventoryLog: () => import('@/views/inventory/InventoryLogView.vue'),
+  OrderList: () => import('@/views/order/OrderListView.vue'),
+  CompensationList: () => import('@/views/order/CompensationListView.vue'),
 }
 
 export function resolveComponent(key: string) {

@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import StateView from '@/components/StateView.vue'
 import StockBadge from '@/components/StockBadge.vue'
 import { useCartStore } from '@/stores/cart'
+import { useCheckoutStore } from '@/stores/checkout'
 import { cartApi, type SkuItemView } from '@/api/cart'
 import { catalogApi, type StockStatus, type SkuAvailability } from '@/api/catalog'
 import { resolveErrorMessage } from '@/utils/http-error'
+
+const router = useRouter()
+const checkout = useCheckoutStore()
 
 interface DisplayItem {
   skuId: string
@@ -148,6 +153,13 @@ async function onToggleAll(selected: boolean) {
 async function onRemove(skuId: string) {
   await cart.removeItems([skuId])
   if (cart.isGuest) await loadGuestData()
+}
+
+/** 购物车结算：来源 CART，勾选行由结算页调服务端实时读取 */
+function goCheckout() {
+  if (selectedCount.value === 0) return
+  checkout.startCartCheckout()
+  void router.push('/checkout?source=CART')
 }
 
 onMounted(() => {
@@ -320,9 +332,11 @@ onMounted(() => {
       <button
         type="button"
         class="cart-summary__checkout"
-        disabled
-        title="结算功能即将开放"
+        :class="{ 'cart-summary__checkout--active': selectedCount > 0 }"
+        :disabled="selectedCount === 0"
+        :title="selectedCount === 0 ? '请先勾选要结算的商品' : ''"
         data-testid="cart-checkout-btn"
+        @click="goCheckout"
       >
         去结算
       </button>
@@ -360,4 +374,5 @@ onMounted(() => {
 .cart-summary { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: flex-end; gap: 24px; padding: 16px; background: #fff; border-top: 1px solid #e5e7eb; }
 .cart-summary__total strong { color: #dc2626; font-size: 18px; }
 .cart-summary__checkout { padding: 10px 32px; background: #fca5a5; color: #fff; border: none; border-radius: 4px; cursor: not-allowed; }
+.cart-summary__checkout--active { background: #dc2626; cursor: pointer; }
 </style>

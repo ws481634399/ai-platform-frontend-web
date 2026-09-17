@@ -58,6 +58,24 @@ const router = createRouter({
           component: () => import('@/views/cart/CartView.vue'),
           meta: { title: '购物车' },
         },
+        {
+          path: 'checkout',
+          name: 'checkout',
+          component: () => import('@/views/checkout/CheckoutView.vue'),
+          meta: { title: '确认订单', requiresMember: true },
+        },
+        {
+          path: 'orders',
+          name: 'order-list',
+          component: () => import('@/views/order/OrderListView.vue'),
+          meta: { title: '我的订单', requiresMember: true },
+        },
+        {
+          path: 'orders/:orderNo',
+          name: 'order-detail',
+          component: () => import('@/views/order/OrderDetailView.vue'),
+          meta: { title: '订单详情', requiresMember: true },
+        },
       ],
     },
     {

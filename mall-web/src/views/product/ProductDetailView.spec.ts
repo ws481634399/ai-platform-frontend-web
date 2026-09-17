@@ -13,12 +13,29 @@ const cartMocks = vi.hoisted(() => ({
   addItem: vi.fn(),
 }))
 
+const checkoutMocks = vi.hoisted(() => ({
+  startBuyNow: vi.fn(),
+}))
+
+const memberMocks = vi.hoisted(() => ({
+  isAuthenticated: true,
+  restore: vi.fn().mockResolvedValue(true),
+}))
+
 vi.mock('@/api/catalog', () => ({
   catalogApi: catalogMocks,
 }))
 
 vi.mock('@/stores/cart', () => ({
   useCartStore: () => cartMocks,
+}))
+
+vi.mock('@/stores/checkout', () => ({
+  useCheckoutStore: () => checkoutMocks,
+}))
+
+vi.mock('@/stores/member', () => ({
+  useMemberStore: () => memberMocks,
 }))
 
 import ProductDetailView from '@/views/product/ProductDetailView.vue'

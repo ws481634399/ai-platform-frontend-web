@@ -98,6 +98,15 @@
               >
                 加入购物车
               </button>
+              <button
+                type="button"
+                class="buy-now-btn"
+                :disabled="!canAddToCart"
+                data-testid="buy-now-btn"
+                @click="buyNow"
+              >
+                立即购买
+              </button>
               <span
                 v-if="addMessage"
                 class="add-cart-msg"
@@ -124,7 +133,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import DOMPurify from 'dompurify'
 import { catalogApi, type ProductDetail, type SkuIndexEntry, type StockStatus } from '@/api/catalog'
 import { resolveErrorMessage } from '@/utils/http-error'
@@ -133,8 +142,13 @@ import PriceText from '@/components/PriceText.vue'
 import SkuSelector from '@/components/SkuSelector.vue'
 import StockBadge from '@/components/StockBadge.vue'
 import { useCartStore } from '@/stores/cart'
+import { useCheckoutStore } from '@/stores/checkout'
+import { useMemberStore } from '@/stores/member'
 
 const cart = useCartStore()
+const checkout = useCheckoutStore()
+const member = useMemberStore()
+const router = useRouter()
 
 /** 类型守卫：判断错误是否带有 response.status（兼容 axios 错误与 mock 抛出的普通对象） */
 function hasResponseStatus(e: unknown): e is { response?: { status?: number } } {
@@ -232,6 +246,17 @@ async function addToCart() {
   setTimeout(() => { addMessage.value = '' }, 2000)
 }
 
+/** 立即购买：会员携带 BUY_NOW 行进入结算页；游客先登录（回跳商品详情后重新发起） */
+async function buyNow() {
+  if (!currentSku.value) return
+  if (!member.isAuthenticated && !(await member.restore())) {
+    void router.push({ path: '/login', query: { redirect: route.fullPath } })
+    return
+  }
+  checkout.startBuyNow({ skuId: currentSku.value.skuId, quantity: 1 })
+  void router.push('/checkout?source=BUY_NOW')
+}
+
 load()
 </script>
 
@@ -257,6 +282,11 @@ load()
   border-radius: 4px; font-size: 16px; cursor: pointer;
 }
 .add-cart-btn:disabled { background: #ccc; cursor: not-allowed; }
+.buy-now-btn {
+  margin-left: 12px; padding: 12px 48px; background: #dc2626; color: #fff; border: none;
+  border-radius: 4px; font-size: 16px; cursor: pointer;
+}
+.buy-now-btn:disabled { background: #ccc; cursor: not-allowed; }
 .description { margin-top: 40px; }
 .description h3 { border-bottom: 1px solid #eee; padding-bottom: 8px; }
 .not-found { text-align: center; padding: 80px 0; }

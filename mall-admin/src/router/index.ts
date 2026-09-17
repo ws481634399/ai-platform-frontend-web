@@ -75,6 +75,16 @@ const router = createRouter({
           component: () => import('@/views/SettingsPlaceholderView.vue'),
           meta: { title: '系统设置（占位）', breadcrumb: [{ title: '系统设置' }] },
         },
+        {
+          path: 'orders/detail/:orderNo',
+          name: 'OrderDetail',
+          component: () => import('@/views/order/OrderDetailView.vue'),
+          meta: {
+            title: '订单详情',
+            permission: 'order:view',
+            breadcrumb: [{ title: '订单管理' }, { title: '订单详情' }],
+          },
+        },
       ],
     },
     {

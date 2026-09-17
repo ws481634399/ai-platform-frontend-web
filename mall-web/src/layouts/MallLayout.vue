@@ -34,6 +34,13 @@ async function handleLogout() {
         </router-link>
         <template v-if="member.isAuthenticated">
           <router-link
+            to="/orders"
+            class="mall-layout__orders-link"
+            data-testid="mall-orders-link"
+          >
+            我的订单
+          </router-link>
+          <router-link
             to="/member/profile"
             class="mall-layout__profile-link"
             data-testid="mall-profile-link"
@@ -114,7 +121,8 @@ async function handleLogout() {
 }
 
 .mall-layout__profile-link,
-.mall-layout__address-link {
+.mall-layout__address-link,
+.mall-layout__orders-link {
   color: #2563eb;
   text-decoration: none;
 }
