@@ -1,0 +1,59 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制外部 Spec/Design（Reference do not duplicate），workspace-source 仅为相对引用。
+# Phase 4.4：DU 实体只存在于实现仓；本文件由 task 阶段物化生成，Agent 更新 status/result。
+
+id: DU-FE-903
+repository: "repo-2"
+parent:
+  change: "CHG-0019"
+feature-path:
+  level-1:
+    id: FEAT-004
+    name: 订单交易
+  level-2:
+    id: FEAT-004-03
+    name: 订单查询与履约
+  level-3:
+    id: FEAT-004-03-02
+    name: 后台订单履约
+  story:
+    id: STORY-004-03-02-01
+    name: 后台订单查询与发货
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0019/requirement.md
+  spec: delivery/changes/CHG-0019/requirement-spec.md
+  design: delivery/changes/CHG-0019/requirement-design.md
+  story-design: delivery/changes/CHG-0019/订单交易/订单查询与履约/后台订单履约/后台订单查询与发货/story-design.md
+  test-design: delivery/changes/CHG-0019/订单交易/订单查询与履约/后台订单履约/后台订单查询与发货/test-design.md
+scope: []
+acceptance:
+  - AC-007
+dependencies:
+  - DU-BE-905
+implementation-guidance:
+  # Dev 前置实现指导声明（正文在 task-design.md，metadata 只存声明）
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "8533025e837c7a13f30a305b60fccbd3516c7cce"
+result:
+  commit: "22ad40fbd481da3048b10411b98f90b91bbdc7b5"
+  paths:
+    - mall-admin/src/api/order/order.ts
+    - mall-admin/src/views/order/OrderListView.vue
+    - mall-admin/src/views/order/OrderDetailView.vue
+    - mall-admin/src/views/order/CompensationListView.vue
+    - mall-admin/src/views/order/order-display.ts
+    - mall-admin/src/views/order/order-display.spec.ts
+    - mall-admin/src/router/component-registry.ts
+    - mall-admin/src/router/index.ts
+    - mall-admin/src/components.d.ts
+  symbols:
+    - orderApi
+    - compensationApi
+    - statusTagType
