@@ -47,6 +47,12 @@ const router = createRouter({
           meta: { title: '商品列表' },
         },
         {
+          path: 'search',
+          name: 'search',
+          component: () => import('@/views/search/SearchView.vue'),
+          meta: { title: '商品搜索' },
+        },
+        {
           path: 'products/:id',
           name: 'product-detail',
           component: () => import('@/views/product/ProductDetailView.vue'),
