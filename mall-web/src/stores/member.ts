@@ -16,7 +16,10 @@ export const useMemberStore = defineStore('member', () => {
   const accessToken = ref<string>()
   const memberId = ref<string>()
   const profile = ref<MemberProfile>()
-  let restoreAttempted = false
+  // restore 单飞 Promise：App 启动钩子与路由守卫可能在硬导航同一时刻并发调用 restore，
+  // 必须共享同一次 refresh，避免后调用方被「已尝试」标志短路成 false，导致已登录会员
+  // 在会员页刷新/直接打开链接时被误判游客并踢回登录页。
+  let restorePromise: Promise<boolean> | null = null
 
   const isAuthenticated = computed(() => Boolean(accessToken.value))
 
@@ -46,16 +49,16 @@ export const useMemberStore = defineStore('member', () => {
   /**
    * 刷新页面后的会话恢复：access 已在内存直接放行；否则借 refresh cookie 试一次，
    * 失败保持游客态（整轮应用生命周期只尝试一次，避免每个守卫/请求重复打 refresh）。
+   * 并发调用共享同一次 refresh 的结果（单飞），消除启动钩子与路由守卫的竞态。
    */
   async function restore(): Promise<boolean> {
-    if (restoreAttempted || accessToken.value) return Boolean(accessToken.value)
-    restoreAttempted = true
-    try {
-      await refresh()
-      return true
-    } catch {
-      return false
+    if (accessToken.value) return true
+    if (!restorePromise) {
+      restorePromise = refresh()
+        .then(() => true)
+        .catch(() => false)
     }
+    return restorePromise
   }
 
   /** 拉取本人资料并写入缓存（GET /api/mall/members/me，memberId 只来自服务端视图）。 */
@@ -83,6 +86,8 @@ export const useMemberStore = defineStore('member', () => {
     accessToken.value = undefined
     memberId.value = undefined
     profile.value = undefined
+    // 会话已终结（登出/清理），下一次 restore 应允许重新发起 refresh
+    restorePromise = null
   }
 
   return {

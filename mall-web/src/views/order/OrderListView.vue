@@ -29,7 +29,15 @@
     >
       <template #empty>
         <div class="order-list__empty">
-          暂无订单
+          <p class="order-list__empty-text">
+            暂无订单
+          </p>
+          <router-link
+            to="/products"
+            class="order-list__empty-action"
+          >
+            去逛逛
+          </router-link>
         </div>
       </template>
 
@@ -40,10 +48,11 @@
         :data-testid="`order-card-${order.orderNo}`"
       >
         <div class="order-card__head">
-          <span class="order-card__no">{{ order.orderNo }}</span>
+          <span class="order-card__no tabular">{{ order.orderNo }}</span>
           <span class="order-card__time">{{ formatDateTime(order.createdAt) }}</span>
           <span
             class="order-card__status"
+            :class="`order-card__status--${order.status}`"
             :data-testid="`order-status-${order.orderNo}`"
           >{{ orderStatusLabel(order.status) }}</span>
         </div>
@@ -67,7 +76,7 @@
               {{ item.productName }}
             </div>
           </div>
-          <div class="order-card__price">
+          <div class="order-card__price tabular">
             ¥{{ fenToYuan(item.unitPriceFen) }}
           </div>
           <div class="order-card__qty">
@@ -76,42 +85,44 @@
         </div>
         <div class="order-card__foot">
           <span class="order-card__total">
-            合计 <strong>¥{{ fenToYuan(order.payAmountFen) }}</strong>
+            合计 <strong class="tabular">¥{{ fenToYuan(order.payAmountFen) }}</strong>
           </span>
-          <router-link
-            :to="`/orders/${encodeURIComponent(order.orderNo)}`"
-            class="order-card__detail"
-            data-testid="order-detail-link"
-          >
-            订单详情
-          </router-link>
-          <button
-            v-if="canPay(order.status)"
-            type="button"
-            class="order-card__btn order-card__btn--primary"
-            data-testid="order-pay-btn"
-            @click="goPay(order.orderNo)"
-          >
-            立即支付
-          </button>
-          <button
-            v-if="canCancel(order.status)"
-            type="button"
-            class="order-card__btn"
-            data-testid="order-cancel-btn"
-            @click="goDetail(order.orderNo)"
-          >
-            取消订单
-          </button>
-          <button
-            v-if="canConfirmReceipt(order.status)"
-            type="button"
-            class="order-card__btn order-card__btn--primary"
-            data-testid="order-confirm-btn"
-            @click="goDetail(order.orderNo)"
-          >
-            确认收货
-          </button>
+          <div class="order-card__actions">
+            <router-link
+              :to="`/orders/${encodeURIComponent(order.orderNo)}`"
+              class="order-card__detail"
+              data-testid="order-detail-link"
+            >
+              订单详情
+            </router-link>
+            <button
+              v-if="canPay(order.status)"
+              type="button"
+              class="action-btn action-btn--primary"
+              data-testid="order-pay-btn"
+              @click="goPay(order.orderNo)"
+            >
+              立即支付
+            </button>
+            <button
+              v-if="canCancel(order.status)"
+              type="button"
+              class="action-btn"
+              data-testid="order-cancel-btn"
+              @click="goDetail(order.orderNo)"
+            >
+              取消订单
+            </button>
+            <button
+              v-if="canConfirmReceipt(order.status)"
+              type="button"
+              class="action-btn action-btn--primary"
+              data-testid="order-confirm-btn"
+              @click="goDetail(order.orderNo)"
+            >
+              确认收货
+            </button>
+          </div>
         </div>
       </div>
 
@@ -121,14 +132,20 @@
       >
         <button
           type="button"
+          class="pager__btn"
           :disabled="page <= 1 || loading"
           @click="changePage(page - 1)"
         >
           上一页
         </button>
-        <span>{{ page }} / {{ totalPages }}</span>
+        <span class="pager__info">
+          <span class="pager__current">{{ page }}</span>
+          <span class="pager__sep">/</span>
+          <span>{{ totalPages }}</span>
+        </span>
         <button
           type="button"
+          class="pager__btn"
           :disabled="page >= totalPages || loading"
           @click="changePage(page + 1)"
         >
@@ -218,29 +235,254 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.order-list { max-width: 1000px; margin: 0 auto; }
-.order-list__title { font-size: 20px; margin-bottom: 16px; }
-.tabs { display: flex; gap: 8px; border-bottom: 1px solid #e5e7eb; margin-bottom: 16px; }
-.tabs__item { padding: 8px 18px; border: none; background: none; cursor: pointer; color: #4b5563; font-size: 14px; border-bottom: 2px solid transparent; }
-.tabs__item--active { color: #dc2626; border-bottom-color: #dc2626; font-weight: 600; }
-.order-list__empty { padding: 48px; text-align: center; color: #9ca3af; }
+.order-list {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.order-list__title {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
 
-.order-card { background: #fff; border: 1px solid #eee; border-radius: 8px; margin-bottom: 12px; }
-.order-card__head { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: #f9fafb; border-radius: 8px 8px 0 0; font-size: 13px; color: #6b7280; }
-.order-card__no { font-weight: 600; color: #374151; }
-.order-card__status { margin-left: auto; color: #dc2626; font-weight: 500; }
-.order-card__item { display: grid; grid-template-columns: 64px 1fr 100px 60px; gap: 12px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f3f4f6; }
-.order-card__img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f5f5f5; }
-.order-card__img--placeholder { border: 1px solid #eee; }
-.order-card__name { font-size: 14px; }
-.order-card__price { color: #dc2626; }
-.order-card__foot { display: flex; align-items: center; gap: 12px; justify-content: flex-end; padding: 12px 16px; }
-.order-card__total { color: #4b5563; }
-.order-card__total strong { color: #dc2626; font-size: 18px; }
-.order-card__detail { color: #2563eb; text-decoration: none; font-size: 13px; }
-.order-card__btn { padding: 6px 18px; border: 1px solid #d1d5db; background: #fff; border-radius: 4px; cursor: pointer; color: #374151; }
-.order-card__btn--primary { background: #dc2626; border-color: #dc2626; color: #fff; }
-.pager { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px 0; color: #6b7280; }
-.pager button { padding: 4px 14px; border: 1px solid #d1d5db; background: #fff; border-radius: 4px; cursor: pointer; }
-.pager button:disabled { color: #d1d5db; cursor: not-allowed; }
+/* ── Tabs ─────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-5);
+}
+.tabs__item {
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all var(--transition-fast);
+}
+.tabs__item:hover {
+  color: var(--color-text);
+}
+.tabs__item--active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-text);
+  font-weight: 600;
+}
+
+.order-list__empty {
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+.order-list__empty-text {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-base);
+}
+.order-list__empty-action {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+
+/* ── 订单卡 ───────────────────────────── */
+.order-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-3);
+  overflow: hidden;
+}
+.order-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-subtle);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+.order-card__no {
+  font-weight: 600;
+  color: var(--color-text);
+}
+.order-card__time {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+}
+.order-card__status {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+/* 状态色：克制、按语义 */
+.order-card__status--PENDING_PAYMENT {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+.order-card__status--PAID {
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+.order-card__status--SHIPPED {
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+.order-card__status--COMPLETED {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.order-card__status--CANCELLED {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.order-card__item {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 60px;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.order-card__item:last-of-type {
+  border-bottom: none;
+}
+.order-card__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+}
+.order-card__img--placeholder {
+  border: 1px solid var(--color-border);
+}
+.order-card__name {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+.order-card__price {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.order-card__qty {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+.order-card__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-subtle);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.order-card__total {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  margin-right: auto;
+}
+.order-card__total strong {
+  color: var(--color-price);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+.order-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.order-card__detail {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+.order-card__detail:hover {
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+}
+
+/* ── 按钮 ─────────────────────────────── */
+.action-btn {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+.action-btn:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.action-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+.action-btn--primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-text-on-primary);
+}
+
+/* ── Pager ────────────────────────────── */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  color: var(--color-text-tertiary);
+}
+.pager__btn {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+.pager__btn:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+.pager__btn:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+.pager__info {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pager__current {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.pager__sep {
+  color: var(--color-text-muted);
+  margin: 0 var(--space-1);
+}
 </style>

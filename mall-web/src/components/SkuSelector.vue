@@ -103,45 +103,56 @@ defineExpose({ selected, currentSku })
 .sku-selector {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-4);
 }
+
 .dim-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--space-4);
 }
+
 .dim-label {
-  min-width: 56px;
-  color: #666;
-  font-size: 14px;
-  padding-top: 6px;
+  min-width: 64px;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding-top: var(--space-2);
 }
+
 .dim-values {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
 }
+
 .dim-value {
-  padding: 6px 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
   cursor: pointer;
-  font-size: 13px;
-  transition: all 0.15s;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
 }
 .dim-value:hover:not(:disabled) {
-  border-color: #409eff;
-  color: #409eff;
+  border-color: var(--color-border-focus);
+  color: var(--color-text);
+}
+.dim-value:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 .dim-value.active {
-  border-color: #409eff;
-  background: #409eff;
-  color: #fff;
+  border-color: var(--color-text);
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  font-weight: 500;
 }
 .dim-value.disabled {
-  background: #f5f5f5;
-  color: #ccc;
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
   cursor: not-allowed;
   text-decoration: line-through;
 }

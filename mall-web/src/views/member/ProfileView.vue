@@ -138,14 +138,14 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
 
     <p
       v-if="loading"
-      class="profile-view__loading"
+      class="profile-view__state"
       data-testid="profile-loading"
     >
       资料加载中…
     </p>
     <p
       v-else-if="loadError"
-      class="profile-view__error"
+      class="profile-view__state profile-view__state--error"
       data-testid="profile-load-error"
     >
       {{ loadError }}
@@ -169,26 +169,22 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
           </span>
         </div>
         <div class="profile-view__avatar-actions">
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            class="profile-view__avatar-input"
-            data-testid="profile-avatar-input"
-            :disabled="uploading"
-            @change="pickAvatar"
-          >
+          <label class="profile-view__avatar-input-label">
+            <span>{{ uploading ? '上传中…' : '更换头像' }}</span>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              class="profile-view__avatar-input"
+              data-testid="profile-avatar-input"
+              :disabled="uploading"
+              @change="pickAvatar"
+            >
+          </label>
           <p class="profile-view__avatar-tip">
             {{ avatarLimitLabel }}
           </p>
           <p
-            v-if="uploading"
-            class="profile-view__avatar-uploading"
-            data-testid="profile-avatar-uploading"
-          >
-            上传中…
-          </p>
-          <p
-            v-else-if="avatarMessage"
+            v-if="avatarMessage"
             class="profile-view__avatar-message"
             :class="`profile-view__avatar-message--${avatarMessageType}`"
             data-testid="profile-avatar-message"
@@ -203,20 +199,22 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
         @submit.prevent="submit"
       >
         <label class="profile-view__field profile-view__field--readonly">
-          <span>用户名</span>
+          <span class="profile-view__label">用户名</span>
           <input
             :value="member.profile?.username ?? ''"
             type="text"
             disabled
+            class="profile-view__input"
           >
         </label>
 
         <label class="profile-view__field">
-          <span>昵称</span>
+          <span class="profile-view__label">昵称</span>
           <input
             v-model="form.nickname"
             type="text"
             maxlength="32"
+            class="profile-view__input"
             data-testid="profile-nickname"
           >
           <small
@@ -228,9 +226,10 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
         </label>
 
         <label class="profile-view__field">
-          <span>性别</span>
+          <span class="profile-view__label">性别</span>
           <select
             v-model="form.gender"
+            class="profile-view__input"
             data-testid="profile-gender"
           >
             <option value="UNKNOWN">保密</option>
@@ -246,11 +245,12 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
         </label>
 
         <label class="profile-view__field">
-          <span>手机号</span>
+          <span class="profile-view__label">手机号</span>
           <input
             v-model="form.phone"
             type="tel"
             maxlength="20"
+            class="profile-view__input"
             data-testid="profile-phone"
           >
           <small
@@ -262,11 +262,12 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
         </label>
 
         <label class="profile-view__field">
-          <span>邮箱</span>
+          <span class="profile-view__label">邮箱</span>
           <input
             v-model="form.email"
             type="email"
             maxlength="128"
+            class="profile-view__input"
             data-testid="profile-email"
           >
           <small
@@ -306,27 +307,31 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
 }
 
 .profile-view__title {
-  margin: 0 0 20px;
-  font-size: 20px;
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
 }
 
-.profile-view__loading,
-.profile-view__error {
-  font-size: 14px;
+.profile-view__state {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+.profile-view__state--error {
+  color: var(--color-danger);
 }
 
-.profile-view__error {
-  color: #dc2626;
-}
-
+/* ── 头像区 ─────────────────────────── */
 .profile-view__avatar-block {
   display: flex;
-  gap: 20px;
+  gap: var(--space-5);
   align-items: center;
-  padding: 16px;
-  margin-bottom: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .profile-view__avatar {
@@ -336,105 +341,144 @@ const avatarLimitLabel = `支持 jpeg/png/webp，大小不超过 ${Math.round(AV
   width: 96px;
   height: 96px;
   overflow: hidden;
-  background: #f3f4f6;
-  border-radius: 50%;
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
 }
-
 .profile-view__avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .profile-view__avatar-placeholder {
-  color: #9ca3af;
-  font-size: 12px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
 }
 
 .profile-view__avatar-actions {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 13px;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
 }
-
+.profile-view__avatar-input-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: fit-content;
+}
+.profile-view__avatar-input-label:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.profile-view__avatar-input {
+  display: none;
+}
 .profile-view__avatar-tip {
   margin: 0;
-  color: #6b7280;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
 }
-
-.profile-view__avatar-uploading {
-  margin: 0;
-  color: #2563eb;
-}
-
 .profile-view__avatar-message {
   margin: 0;
+  font-size: var(--text-sm);
 }
-
 .profile-view__avatar-message--success {
-  color: #16a34a;
+  color: var(--color-success);
 }
-
 .profile-view__avatar-message--error {
-  color: #dc2626;
+  color: var(--color-danger);
 }
 
+/* ── 表单 ───────────────────────────── */
 .profile-view__form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-4);
 }
 
 .profile-view__field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 14px;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
 }
-
-.profile-view__field input,
-.profile-view__field select {
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.profile-view__label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
-
-.profile-view__field--readonly input {
-  color: #6b7280;
-  background: #f9fafb;
+.profile-view__input {
+  padding: var(--space-3) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
-
+.profile-view__input:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}
+.profile-view__field--readonly .profile-view__input {
+  color: var(--color-text-tertiary);
+  background: var(--color-bg-muted);
+  cursor: not-allowed;
+}
 .profile-view__field-error {
-  color: #dc2626;
-  font-size: 12px;
+  color: var(--color-danger);
+  font-size: var(--text-xs);
 }
-
 .profile-view__form-message {
   margin: 0;
-  font-size: 13px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
 }
-
 .profile-view__form-message--success {
-  color: #2563eb;
+  background: var(--color-success-bg);
+  color: var(--color-success);
 }
-
 .profile-view__form-message--error {
-  color: #dc2626;
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
 }
-
 .profile-view__submit {
   align-self: flex-start;
-  padding: 8px 24px;
-  color: #fff;
-  background: #2563eb;
+  padding: var(--space-3) var(--space-6);
+  color: var(--color-text-on-primary);
+  background: var(--color-primary);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  font-size: var(--text-md);
+  font-weight: 500;
+  transition: background var(--transition-fast);
 }
-
+.profile-view__submit:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
 .profile-view__submit:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+@media (max-width: 600px) {
+  .profile-view__avatar-block {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  text-align: left;
+  }
 }
 </style>

@@ -19,10 +19,11 @@
               ← 返回订单列表
             </router-link>
             <h1 class="head__no">
-              订单号：{{ order.orderNo }}
+              订单号 <span class="tabular">{{ order.orderNo }}</span>
             </h1>
             <span
               class="head__status"
+              :class="`head__status--${order.status}`"
               data-testid="order-detail-status"
             >{{ orderStatusLabel(order.status) }}</span>
           </div>
@@ -35,7 +36,7 @@
             <button
               v-if="canPay(order.status)"
               type="button"
-              class="actions__btn actions__btn--primary"
+              class="action-btn action-btn--primary"
               :disabled="acting"
               data-testid="action-pay"
               @click="onPay"
@@ -45,7 +46,7 @@
             <button
               v-if="canCancel(order.status)"
               type="button"
-              class="actions__btn"
+              class="action-btn"
               :disabled="acting"
               data-testid="action-cancel"
               @click="onCancel"
@@ -55,18 +56,20 @@
             <button
               v-if="canConfirmReceipt(order.status)"
               type="button"
-              class="actions__btn actions__btn--primary"
+              class="action-btn action-btn--primary"
               :disabled="acting"
               data-testid="action-confirm"
               @click="onConfirmReceipt"
             >
               确认收货
             </button>
-            <span
-              v-if="actionMessage"
-              class="actions__msg"
-              data-testid="action-message"
-            >{{ actionMessage }}</span>
+            <transition name="fade">
+              <span
+                v-if="actionMessage"
+                class="actions__msg"
+                data-testid="action-message"
+              >{{ actionMessage }}</span>
+            </transition>
           </div>
 
           <!-- 收货信息 -->
@@ -74,32 +77,42 @@
             v-if="order.receiver"
             class="panel"
           >
-            <h2>收货信息</h2>
-            <p>{{ order.receiver.receiverName }} {{ order.receiver.receiverPhone }}</p>
-            <p>
-              {{ order.receiver.province }}{{ order.receiver.city }}{{ order.receiver.district }}
-              {{ order.receiver.detailAddress }}
+            <h2 class="panel__title">
+              收货信息
+            </h2>
+            <p class="panel__line">
+              <span class="panel__label">收货人</span>
+              <span>{{ order.receiver.receiverName }} {{ order.receiver.receiverPhone }}</span>
+            </p>
+            <p class="panel__line">
+              <span class="panel__label">地址</span>
+              <span>{{ order.receiver.province }}{{ order.receiver.city }}{{ order.receiver.district }}
+                {{ order.receiver.detailAddress }}</span>
               <template v-if="order.receiver.postalCode">
-                （{{ order.receiver.postalCode }}）
+                <span class="panel__postal">（{{ order.receiver.postalCode }}）</span>
               </template>
             </p>
             <p
               v-if="order.deliveryCompany || order.trackingNo"
-              class="panel__物流"
+              class="panel__line"
             >
-              物流：{{ order.deliveryCompany ?? '—' }} / 运单号：{{ order.trackingNo ?? '—' }}
+              <span class="panel__label">物流</span>
+              <span>{{ order.deliveryCompany ?? '—' }} / 运单号 {{ order.trackingNo ?? '—' }}</span>
             </p>
             <p
               v-if="order.cancelReason"
-              class="panel__cancel"
+              class="panel__line panel__line--danger"
             >
-              取消原因：{{ order.cancelReason }}
+              <span class="panel__label">取消原因</span>
+              <span>{{ order.cancelReason }}</span>
             </p>
           </section>
 
           <!-- 商品清单 -->
           <section class="panel">
-            <h2>商品清单</h2>
+            <h2 class="panel__title">
+              商品清单
+            </h2>
             <div
               v-for="item in order.items"
               :key="item.skuId"
@@ -126,32 +139,37 @@
                   {{ [item.skuCode, specText(item.specifications)].filter(Boolean).join(' / ') }}
                 </div>
               </div>
-              <div class="goods-row__price">
+              <div class="goods-row__price tabular">
                 ¥{{ fenToYuan(item.unitPriceFen) }}
               </div>
               <div class="goods-row__qty">
                 ×{{ item.quantity }}
               </div>
-              <div class="goods-row__subtotal">
+              <div class="goods-row__subtotal tabular">
                 ¥{{ fenToYuan(item.subtotalFen) }}
               </div>
             </div>
             <div class="amount">
-              <div>
-                商品总额：¥{{ fenToYuan(order.goodsAmountFen) }}
+              <div class="amount__row">
+                <span>商品总额</span>
+                <span class="tabular">¥{{ fenToYuan(order.goodsAmountFen) }}</span>
               </div>
-              <div>
-                运费：¥{{ fenToYuan(order.freightAmountFen) }}
+              <div class="amount__row">
+                <span>运费</span>
+                <span class="tabular">¥{{ fenToYuan(order.freightAmountFen) }}</span>
               </div>
-              <div class="amount__pay">
-                实付：<strong>¥{{ fenToYuan(order.payAmountFen) }}</strong>
+              <div class="amount__row amount__row--pay">
+                <span>实付</span>
+                <strong class="tabular">¥{{ fenToYuan(order.payAmountFen) }}</strong>
               </div>
             </div>
           </section>
 
           <!-- 状态轨迹 -->
           <section class="panel">
-            <h2>状态轨迹</h2>
+            <h2 class="panel__title">
+              状态轨迹
+            </h2>
             <ul
               class="timeline"
               data-testid="order-timeline"
@@ -160,9 +178,10 @@
                 v-for="(node, idx) in order.statusHistory"
                 :key="`${node.operation}-${node.occurredAt}-${idx}`"
                 class="timeline__item"
+                :class="{ 'timeline__item--current': idx === order.statusHistory.length - 1 }"
               >
                 <span class="timeline__dot" />
-                <div>
+                <div class="timeline__body">
                   <div class="timeline__title">
                     {{ orderStatusLabel(node.toStatus) }}
                     <span class="timeline__op">（{{ operationLabel(node.operation) }}）</span>
@@ -289,38 +308,271 @@ onMounted(load)
 </script>
 
 <style scoped>
-.order-detail { max-width: 1000px; margin: 0 auto; }
-.head { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-.head__back { color: #2563eb; text-decoration: none; font-size: 13px; }
-.head__no { font-size: 18px; margin: 0; }
-.head__status { color: #dc2626; font-weight: 600; margin-left: auto; }
+.order-detail {
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-.actions { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 14px 20px; margin-bottom: 16px; }
-.actions__btn { padding: 8px 28px; border: 1px solid #d1d5db; background: #fff; border-radius: 4px; cursor: pointer; color: #374151; }
-.actions__btn--primary { background: #dc2626; border-color: #dc2626; color: #fff; }
-.actions__btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.actions__msg { color: #059669; font-size: 13px; }
+/* ── 头部 ─────────────────────────────── */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+.head__back {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+.head__back:hover {
+  color: var(--color-text);
+  background: var(--color-bg-muted);
+}
+.head__no {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+}
+.head__no span {
+  font-weight: 600;
+}
+.head__status {
+  margin-left: auto;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+.head__status--PENDING_PAYMENT {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+.head__status--PAID,
+.head__status--SHIPPED {
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+.head__status--COMPLETED {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.head__status--CANCELLED {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
 
-.panel { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
-.panel h2 { font-size: 15px; margin: 0 0 10px; }
-.panel p { margin: 4px 0; color: #4b5563; font-size: 14px; }
-.panel__cancel { color: #dc2626 !important; }
+/* ── 操作区 ──────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+.actions__msg {
+  color: var(--color-success);
+  font-size: var(--text-sm);
+  margin-left: var(--space-2);
+}
 
-.goods-row { display: grid; grid-template-columns: 64px 1fr 100px 60px 110px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
-.goods-row__img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f5f5f5; }
-.goods-row__img--placeholder { border: 1px solid #eee; }
-.goods-row__name { font-weight: 500; }
-.goods-row__spec { color: #9ca3af; font-size: 12px; }
-.goods-row__price, .goods-row__subtotal { color: #dc2626; }
-.goods-row__qty { color: #6b7280; }
-.amount { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; padding-top: 12px; color: #4b5563; font-size: 14px; }
-.amount__pay strong { color: #dc2626; font-size: 20px; }
+.action-btn {
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+.action-btn:hover:not(:disabled) {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.action-btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+.action-btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-text-on-primary);
+}
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-.timeline { list-style: none; margin: 0; padding: 0; }
-.timeline__item { position: relative; display: flex; gap: 12px; padding: 0 0 16px 4px; }
-.timeline__item:not(:last-child)::before { content: ''; position: absolute; left: 5px; top: 14px; bottom: -4px; width: 2px; background: #e5e7eb; }
-.timeline__dot { width: 10px; height: 10px; border-radius: 50%; background: #2563eb; margin-top: 5px; z-index: 1; }
-.timeline__title { font-weight: 500; }
-.timeline__op { color: #9ca3af; font-weight: 400; font-size: 13px; }
-.timeline__time { color: #9ca3af; font-size: 12px; margin-top: 2px; }
+/* ── Panel ───────────────────────────── */
+.panel {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-4);
+}
+.panel__title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.panel__line {
+  margin: var(--space-1) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  display: flex;
+  gap: var(--space-2);
+}
+.panel__label {
+  color: var(--color-text-tertiary);
+  min-width: 64px;
+}
+.panel__line--danger {
+  color: var(--color-danger);
+}
+
+/* ── 商品行 ─────────────────────────── */
+.goods-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 60px 110px;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.goods-row:last-of-type {
+  border-bottom: none;
+}
+.goods-row__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+}
+.goods-row__img--placeholder {
+  border: 1px solid var(--color-border);
+}
+.goods-row__name {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.goods-row__spec {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
+}
+.goods-row__price {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.goods-row__qty {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+.goods-row__subtotal {
+  color: var(--color-price);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+/* ── 金额 ────────────────────────────── */
+.amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+.amount__row {
+  display: flex;
+  justify-content: space-between;
+  width: 240px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.amount__row--pay {
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+.amount__row--pay strong {
+  color: var(--color-price);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+/* ── 时间线 ──────────────────────────── */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.timeline__item {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  padding: 0 0 var(--space-4) var(--space-1);
+}
+.timeline__item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 14px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--color-border);
+}
+.timeline__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  margin-top: 4px;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.timeline__item--current .timeline__dot {
+  background: var(--color-text);
+}
+.timeline__title {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.timeline__op {
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+  font-size: var(--text-xs);
+}
+.timeline__time {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
+}
+
+/* ── 过渡 ────────────────────────────── */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-fast);
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

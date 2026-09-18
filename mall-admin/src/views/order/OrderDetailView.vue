@@ -1,51 +1,49 @@
 <template>
-  <div class="order-detail-page">
-    <el-page-header
-      content="订单详情"
-      @back="$router.back()"
-    />
+  <div class="admin-page order-detail-page">
+    <PageHeader inline />
 
+    <!-- 订单信息 + 物流 -->
     <el-card
       v-loading="loading"
       shadow="never"
-      style="margin-top: 12px"
+      class="order-detail-page__card"
     >
       <template v-if="order">
+        <div class="order-detail-page__heading">
+          <div class="order-detail-page__title">
+            <span class="order-detail-page__order-no tabular">{{ order.orderNo }}</span>
+            <el-tag
+              :type="statusTagType(order.status)"
+              size="default"
+            >
+              {{ statusLabel(order.status) }}
+            </el-tag>
+          </div>
+          <div class="order-detail-page__actions">
+            <el-button
+              v-if="has('order:ship') && order.status === 'PAID'"
+              type="primary"
+              data-testid="ship-open-btn"
+              @click="shipVisible = true"
+            >
+              发货
+            </el-button>
+            <el-tag
+              v-else-if="order.status === 'SHIPPED' || order.status === 'COMPLETED'"
+              type="success"
+            >
+              已发货
+            </el-tag>
+          </div>
+        </div>
+
         <el-descriptions
           :column="3"
           border
+          class="order-detail-page__descriptions"
         >
-          <el-descriptions-item label="订单号">
-            {{ order.orderNo }}
-          </el-descriptions-item>
-          <el-descriptions-item label="状态">
-            <el-tag :type="statusTagType(order.status)">
-              {{ statusLabel(order.status) }}
-            </el-tag>
-          </el-descriptions-item>
           <el-descriptions-item label="来源">
             {{ order.source === 'BUY_NOW' ? '立即购买' : '购物车' }}
-          </el-descriptions-item>
-          <el-descriptions-item label="收货人">
-            {{ order.receiver?.receiverName }} {{ order.receiver?.receiverPhone }}
-          </el-descriptions-item>
-          <el-descriptions-item
-            label="收货地址"
-            :span="2"
-          >
-            <template v-if="order.receiver">
-              {{ order.receiver.province }}{{ order.receiver.city }}{{ order.receiver.district }}
-              {{ order.receiver.detailAddress }}
-            </template>
-          </el-descriptions-item>
-          <el-descriptions-item label="物流公司">
-            {{ order.deliveryCompany || '—' }}
-          </el-descriptions-item>
-          <el-descriptions-item label="运单号">
-            {{ order.trackingNo || '—' }}
-          </el-descriptions-item>
-          <el-descriptions-item label="取消原因">
-            {{ order.cancelReason || '—' }}
           </el-descriptions-item>
           <el-descriptions-item label="下单时间">
             {{ formatDateTime(order.createdAt) }}
@@ -62,22 +60,72 @@
           <el-descriptions-item label="取消时间">
             {{ formatDateTime(order.cancelledAt) }}
           </el-descriptions-item>
-          <el-descriptions-item label="商品总额">
-            ¥{{ fenToYuan(order.goodsAmountFen) }}
+          <el-descriptions-item label="取消原因">
+            {{ order.cancelReason || '—' }}
           </el-descriptions-item>
-          <el-descriptions-item label="运费">
-            ¥{{ fenToYuan(order.freightAmountFen) }}
+          <el-descriptions-item label="物流公司">
+            {{ order.deliveryCompany || '—' }}
           </el-descriptions-item>
-          <el-descriptions-item label="实付金额">
-            <strong class="pay-amount">¥{{ fenToYuan(order.payAmountFen) }}</strong>
+          <el-descriptions-item label="运单号">
+            <span
+              v-if="order.trackingNo"
+              class="tabular"
+            >{{ order.trackingNo }}</span>
+            <span v-else>—</span>
           </el-descriptions-item>
         </el-descriptions>
+      </template>
+      <div
+        v-else-if="!loading"
+        class="order-detail-page__empty"
+      >
+        未找到订单
+      </div>
+    </el-card>
 
+    <template v-if="order">
+      <!-- 收货信息 -->
+      <el-card
+        v-if="order.receiver"
+        shadow="never"
+        class="order-detail-page__card"
+      >
+        <div class="order-detail-page__section-title">
+          收货信息
+        </div>
+        <el-descriptions
+          :column="2"
+          border
+        >
+          <el-descriptions-item label="收货人">
+            {{ order.receiver.receiverName }}
+          </el-descriptions-item>
+          <el-descriptions-item label="联系电话">
+            <span class="tabular">{{ order.receiver.receiverPhone }}</span>
+          </el-descriptions-item>
+          <el-descriptions-item
+            label="收货地址"
+            :span="2"
+          >
+            {{ order.receiver.province }}{{ order.receiver.city }}{{ order.receiver.district }}
+            {{ order.receiver.detailAddress }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+
+      <!-- 商品明细 -->
+      <el-card
+        shadow="never"
+        class="order-detail-page__card"
+        body-style="padding: 0"
+      >
+        <div class="order-detail-page__section-title order-detail-page__section-title--inset">
+          商品明细
+        </div>
         <el-table
           :data="order.items"
-          border
           stripe
-          style="margin-top: 16px"
+          class="order-detail-page__table"
         >
           <el-table-column
             label="图片"
@@ -88,14 +136,19 @@
                 v-if="(row as OrderItemView).mainImageUrl"
                 :src="(row as OrderItemView).mainImageUrl!"
                 fit="cover"
-                style="width: 48px; height: 48px"
+                class="order-detail-page__thumb"
               />
+              <span
+                v-else
+                class="order-detail-page__thumb-empty"
+              >—</span>
             </template>
           </el-table-column>
           <el-table-column
             prop="productName"
             label="商品"
             min-width="200"
+            show-overflow-tooltip
           />
           <el-table-column
             label="规格 / SKU"
@@ -110,6 +163,7 @@
             label="单价"
             width="120"
             align="right"
+            class-name="tabular"
           >
             <template #default="{ row }">
               ¥{{ fenToYuan((row as OrderItemView).unitPriceFen) }}
@@ -120,11 +174,13 @@
             label="数量"
             width="80"
             align="right"
+            class-name="tabular"
           />
           <el-table-column
             label="小计"
             width="120"
             align="right"
+            class-name="tabular"
           >
             <template #default="{ row }">
               ¥{{ fenToYuan((row as OrderItemView).subtotalFen) }}
@@ -132,37 +188,43 @@
           </el-table-column>
         </el-table>
 
-        <div class="timeline-block">
-          <h3>状态轨迹</h3>
-          <el-timeline>
-            <el-timeline-item
-              v-for="(node, idx) in order.statusHistory"
-              :key="`${node.operation}-${node.occurredAt}-${idx}`"
-              :timestamp="`${formatDateTime(node.occurredAt)}${node.reason ? ' · ' + node.reason : ''}`"
-            >
-              {{ statusLabel(node.toStatus) }}（{{ operationLabel(node.operation) }}）
-            </el-timeline-item>
-          </el-timeline>
+        <!-- 金额合计 -->
+        <div class="order-detail-page__amount">
+          <div class="order-detail-page__amount-row">
+            <span class="order-detail-page__amount-label">商品总额</span>
+            <span class="tabular">¥{{ fenToYuan(order.goodsAmountFen) }}</span>
+          </div>
+          <div class="order-detail-page__amount-row">
+            <span class="order-detail-page__amount-label">运费</span>
+            <span class="tabular">¥{{ fenToYuan(order.freightAmountFen) }}</span>
+          </div>
+          <div class="order-detail-page__amount-row order-detail-page__amount-row--accent">
+            <span class="order-detail-page__amount-label">实付金额</span>
+            <span class="tabular order-detail-page__pay-amount">¥{{ fenToYuan(order.payAmountFen) }}</span>
+          </div>
         </div>
+      </el-card>
 
-        <div class="actions">
-          <el-button
-            v-if="has('order:ship') && order.status === 'PAID'"
-            type="primary"
-            data-testid="ship-open-btn"
-            @click="shipVisible = true"
-          >
-            发货
-          </el-button>
-          <el-tag
-            v-else-if="order.status === 'SHIPPED' || order.status === 'COMPLETED'"
-            type="success"
-          >
-            已发货
-          </el-tag>
+      <!-- 状态轨迹 -->
+      <el-card
+        v-if="order.statusHistory?.length"
+        shadow="never"
+        class="order-detail-page__card"
+      >
+        <div class="order-detail-page__section-title">
+          状态轨迹
         </div>
-      </template>
-    </el-card>
+        <el-timeline class="order-detail-page__timeline">
+          <el-timeline-item
+            v-for="(node, idx) in order.statusHistory"
+            :key="`${node.operation}-${node.occurredAt}-${idx}`"
+            :timestamp="`${formatDateTime(node.occurredAt)}${node.reason ? ' · ' + node.reason : ''}`"
+          >
+            {{ statusLabel(node.toStatus) }}（{{ operationLabel(node.operation) }}）
+          </el-timeline-item>
+        </el-timeline>
+      </el-card>
+    </template>
 
     <el-dialog
       v-model="shipVisible"
@@ -221,6 +283,7 @@ import { useRoute } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { orderApi, type OrderItemView, type OrderView } from '@/api/order/order'
 import { usePermission } from '@/composables/usePermission'
+import PageHeader from '@/components/PageHeader.vue'
 import { fenToYuan, formatDateTime, operationLabel, statusLabel, statusTagType } from './order-display'
 
 const route = useRoute()
@@ -285,21 +348,123 @@ onMounted(load)
 </script>
 
 <style scoped>
-.pay-amount {
-  color: var(--el-color-danger);
+.order-detail-page__card {
+  border-radius: var(--admin-radius-lg);
+}
+
+.order-detail-page__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--admin-space-3);
+  margin-bottom: var(--admin-space-4);
+}
+
+.order-detail-page__title {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  min-width: 0;
+}
+
+.order-detail-page__order-no {
   font-size: 16px;
+  font-weight: 600;
+  color: var(--admin-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.timeline-block {
-  margin-top: 20px;
+.order-detail-page__actions {
+  flex-shrink: 0;
 }
 
-.timeline-block h3 {
-  margin: 0 0 12px;
+.order-detail-page__descriptions {
+  margin-top: 0;
+}
+
+.order-detail-page__section-title {
+  margin: 0 0 var(--admin-space-3);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.order-detail-page__section-title--inset {
+  padding: var(--admin-space-3) var(--admin-space-4) 0;
+}
+
+.order-detail-page__table {
+  width: 100%;
+}
+
+.order-detail-page__thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--admin-radius-sm);
+  border: 1px solid var(--admin-border-light);
+}
+
+.order-detail-page__thumb-empty {
+  color: var(--admin-text-placeholder);
+}
+
+.order-detail-page__amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-4);
+  border-top: 1px solid var(--admin-border-light);
+  background: var(--admin-bg-panel);
+}
+
+.order-detail-page__amount-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: var(--admin-space-4);
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+}
+
+.order-detail-page__amount-label {
+  min-width: 64px;
+  text-align: right;
+}
+
+.order-detail-page__amount-row--accent {
   font-size: 15px;
+  color: var(--admin-text);
 }
 
-.actions {
-  margin-top: 20px;
+.order-detail-page__pay-amount {
+  color: var(--admin-danger);
+  font-weight: 600;
+}
+
+.order-detail-page__timeline {
+  margin-top: var(--admin-space-2);
+  padding-left: var(--admin-space-1);
+}
+
+.order-detail-page__empty {
+  padding: var(--admin-space-6);
+  color: var(--admin-text-tertiary);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .order-detail-page__heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--admin-space-2);
+  }
+
+  .order-detail-page__actions {
+    width: 100%;
+  }
 }
 </style>

@@ -1,0 +1,125 @@
+/**
+ * mall-admin Design Tokens
+ *
+ * 后台运营管理：清晰、高效、专业、稳定、高信息密度、低认知负担。
+ * 优先在 Element Plus 基础上提升设计质量，不重写成熟基础组件。
+ *
+ * Element Plus 自带 --el-* token，本文件仅做语义层映射与补充，
+ * 不覆盖 Element Plus 主色，仅微调间距、阴影、半径与少量语义色。
+ */
+
+:root {
+  /* ── 语义层映射 Element Plus ─────────── */
+  --admin-bg: var(--el-bg-color, #ffffff);
+  --admin-bg-subtle: var(--el-bg-color-page, #f5f7fa);
+  --admin-bg-panel: var(--el-fill-color-light, #f5f7fa);
+  --admin-border: var(--el-border-color, #dcdfe6);
+  --admin-border-light: var(--el-border-color-lighter, #ebeef5);
+  --admin-text: var(--el-text-color-primary, #303133);
+  --admin-text-secondary: var(--el-text-color-regular, #606266);
+  --admin-text-tertiary: var(--el-text-color-secondary, #909399);
+  --admin-text-placeholder: var(--el-text-color-placeholder, #a8abb2);
+  --admin-primary: var(--el-color-primary, #409eff);
+  --admin-success: var(--el-color-success, #67c23a);
+  --admin-warning: var(--el-color-warning, #e6a23c);
+  --admin-danger: var(--el-color-danger, #f56c6c);
+  --admin-info: var(--el-color-info, #909399);
+
+  /* ── 补充间距/半径/阴影 ─────────────── */
+  --admin-space-1: 4px;
+  --admin-space-2: 8px;
+  --admin-space-3: 12px;
+  --admin-space-4: 16px;
+  --admin-space-5: 20px;
+  --admin-space-6: 24px;
+  --admin-space-8: 32px;
+
+  --admin-radius-sm: 4px;
+  --admin-radius-md: 6px;
+  --admin-radius-lg: 8px;
+
+  --admin-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --admin-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --admin-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  --admin-header-height: 56px;
+  --admin-sidebar-width: 220px;
+  --admin-sidebar-collapsed-width: 64px;
+  --admin-content-max-width: 1440px;
+  --admin-content-padding: 20px;
+
+  --admin-transition: 180ms cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* ── 全局基础样式 ─────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--admin-bg-subtle);
+  color: var(--admin-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 数字等宽（订单号/金额/数量） */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: var(--admin-radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-text-tertiary);
+}
+
+/* 文本选中色 */
+::selection {
+  background: var(--admin-primary);
+  color: #fff;
+}
+
+/* 通用 page container */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-3);
+}
+
+/* 通用 page toolbar（卡片内操作条） */
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--admin-space-2);
+  margin-bottom: var(--admin-space-3);
+}
+
+/* 通用 pager（卡片内分页） */
+.admin-pager {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--admin-space-4);
+}

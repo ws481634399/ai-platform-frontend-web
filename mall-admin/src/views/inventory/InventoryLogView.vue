@@ -42,6 +42,25 @@
           width="190"
         />
         <el-table-column
+          label="商品 / SKU"
+          min-width="220"
+        >
+          <template #default="{ row }">
+            <div class="sku-cell">
+              <span
+                class="sku-cell__name"
+                :title="(row as InventoryLogItem).productName ?? ''"
+              >{{ (row as InventoryLogItem).productName ?? '—' }}</span>
+              <span class="sku-cell__sub">
+                {{ (row as InventoryLogItem).skuCode ?? '—' }}
+                <template v-if="specText((row as InventoryLogItem).specifications)">
+                  · {{ specText((row as InventoryLogItem).specifications) }}
+                </template>
+              </span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="skuId"
           label="SKU ID"
           width="200"
@@ -215,6 +234,13 @@ function formatTime(iso: string): string {
   }
 }
 
+function specText(specs: Record<string, string> | null): string {
+  if (!specs) return ''
+  const entries = Object.entries(specs)
+  if (entries.length === 0) return ''
+  return entries.map(([k, v]) => `${k}:${v}`).join(' ')
+}
+
 onMounted(() => {
   void loadPage()
 })
@@ -241,5 +267,28 @@ onMounted(() => {
 .delta-negative {
   color: var(--el-color-danger);
   font-weight: 600;
+}
+
+.sku-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sku-cell__name {
+  font-weight: 500;
+  color: var(--el-text-color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sku-cell__sub {
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

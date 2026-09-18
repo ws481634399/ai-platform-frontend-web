@@ -65,9 +65,9 @@ describe('session rebuild on browser refresh and permission upgrade (STORY-001-0
         user: { id: '1', username: 'admin' },
         menus: [
           { id: 'wb', name: '工作台', path: '/workbench', componentKey: 'Workbench', sortOrder: 0, visible: true },
-          { id: 'us', name: '用户', path: '/platform-users', componentKey: 'Users', sortOrder: 1, visible: true },
+          { id: 'bl', name: '品牌', path: '/platform-brands', componentKey: 'BrandList', sortOrder: 1, visible: true },
         ],
-        permissions: ['wb:view', 'us:view'],
+        permissions: ['wb:view', 'bl:view'],
         permissionVersion: 2,
       })
       .mockResolvedValueOnce({
@@ -81,13 +81,13 @@ describe('session rebuild on browser refresh and permission upgrade (STORY-001-0
     const active = router()
 
     await bootstrapSession(active)
-    expect(active.hasRoute('menu-us')).toBe(true)
-    expect(usePermissionStore(pinia).has('us:view')).toBe(true)
+    expect(active.hasRoute('menu-bl')).toBe(true)
+    expect(usePermissionStore(pinia).has('bl:view')).toBe(true)
 
     await bootstrapSession(active)
 
-    expect(active.hasRoute('menu-us')).toBe(false)
-    expect(usePermissionStore(pinia).has('us:view')).toBe(false)
+    expect(active.hasRoute('menu-bl')).toBe(false)
+    expect(usePermissionStore(pinia).has('bl:view')).toBe(false)
     expect(usePermissionStore(pinia).menus.map((m) => m.id)).toEqual(['wb'])
     expect(usePermissionStore(pinia).permissionVersion).toBe(3)
     expect(active.hasRoute('menu-wb')).toBe(true)

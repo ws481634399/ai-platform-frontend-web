@@ -165,14 +165,14 @@ onMounted(async () => {
 
     <p
       v-if="addressStore.loading"
-      class="address-view__loading"
+      class="address-view__state"
       data-testid="address-loading"
     >
       地址加载中…
     </p>
     <p
       v-else-if="loadingError"
-      class="address-view__error"
+      class="address-view__state address-view__state--error"
       data-testid="address-load-error"
     >
       {{ loadingError }}
@@ -183,9 +183,10 @@ onMounted(async () => {
       class="address-view__empty"
       data-testid="address-empty"
     >
-      <p>还没有收货地址，新增一个吧。</p>
+      <p class="address-view__empty-text">还没有收货地址</p>
       <button
         type="button"
+        class="address-view__empty-action"
         data-testid="address-empty-new"
         @click="openCreate"
       >
@@ -213,7 +214,7 @@ onMounted(async () => {
             >
               {{ address.receiverName }}
             </span>
-            <span class="address-card__phone">{{ address.receiverPhone }}</span>
+            <span class="address-card__phone tabular">{{ address.receiverPhone }}</span>
             <span
               v-if="address.isDefault"
               class="address-card__badge"
@@ -239,7 +240,7 @@ onMounted(async () => {
           <button
             v-if="!address.isDefault"
             type="button"
-            class="address-card__default-btn"
+            class="address-card__action address-card__action--default"
             :data-testid="`address-set-default-${address.id}`"
             @click="makeDefault(address)"
           >
@@ -247,7 +248,7 @@ onMounted(async () => {
           </button>
           <button
             type="button"
-            class="address-card__edit-btn"
+            class="address-card__action"
             :data-testid="`address-edit-${address.id}`"
             @click="openEdit(address)"
           >
@@ -255,7 +256,7 @@ onMounted(async () => {
           </button>
           <button
             type="button"
-            class="address-card__delete-btn"
+            class="address-card__action address-card__action--danger"
             :data-testid="`address-delete-${address.id}`"
             @click="remove(address)"
           >
@@ -281,11 +282,12 @@ onMounted(async () => {
         </h2>
 
         <label class="address-dialog__field">
-          <span>收货人姓名</span>
+          <span class="address-dialog__label">收货人姓名</span>
           <input
             v-model="form.receiverName"
             type="text"
             maxlength="32"
+            class="address-dialog__input"
             data-testid="address-form-receiver"
           >
           <small
@@ -297,11 +299,12 @@ onMounted(async () => {
         </label>
 
         <label class="address-dialog__field">
-          <span>手机号</span>
+          <span class="address-dialog__label">手机号</span>
           <input
             v-model="form.receiverPhone"
             type="tel"
             maxlength="11"
+            class="address-dialog__input"
             data-testid="address-form-phone"
           >
           <small
@@ -314,11 +317,12 @@ onMounted(async () => {
 
         <div class="address-dialog__row">
           <label class="address-dialog__field">
-            <span>省份</span>
+            <span class="address-dialog__label">省份</span>
             <input
               v-model="form.province"
               type="text"
               maxlength="64"
+              class="address-dialog__input"
               data-testid="address-form-province"
             >
             <small
@@ -329,11 +333,12 @@ onMounted(async () => {
             }}</small>
           </label>
           <label class="address-dialog__field">
-            <span>城市</span>
+            <span class="address-dialog__label">城市</span>
             <input
               v-model="form.city"
               type="text"
               maxlength="64"
+              class="address-dialog__input"
               data-testid="address-form-city"
             >
             <small
@@ -342,11 +347,12 @@ onMounted(async () => {
             >{{ fieldErrors.city }}</small>
           </label>
           <label class="address-dialog__field">
-            <span>区县</span>
+            <span class="address-dialog__label">区县</span>
             <input
               v-model="form.district"
               type="text"
               maxlength="64"
+              class="address-dialog__input"
               data-testid="address-form-district"
             >
             <small
@@ -359,11 +365,12 @@ onMounted(async () => {
         </div>
 
         <label class="address-dialog__field">
-          <span>详细地址</span>
+          <span class="address-dialog__label">详细地址</span>
           <input
             v-model="form.detailAddress"
             type="text"
             maxlength="128"
+            class="address-dialog__input"
             data-testid="address-form-detail"
           >
           <small
@@ -375,11 +382,12 @@ onMounted(async () => {
         </label>
 
         <label class="address-dialog__field">
-          <span>邮政编码（选填）</span>
+          <span class="address-dialog__label">邮政编码（选填）</span>
           <input
             v-model="form.postalCode"
             type="text"
             maxlength="6"
+            class="address-dialog__input"
             data-testid="address-form-postal"
           >
           <small
@@ -401,7 +409,7 @@ onMounted(async () => {
         <div class="address-dialog__buttons">
           <button
             type="button"
-            class="address-dialog__cancel"
+            class="address-dialog__btn address-dialog__btn--ghost"
             data-testid="address-dialog-cancel"
             :disabled="dialogSaving"
             @click="closeDialog"
@@ -410,7 +418,7 @@ onMounted(async () => {
           </button>
           <button
             type="submit"
-            class="address-dialog__submit"
+            class="address-dialog__btn address-dialog__btn--primary"
             data-testid="address-dialog-submit"
             :disabled="dialogSaving"
           >
@@ -432,69 +440,93 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-5);
 }
 
 .address-view__title {
   margin: 0;
-  font-size: 20px;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
 }
 
-.address-view__new,
-.address-view__empty button,
-.address-card__actions button,
-.address-dialog__buttons button {
-  padding: 6px 16px;
-  border-radius: 6px;
+.address-view__new {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
   cursor: pointer;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: 1px solid var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: background var(--transition-fast);
 }
-
-.address-view__new,
-.address-dialog__submit {
-  color: #fff;
-  background: #2563eb;
-  border: 1px solid #2563eb;
+.address-view__new:hover {
+  background: var(--color-primary-hover);
 }
 
 .address-view__limit-hint {
-  color: #6b7280;
-  font-size: 13px;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
 }
 
-.address-view__loading,
-.address-view__error {
-  font-size: 14px;
+.address-view__state {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
 }
-
-.address-view__error {
-  color: #dc2626;
+.address-view__state--error {
+  color: var(--color-danger);
 }
 
 .address-view__message {
-  margin: 0 0 12px;
-  font-size: 13px;
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
 }
-
 .address-view__message--success {
-  color: #16a34a;
+  background: var(--color-success-bg);
+  color: var(--color-success);
 }
-
 .address-view__message--error {
-  color: #dc2626;
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
 }
 
 .address-view__empty {
-  padding: 40px;
+  padding: var(--space-10) var(--space-6);
   text-align: center;
-  border: 1px dashed #d1d5db;
-  border-radius: 8px;
-  color: #6b7280;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-tertiary);
+}
+.address-view__empty-text {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-base);
+}
+.address-view__empty-action {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.address-view__empty-action:hover {
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-primary);
 }
 
+/* ── 地址卡 ──────────────────────────── */
 .address-view__list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -504,127 +536,207 @@ onMounted(async () => {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg);
+  transition: border-color var(--transition-fast);
+}
+.address-card:hover {
+  border-color: var(--color-border-strong);
+}
+.address-card--default {
+  border-color: var(--color-text);
+  background: var(--color-bg-subtle);
 }
 
-.address-card--default {
-  border-color: #2563eb;
+.address-card__main {
+  flex: 1;
+  min-width: 0;
 }
 
 .address-card__head {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
 }
-
 .address-card__name {
   font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--text-md);
 }
-
+.address-card__phone {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
 .address-card__badge {
-  padding: 1px 8px;
-  color: #2563eb;
-  font-size: 12px;
-  border: 1px solid #2563eb;
-  border-radius: 999px;
+  padding: 0 var(--space-2);
+  background: var(--color-text);
+  color: var(--color-text-on-primary);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-xs);
+  font-weight: 500;
 }
 
 .address-card__region,
 .address-card__detail,
 .address-card__postal {
-  margin: 4px 0 0;
-  font-size: 14px;
-  color: #374151;
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 
 .address-card__actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-1);
   flex-shrink: 0;
 }
 
-.address-card__actions button {
-  font-size: 13px;
-  background: #fff;
-  border: 1px solid #d1d5db;
+.address-card__action {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.address-card__action:hover {
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+}
+.address-card__action--default:hover {
+  color: var(--color-accent);
+}
+.address-card__action--danger:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
 }
 
-.address-card__default-btn {
-  color: #2563eb;
-}
-
-.address-card__delete-btn {
-  color: #dc2626;
-}
-
+/* ── 弹层 ────────────────────────────── */
 .address-dialog__mask {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(0 0 0 / 45%);
+  background: var(--color-bg-overlay);
+  z-index: 100;
+  padding: var(--space-4);
 }
 
 .address-dialog {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-4);
   width: 480px;
-  max-width: calc(100vw - 32px);
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
+  max-width: 100%;
+  max-height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--color-bg);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .address-dialog__title {
   margin: 0;
-  font-size: 17px;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
 }
 
 .address-dialog__field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 14px;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
 }
-
+.address-dialog__label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
 .address-dialog__row {
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
 }
-
 .address-dialog__row .address-dialog__field {
   flex: 1;
 }
-
-.address-dialog__field input {
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.address-dialog__input {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
-
+.address-dialog__input:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}
 .address-dialog__error {
-  color: #dc2626;
-  font-size: 12px;
+  color: var(--color-danger);
+  font-size: var(--text-xs);
 }
-
 .address-dialog__message {
   margin: 0;
-  color: #dc2626;
-  font-size: 13px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-md);
 }
-
 .address-dialog__buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--space-2);
+}
+.address-dialog__btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+.address-dialog__btn--ghost {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+}
+.address-dialog__btn--ghost:hover:not(:disabled) {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+.address-dialog__btn--primary {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+.address-dialog__btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+.address-dialog__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.address-dialog__cancel {
-  background: #fff;
-  border: 1px solid #d1d5db;
+@media (max-width: 600px) {
+  .address-dialog__row {
+    flex-direction: column;
+  }
+  .address-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 </style>

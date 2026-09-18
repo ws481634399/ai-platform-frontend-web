@@ -22,12 +22,13 @@ function formatFen(fen: number | null): string {
 </script>
 
 <template>
-  <span class="price-text">{{ formatFen(props.value) }}</span>
+  <span class="price-text tabular">{{ formatFen(props.value) }}</span>
 </template>
 
 <style scoped>
 .price-text {
-  color: #dc2626;
+  color: var(--color-price);
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 </style>

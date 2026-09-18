@@ -1,12 +1,17 @@
 import http from '../http'
 import type { ApiResponse } from '@/types'
 
-/** 库存视图（对齐后端 InventoryView；雪花 skuId 后端以字符串出参，CHG-0015） */
+/** 库存视图（对齐后端 InventoryView；雪花 skuId 后端以字符串出参，CHG-0015）
+ *  商品信息由后端经商品服务批量富化，服务间调用失败时为 null。 */
 export interface InventoryItem {
   skuId: string
   totalQuantity: number
   lockedQuantity: number
   availableQuantity: number
+  productName: string | null
+  skuCode: string | null
+  specifications: Record<string, string> | null
+  mainImageUrl: string | null
 }
 
 /** 库存流水视图（对齐后端 LogView；ID/操作人均为字符串） */
@@ -21,6 +26,9 @@ export interface InventoryLogItem {
   operator: string | null
   traceId: string | null
   occurredAt: string
+  productName: string | null
+  skuCode: string | null
+  specifications: Record<string, string> | null
 }
 
 /** 统一分页视图 */

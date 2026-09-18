@@ -201,7 +201,13 @@ onMounted(() => {
     >
       <template #empty>
         <div class="cart-view__empty">
-          购物车还是空的，去逛逛吧~
+          <p class="cart-view__empty-text">购物车还是空的</p>
+          <router-link
+            to="/products"
+            class="cart-view__empty-action"
+          >
+            去逛逛吧
+          </router-link>
         </div>
       </template>
 
@@ -214,7 +220,7 @@ onMounted(() => {
               :checked="allSelected"
               @change="onToggleAll(($event.target as HTMLInputElement).checked)"
             >
-            全选
+            <span>全选</span>
           </label>
           <span class="cart-row__info">商品信息</span>
           <span class="cart-row__price">单价</span>
@@ -274,7 +280,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div class="cart-row__price">
+          <div class="cart-row__price tabular">
             ¥{{ fenToYuan(item.priceFen ?? 0) }}
           </div>
           <div class="cart-row__qty">
@@ -282,6 +288,7 @@ onMounted(() => {
               <button
                 type="button"
                 :disabled="item.invalid"
+                aria-label="减少数量"
                 @click="onStepperChange(item.skuId, item.quantity - 1)"
               >
                 −
@@ -292,11 +299,13 @@ onMounted(() => {
                 :disabled="item.invalid"
                 min="1"
                 max="999"
+                aria-label="购买数量"
                 @change="onStepperChange(item.skuId, Number(($event.target as HTMLInputElement).value))"
               >
               <button
                 type="button"
                 :disabled="item.invalid"
+                aria-label="增加数量"
                 @click="onStepperChange(item.skuId, item.quantity + 1)"
               >
                 +
@@ -306,7 +315,7 @@ onMounted(() => {
           <div class="cart-row__stock">
             <StockBadge :status="item.stockStatus" />
           </div>
-          <div class="cart-row__subtotal">
+          <div class="cart-row__subtotal tabular">
             ¥{{ fenToYuan((item.priceFen ?? 0) * item.quantity) }}
           </div>
           <div class="cart-row__action">
@@ -327,12 +336,13 @@ onMounted(() => {
       v-if="!isEmpty"
       class="cart-summary"
     >
-      <span>已选 <strong>{{ selectedCount }}</strong> 件</span>
-      <span class="cart-summary__total">合计：<strong>¥{{ fenToYuan(selectedTotalFen) }}</strong></span>
+      <span class="cart-summary__count">已选 <strong>{{ selectedCount }}</strong> 件</span>
+      <span class="cart-summary__total">
+        合计 <strong class="tabular">¥{{ fenToYuan(selectedTotalFen) }}</strong>
+      </span>
       <button
         type="button"
         class="cart-summary__checkout"
-        :class="{ 'cart-summary__checkout--active': selectedCount > 0 }"
         :disabled="selectedCount === 0"
         :title="selectedCount === 0 ? '请先勾选要结算的商品' : ''"
         data-testid="cart-checkout-btn"
@@ -345,34 +355,300 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.cart-view { max-width: 1000px; margin: 0 auto; }
-.cart-view__title { font-size: 20px; margin-bottom: 16px; }
-.cart-view__merge-msg { padding: 8px 16px; background: #fff7ed; color: #c2410c; border-radius: 6px; margin-bottom: 12px; }
-.cart-view__guest-banner { padding: 8px 16px; background: #eff6ff; color: #1d4ed8; border-radius: 6px; margin-bottom: 12px; }
-.cart-view__empty { padding: 48px; text-align: center; color: #9ca3af; }
+.cart-view {
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-.cart-row { display: grid; grid-template-columns: 50px 1fr 100px 140px 90px 100px 80px; align-items: center; gap: 12px; padding: 12px; border-bottom: 1px solid #f0f0f0; }
-.cart-row--head { font-weight: 600; color: #6b7280; font-size: 13px; }
-.cart-row--invalid { opacity: 0.55; }
-.cart-row__check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-.cart-row__info { display: flex; gap: 12px; align-items: flex-start; }
-.cart-row__img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f5f5f5; }
-.cart-row__img--placeholder { border: 1px solid #eee; }
-.cart-row__name { font-weight: 500; }
-.cart-row__sku { color: #6b7280; font-size: 13px; }
-.cart-row__specs { color: #9ca3af; font-size: 12px; }
-.cart-row__invalid-tag { color: #dc2626; font-size: 12px; margin-top: 4px; }
-.cart-row__price { color: #dc2626; }
-.cart-row__subtotal { color: #dc2626; font-weight: 500; }
-.cart-row__delete { border: none; background: none; color: #9ca3af; cursor: pointer; }
-.cart-row__delete:hover { color: #dc2626; }
+.cart-view__title {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
 
-.stepper { display: flex; align-items: center; }
-.stepper button { width: 28px; height: 28px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer; }
-.stepper input { width: 44px; height: 28px; text-align: center; border: 1px solid #e5e7eb; border-left: none; border-right: none; }
+.cart-view__merge-msg {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-3);
+  border-left: 3px solid var(--color-warning);
+}
 
-.cart-summary { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: flex-end; gap: 24px; padding: 16px; background: #fff; border-top: 1px solid #e5e7eb; }
-.cart-summary__total strong { color: #dc2626; font-size: 18px; }
-.cart-summary__checkout { padding: 10px 32px; background: #fca5a5; color: #fff; border: none; border-radius: 4px; cursor: not-allowed; }
-.cart-summary__checkout--active { background: #dc2626; cursor: pointer; }
+.cart-view__guest-banner {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-3);
+}
+
+.cart-view__empty {
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+.cart-view__empty-text {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-base);
+}
+.cart-view__empty-action {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+
+/* ── 表格行 ───────────────────────────── */
+.cart-row {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr) 100px 140px 90px 100px 70px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.cart-row--head {
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom-color: var(--color-border-strong);
+  padding: var(--space-2) 0;
+}
+.cart-row--invalid {
+  opacity: 0.55;
+}
+
+.cart-row__check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+.cart-row__check input {
+  margin: 0;
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.cart-row__info {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  min-width: 0;
+}
+.cart-row__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+  flex-shrink: 0;
+}
+.cart-row__img--placeholder {
+  border: 1px solid var(--color-border);
+}
+.cart-row__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.cart-row__name {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.cart-row__sku {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+}
+.cart-row__specs {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+.cart-row__invalid-tag {
+  color: var(--color-danger);
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
+.cart-row__price {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.cart-row__subtotal {
+  color: var(--color-price);
+  font-weight: 600;
+  font-size: var(--text-md);
+}
+.cart-row__delete {
+  border: none;
+  background: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+.cart-row__delete:hover {
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+/* ── Stepper ─────────────────────────── */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.stepper button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: var(--color-bg);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--text-md);
+  transition: background var(--transition-fast);
+}
+.stepper button:hover:not(:disabled) {
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+}
+.stepper button:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+.stepper input {
+  width: 44px;
+  height: 30px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── 结算栏 ─────────────────────────── */
+.cart-summary {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-4);
+  box-shadow: var(--shadow-md);
+}
+.cart-summary__count {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.cart-summary__count strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.cart-summary__total {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.cart-summary__total strong {
+  color: var(--color-price);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.cart-summary__checkout {
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  min-width: 120px;
+}
+.cart-summary__checkout:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+.cart-summary__checkout:active:not(:disabled) {
+  background: var(--color-primary-active);
+}
+.cart-summary__checkout:disabled {
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* ── 响应式：表格简化为卡片 ──────────── */
+@media (max-width: 768px) {
+  .cart-row {
+    grid-template-columns: 32px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-3);
+  }
+  .cart-row--head {
+    display: none;
+  }
+  .cart-row__check {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .cart-row__info {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .cart-row__price,
+  .cart-row__qty,
+  .cart-row__stock,
+  .cart-row__subtotal,
+  .cart-row__action {
+    grid-column: 2;
+    grid-row: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .cart-row__qty {
+    grid-row: 3;
+  }
+  .cart-summary {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+  }
+}
 </style>

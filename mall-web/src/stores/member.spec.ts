@@ -23,7 +23,7 @@ const tokenPair = {
 describe('会员登录态 Store（STORY-003-01-01-02/TC-009）', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // 每例独立 pinia：restoreAttempted 是 store 闭包标志，需随 store 一起重建
+    // 每例独立 pinia：restorePromise 是 store 闭包状态，需随 store 一起重建
     setActivePinia(createPinia())
   })
 
@@ -51,6 +51,32 @@ describe('会员登录态 Store（STORY-003-01-01-02/TC-009）', () => {
     await expect(member.restore()).resolves.toBe(true)
     expect(memberAuthApi.refresh).toHaveBeenCalledTimes(1)
     expect(member.isAuthenticated).toBe(true)
+  })
+
+  it('restore 并发调用共享同一次 refresh（启动钩子与路由守卫竞态不误踢登录）', async () => {
+    const member = useMemberStore()
+    // 模拟 refresh 在飞行中：App onMounted 与路由守卫几乎同时调用 restore
+    vi.mocked(memberAuthApi.refresh).mockImplementation(
+      () => new Promise((resolve) => setTimeout(() => resolve(tokenPair), 10)),
+    )
+
+    const [first, second] = await Promise.all([member.restore(), member.restore()])
+    expect(first).toBe(true)
+    expect(second).toBe(true)
+    expect(memberAuthApi.refresh).toHaveBeenCalledTimes(1)
+    expect(member.isAuthenticated).toBe(true)
+  })
+
+  it('clear 后允许重新 restore（登出清理不锁死后续会话恢复）', async () => {
+    const member = useMemberStore()
+    vi.mocked(memberAuthApi.refresh)
+      .mockRejectedValueOnce(new Error('refresh expired'))
+      .mockResolvedValueOnce(tokenPair)
+
+    await expect(member.restore()).resolves.toBe(false)
+    member.clear()
+    await expect(member.restore()).resolves.toBe(true)
+    expect(memberAuthApi.refresh).toHaveBeenCalledTimes(2)
   })
 
   it('restore：refresh 失败保持游客态；logout 无论接口成败都清态', async () => {

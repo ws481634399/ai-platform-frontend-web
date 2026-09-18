@@ -1,11 +1,10 @@
 <template>
-  <div class="order-page">
-    <el-card
-      class="filter-card"
-      shadow="never"
-    >
+  <div class="admin-page order-page">
+    <!-- 查询区：扁平 toolbar，不嵌套卡片 -->
+    <div class="order-page__toolbar">
       <el-form
         :inline="true"
+        class="order-page__filter"
         @submit.prevent
       >
         <el-form-item label="订单号">
@@ -13,7 +12,7 @@
             v-model="filters.orderNo"
             placeholder="按订单号查询"
             clearable
-            style="width: 220px"
+            style="width: 200px"
             @keyup.enter="handleSearch"
             @clear="handleSearch"
           />
@@ -23,7 +22,7 @@
             v-model="filters.memberId"
             placeholder="雪花 ID"
             clearable
-            style="width: 200px"
+            style="width: 180px"
             @keyup.enter="handleSearch"
             @clear="handleSearch"
           />
@@ -33,7 +32,7 @@
             v-model="filters.status"
             placeholder="全部状态"
             clearable
-            style="width: 150px"
+            style="width: 130px"
             @change="handleSearch"
           >
             <el-option
@@ -52,6 +51,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             value-format="YYYY-MM-DD"
+            style="width: 260px"
             @change="handleSearch"
           />
         </el-form-item>
@@ -67,23 +67,30 @@
           </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
-    <el-card shadow="never">
+    <!-- 列表 -->
+    <el-card
+      shadow="never"
+      class="order-page__card"
+      body-style="padding: 0"
+    >
       <el-table
         v-loading="loading"
         :data="records"
-        border
         stripe
+        class="order-page__table"
       >
         <el-table-column
           prop="orderNo"
           label="订单号"
-          width="230"
+          width="220"
+          class-name="tabular"
         />
         <el-table-column
           label="商品"
           min-width="220"
+          show-overflow-tooltip
         >
           <template #default="{ row }">
             <span
@@ -107,6 +114,7 @@
           label="应付金额"
           width="120"
           align="right"
+          class-name="tabular"
         >
           <template #default="{ row }">
             ¥{{ fenToYuan((row as OrderSummaryView).payAmountFen) }}
@@ -114,19 +122,23 @@
         </el-table-column>
         <el-table-column
           label="状态"
-          width="110"
+          width="100"
           align="center"
         >
           <template #default="{ row }">
-            <el-tag :type="statusTagType((row as OrderSummaryView).status)">
+            <el-tag
+              :type="statusTagType((row as OrderSummaryView).status)"
+              size="small"
+            >
               {{ statusLabel((row as OrderSummaryView).status) }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
           label="下单时间"
-          width="170"
+          width="160"
           align="center"
+          class-name="tabular"
         >
           <template #default="{ row }">
             {{ formatDateTime((row as OrderSummaryView).createdAt) }}
@@ -134,7 +146,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100"
+          width="80"
           align="center"
           fixed="right"
         >
@@ -149,9 +161,12 @@
             </el-button>
           </template>
         </el-table-column>
+        <template #empty>
+          <div class="order-page__empty">暂无订单数据</div>
+        </template>
       </el-table>
 
-      <div class="pager">
+      <div class="admin-pager">
         <el-pagination
           v-model:current-page="page"
           v-model:page-size="size"
@@ -248,15 +263,32 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.order-page {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.order-page__toolbar {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-3) var(--admin-space-4);
 }
 
-.pager {
+.order-page__filter {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+}
+
+.order-page__card {
+  overflow: hidden;
+}
+
+.order-page__table {
+  width: 100%;
+}
+
+.order-page__empty {
+  padding: var(--admin-space-6);
+  color: var(--admin-text-tertiary);
+  font-size: 13px;
+  text-align: center;
 }
 </style>

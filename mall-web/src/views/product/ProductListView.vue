@@ -12,7 +12,15 @@ const router = useRouter()
 const VALID_SORTS = ['default', 'newest', 'price_asc', 'price_desc'] as const
 type SortKey = (typeof VALID_SORTS)[number]
 
+const SORT_LABELS: Record<SortKey, string> = {
+  default: '综合',
+  newest: '新品',
+  price_asc: '价格升序',
+  price_desc: '价格降序',
+}
+
 const loading = ref(true)
+const filterOpen = ref(false)
 const error = ref('')
 const products = ref<ProductListItem[]>([])
 const total = ref(0)
@@ -122,7 +130,21 @@ watch(
 
 <template>
   <div class="product-list">
-    <div class="product-list__sidebar">
+    <!-- 移动端筛选抽屉触发器 -->
+    <button
+      type="button"
+      class="product-list__filter-toggle"
+      data-testid="filter-toggle"
+      @click="filterOpen = !filterOpen"
+    >
+      筛选
+    </button>
+
+    <aside
+      class="product-list__sidebar"
+      :class="{ 'product-list__sidebar--open': filterOpen }"
+      aria-label="商品筛选"
+    >
       <div class="product-list__filter-group">
         <h3 class="product-list__filter-title">
           分类
@@ -152,7 +174,10 @@ watch(
         </template>
       </div>
 
-      <div class="product-list__filter-group">
+      <div
+        v-if="brands.length"
+        class="product-list__filter-group"
+      >
         <h3 class="product-list__filter-title">
           品牌
         </h3>
@@ -168,10 +193,10 @@ watch(
             :data-testid="`brand-${b.id}`"
             @change="toggleBrand(b.id)"
           >
-          {{ b.name }}
+          <span class="product-list__brand-name">{{ b.name }}</span>
         </label>
       </div>
-    </div>
+    </aside>
 
     <div class="product-list__main">
       <div class="product-list__sortbar">
@@ -184,7 +209,7 @@ watch(
           :data-testid="`sort-${s}`"
           @click="setSort(s)"
         >
-          {{ s === 'default' ? '默认' : s === 'newest' ? '新品' : s === 'price_asc' ? '价格升' : '价格降' }}
+          {{ SORT_LABELS[s] }}
         </button>
       </div>
 
@@ -199,9 +224,12 @@ watch(
             class="product-list__empty"
             data-testid="list-empty"
           >
-            <p>没有符合条件的商品</p>
+            <p class="product-list__empty-text">
+              没有符合条件的商品
+            </p>
             <button
               type="button"
+              class="product-list__empty-action"
               data-testid="clear-filters"
               @click="router.replace({ query: {} })"
             >
@@ -226,14 +254,20 @@ watch(
         >
           <button
             type="button"
+            class="product-list__pager-btn"
             :disabled="(currentQuery.page || 1) <= 1"
             @click="goPage((currentQuery.page || 1) - 1)"
           >
             上一页
           </button>
-          <span>{{ currentQuery.page || 1 }} / {{ totalPages }}</span>
+          <span class="product-list__pager-info">
+            <span class="product-list__pager-current">{{ currentQuery.page || 1 }}</span>
+            <span class="product-list__pager-sep">/</span>
+            <span>{{ totalPages }}</span>
+          </span>
           <button
             type="button"
+            class="product-list__pager-btn"
             :disabled="(currentQuery.page || 1) >= totalPages"
             @click="goPage((currentQuery.page || 1) + 1)"
           >
@@ -248,55 +282,85 @@ watch(
 <style scoped>
 .product-list {
   display: flex;
-  gap: 16px;
-  max-width: 1200px;
+  gap: var(--space-6);
+  max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
+/* ── Sidebar ──────────────────────────── */
 .product-list__sidebar {
   width: 200px;
   flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-6));
+  align-self: flex-start;
+  max-height: calc(100vh - var(--header-height) - var(--space-6));
+  overflow-y: auto;
+  padding-right: var(--space-3);
 }
 
 .product-list__filter-group {
-  margin-bottom: 16px;
+  margin-bottom: var(--space-6);
+}
+.product-list__filter-group:last-child {
+  margin-bottom: 0;
 }
 
 .product-list__filter-title {
-  margin: 0 0 8px;
-  font-size: 14px;
-  color: #374151;
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .product-list__filter-item {
   display: block;
   width: 100%;
-  padding: 6px 8px;
+  padding: var(--space-2) var(--space-3);
   border: none;
   background: transparent;
   text-align: left;
   cursor: pointer;
-  font-size: 13px;
-  color: #4b5563;
-  border-radius: 4px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
-
+.product-list__filter-item:hover {
+  background: var(--color-bg-muted);
+  color: var(--color-text);
+}
 .product-list__filter-item.active {
-  background: #eef2ff;
-  color: #4f46e5;
-  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  font-weight: 500;
 }
 
 .product-list__brand {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  font-size: 13px;
-  color: #4b5563;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
   cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+.product-list__brand:hover {
+  background: var(--color-bg-muted);
+}
+.product-list__brand input {
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+.product-list__brand-name {
+  flex: 1;
 }
 
+/* ── Main ─────────────────────────────── */
 .product-list__main {
   flex: 1;
   min-width: 0;
@@ -304,46 +368,149 @@ watch(
 
 .product-list__sortbar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
 }
 
 .product-list__sort-btn {
-  padding: 6px 12px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  border-radius: 4px;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
-
+.product-list__sort-btn:hover {
+  color: var(--color-text);
+  background: var(--color-bg-muted);
+}
 .product-list__sort-btn.active {
-  border-color: #4f46e5;
-  color: #4f46e5;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
 }
 
 .product-list__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
 }
 
 .product-list__empty {
   text-align: center;
-  padding: 32px;
-  color: #6b7280;
+  padding: var(--space-12) var(--space-4);
+  color: var(--color-text-tertiary);
+}
+.product-list__empty-text {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-base);
+}
+.product-list__empty-action {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.product-list__empty-action:hover {
+  border-color: var(--color-border-focus);
+  color: var(--color-text);
 }
 
+/* ── Pager ───────────────────────────── */
 .product-list__pager {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 16px;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-4) 0;
+}
+.product-list__pager-btn {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+}
+.product-list__pager-btn:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+.product-list__pager-btn:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+.product-list__pager-info {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.product-list__pager-current {
+  color: var(--color-text);
+  font-weight: 600;
+}
+.product-list__pager-sep {
+  color: var(--color-text-muted);
+  margin: 0 var(--space-1);
 }
 
-.product-list__pager button {
-  padding: 6px 12px;
-  cursor: pointer;
+/* 移动端筛选触发器（默认隐藏） */
+.product-list__filter-toggle {
+  display: none;
+}
+
+/* ── 响应式：移动端折叠 sidebar ──────── */
+@media (max-width: 768px) {
+  .product-list {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .product-list__filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+  .product-list__sidebar {
+    position: static;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow);
+    padding-right: 0;
+  }
+  .product-list__sidebar--open {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: var(--space-4) 0;
+  }
+  .product-list__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .product-list__sortbar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 </style>

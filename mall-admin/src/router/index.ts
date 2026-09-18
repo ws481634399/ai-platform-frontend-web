@@ -35,16 +35,9 @@ const router = createRouter({
           meta: { title: '工作台', breadcrumb: [{ title: '工作台' }] },
         },
         {
-          path: 'users',
-          name: 'users',
-          component: () => import('@/views/UsersPlaceholderView.vue'),
-          meta: { title: '用户管理（占位）', breadcrumb: [{ title: '用户管理' }] },
-        },
-        {
           path: 'products',
           name: 'products',
-          component: () => import('@/views/ProductsPlaceholderView.vue'),
-          meta: { title: '商品管理（占位）', breadcrumb: [{ title: '商品管理' }] },
+          redirect: { name: 'ProductList' },
         },
         {
           path: 'products/list',
@@ -68,12 +61,6 @@ const router = createRouter({
               { title: '商品编辑' },
             ],
           },
-        },
-        {
-          path: 'settings',
-          name: 'settings',
-          component: () => import('@/views/SettingsPlaceholderView.vue'),
-          meta: { title: '系统设置（占位）', breadcrumb: [{ title: '系统设置' }] },
         },
         {
           path: 'orders/detail/:orderNo',

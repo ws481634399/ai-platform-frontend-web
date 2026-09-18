@@ -1,11 +1,10 @@
 <template>
-  <div class="compensation-page">
-    <el-card
-      class="filter-card"
-      shadow="never"
-    >
+  <div class="admin-page compensation-page">
+    <!-- 查询区：扁平 toolbar -->
+    <div class="compensation-page__toolbar">
       <el-form
         :inline="true"
+        class="compensation-page__filter"
         @submit.prevent
       >
         <el-form-item label="任务状态">
@@ -13,7 +12,7 @@
             v-model="status"
             placeholder="全部状态"
             clearable
-            style="width: 200px"
+            style="width: 180px"
             @change="handleSearch"
           >
             <el-option
@@ -42,28 +41,32 @@
           </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
-    <el-card shadow="never">
+    <el-card
+      shadow="never"
+      body-style="padding: 0"
+    >
       <el-table
         v-loading="loading"
         :data="records"
-        border
         stripe
       >
         <el-table-column
           prop="id"
           label="任务 ID"
           width="200"
+          class-name="tabular"
         />
         <el-table-column
           prop="businessId"
           label="业务单号"
-          width="230"
+          width="220"
+          class-name="tabular"
         />
         <el-table-column
           label="操作类型"
-          width="140"
+          width="130"
           align="center"
         >
           <template #default="{ row }">
@@ -72,8 +75,9 @@
         </el-table-column>
         <el-table-column
           label="重试进度"
-          width="110"
+          width="100"
           align="center"
+          class-name="tabular"
         >
           <template #default="{ row }">
             {{ (row as CompensationView).retryCount }}/{{ (row as CompensationView).maxRetries }}
@@ -81,11 +85,14 @@
         </el-table-column>
         <el-table-column
           label="状态"
-          width="150"
+          width="140"
           align="center"
         >
           <template #default="{ row }">
-            <el-tag :type="compTagType((row as CompensationView).status)">
+            <el-tag
+              :type="compTagType((row as CompensationView).status)"
+              size="small"
+            >
               {{ compensationStatusLabel((row as CompensationView).status) }}
             </el-tag>
           </template>
@@ -98,8 +105,9 @@
         />
         <el-table-column
           label="下次重试"
-          width="170"
+          width="160"
           align="center"
+          class-name="tabular"
         >
           <template #default="{ row }">
             {{ formatDateTime((row as CompensationView).nextRetryAt) }}
@@ -107,8 +115,9 @@
         </el-table-column>
         <el-table-column
           label="更新时间"
-          width="170"
+          width="160"
           align="center"
+          class-name="tabular"
         >
           <template #default="{ row }">
             {{ formatDateTime((row as CompensationView).updatedAt) }}
@@ -133,9 +142,12 @@
             </el-button>
           </template>
         </el-table-column>
+        <template #empty>
+          <div class="compensation-page__empty">暂无补偿任务</div>
+        </template>
       </el-table>
 
-      <div class="pager">
+      <div class="admin-pager">
         <el-pagination
           v-model:current-page="page"
           v-model:page-size="size"
@@ -227,15 +239,24 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.compensation-page {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.compensation-page__toolbar {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-3) var(--admin-space-4);
 }
 
-.pager {
+.compensation-page__filter {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+}
+
+.compensation-page__empty {
+  padding: var(--admin-space-6);
+  color: var(--admin-text-tertiary);
+  font-size: 13px;
+  text-align: center;
 }
 </style>

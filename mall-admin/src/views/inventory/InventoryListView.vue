@@ -51,6 +51,45 @@
         stripe
       >
         <el-table-column
+          label="商品"
+          min-width="240"
+        >
+          <template #default="{ row }">
+            <div class="sku-cell">
+              <el-image
+                v-if="(row as InventoryItem).mainImageUrl"
+                :src="(row as InventoryItem).mainImageUrl ?? ''"
+                fit="cover"
+                class="sku-cell__thumb"
+                :preview-src-list="[(row as InventoryItem).mainImageUrl ?? '']"
+                preview-teleported
+              >
+                <template #error>
+                  <div class="sku-cell__thumb sku-cell__thumb--fallback">
+                    <el-icon><PictureFilled /></el-icon>
+                  </div>
+                </template>
+              </el-image>
+              <div class="sku-cell__text">
+                <span
+                  class="sku-cell__name"
+                  :title="(row as InventoryItem).productName ?? ''"
+                >{{ (row as InventoryItem).productName ?? '—' }}</span>
+                <span class="sku-cell__spec">{{ specText((row as InventoryItem).specifications) }}</span>
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="skuCode"
+          label="SKU 编码"
+          width="170"
+        >
+          <template #default="{ row }">
+            {{ (row as InventoryItem).skuCode ?? '—' }}
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="skuId"
           label="SKU ID"
           width="200"
@@ -58,29 +97,29 @@
         <el-table-column
           prop="totalQuantity"
           label="总库存"
-          width="120"
+          width="100"
           align="right"
         />
         <el-table-column
           prop="lockedQuantity"
           label="锁定库存"
-          width="120"
+          width="100"
           align="right"
         />
         <el-table-column
           label="可用库存"
-          width="120"
+          width="110"
           align="right"
         >
           <template #default="{ row }">
-            <el-tag :type="(row as InventoryItem).availableQuantity > 0 ? 'success' : 'danger'">
+            <el-tag :type="lowStockType(row as InventoryItem)">
               {{ (row as InventoryItem).availableQuantity }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
           label="操作"
-          width="120"
+          width="90"
           align="center"
           fixed="right"
         >
@@ -232,13 +271,29 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
+import { PictureFilled, Plus } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { inventoryApi } from '@/api/inventory/inventory'
 import type { InventoryItem } from '@/api/inventory/inventory'
 import { usePermission } from '@/composables/usePermission'
 
 const { has } = usePermission()
+
+/** 低库存预警阈值：可用 ≤ 10 转警示色，0 为危险色 */
+const LOW_STOCK_THRESHOLD = 10
+
+function lowStockType(row: InventoryItem): 'success' | 'warning' | 'danger' {
+  if (row.availableQuantity <= 0) return 'danger'
+  if (row.availableQuantity <= LOW_STOCK_THRESHOLD) return 'warning'
+  return 'success'
+}
+
+function specText(specs: Record<string, string> | null): string {
+  if (!specs) return ' '
+  const entries = Object.entries(specs)
+  if (entries.length === 0) return ' '
+  return entries.map(([k, v]) => `${k}: ${v}`).join(' / ')
+}
 
 const loading = ref(false)
 const records = ref<InventoryItem[]>([])
@@ -392,6 +447,52 @@ onMounted(() => {
 
 .toolbar {
   margin-bottom: 12px;
+}
+
+.sku-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sku-cell__thumb {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid var(--el-border-color-lighter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--el-text-color-placeholder);
+  font-size: 18px;
+}
+
+.sku-cell__thumb--fallback {
+  background: var(--el-fill-color-light);
+}
+
+.sku-cell__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sku-cell__name {
+  font-weight: 500;
+  color: var(--el-text-color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sku-cell__spec {
+  font-size: 12px;
+  color: var(--el-text-color-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pager {

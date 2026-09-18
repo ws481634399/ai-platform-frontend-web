@@ -1,0 +1,205 @@
+/**
+ * mall-web Design Tokens
+ *
+ * 统一的 color / spacing / radius / shadow / typography / transition 体系。
+ * 所有页面组件优先引用 var(--*)，避免硬编码颜色与尺寸。
+ *
+ * 设计方向：现代、克制、高级、商品导向、内容优先。
+ * 避免紫蓝渐变、玻璃拟态、模板化 Hero、Card 堆砌。
+ */
+
+:root {
+  /* ── Color: 表面 ──────────────────────────── */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #fafafa;
+  --color-bg-muted: #f4f4f5;
+  --color-bg-overlay: rgba(15, 23, 42, 0.45);
+
+  /* ── Color: 边框 ──────────────────────────── */
+  --color-border: #e5e7eb;
+  --color-border-strong: #d4d4d8;
+  --color-border-focus: #1f2937;
+
+  /* ── Color: 文字 ──────────────────────────── */
+  --color-text: #111827;
+  --color-text-secondary: #374151;
+  --color-text-tertiary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-text-on-primary: #ffffff;
+
+  /* ── Color: 品牌与语义 ────────────────────── */
+  /* 主操作色：克制深色（不使用紫蓝渐变） */
+  --color-primary: #111827;
+  --color-primary-hover: #1f2937;
+  --color-primary-active: #0f172a;
+
+  /* 强调色：链接/次级强调 */
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-bg: #eff6ff;
+
+  /* 价格：商品价格统一红色 */
+  --color-price: #dc2626;
+  --color-price-strong: #b91c1c;
+
+  /* 状态色 */
+  --color-success: #16a34a;
+  --color-success-bg: #ecfdf5;
+  --color-warning: #c2410c;
+  --color-warning-bg: #fff7ed;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fef2f2;
+  --color-info: #4b5563;
+  --color-info-bg: #f4f4f5;
+
+  /* ── Spacing ─────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ── Radius ──────────────────────────────── */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-pill: 9999px;
+
+  /* ── Shadow（克制，避免装饰性） ─────────── */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(17, 24, 39, 0.12);
+
+  /* ── Typography ───────────────────────────── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 22px;
+  --text-3xl: 28px;
+  --text-4xl: 36px;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+
+  /* ── Transition ──────────────────────────── */
+  --transition-fast: 120ms cubic-bezier(0.2, 0, 0.2, 1);
+  --transition: 180ms cubic-bezier(0.2, 0, 0.2, 1);
+  --transition-slow: 240ms cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* ── Layout ──────────────────────────────── */
+  --header-height: 56px;
+  --content-max-width: 1200px;
+  --content-padding: var(--space-4);
+}
+
+/* ── 全局基础样式 ─────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background: var(--color-bg-subtle);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 数字字符等宽（价格/数量/订单号） */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* 通用聚焦样式：键盘可见 */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* 自定义滚动条（仅 webkit 内核） */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* 文本选中色 */
+::selection {
+  background: rgba(17, 24, 39, 0.12);
+  color: var(--color-text);
+}
+
+/* 链接默认 */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* 按钮通用 reset */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* 输入框通用 reset */
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}

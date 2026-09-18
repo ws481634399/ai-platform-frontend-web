@@ -1,8 +1,12 @@
 <template>
-  <div class="product-page">
-    <!-- 查询区 -->
-    <el-card class="filter-card" shadow="never">
-      <el-form :inline="true" @submit.prevent>
+  <div class="admin-page product-page">
+    <!-- 查询区：扁平 toolbar，不嵌套卡片 -->
+    <div class="product-page__toolbar">
+      <el-form
+        :inline="true"
+        class="product-page__filter"
+        @submit.prevent
+      >
         <el-form-item label="商品名称">
           <el-input
             v-model="filters.keyword"
@@ -49,23 +53,47 @@
             placeholder="全部状态"
             clearable
             style="width: 140px"
+            @change="handleSearch"
           >
-            <el-option label="草稿" value="DRAFT" />
-            <el-option label="已上架" value="ON_SALE" />
-            <el-option label="已下架" value="OFF_SALE" />
-            <el-option label="已禁用" value="DISABLED" />
+            <el-option
+              label="草稿"
+              value="DRAFT"
+            />
+            <el-option
+              label="已上架"
+              value="ON_SALE"
+            />
+            <el-option
+              label="已下架"
+              value="OFF_SALE"
+            />
+            <el-option
+              label="已禁用"
+              value="DISABLED"
+            />
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
+          <el-button
+            type="primary"
+            @click="handleSearch"
+          >
+            查询
+          </el-button>
+          <el-button @click="handleReset">
+            重置
+          </el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
     <!-- 列表 -->
-    <el-card shadow="never">
-      <div class="toolbar">
+    <el-card
+      shadow="never"
+      class="product-page__card"
+      body-style="padding: 0"
+    >
+      <div class="admin-toolbar product-page__toolbar-inner">
         <el-button
           v-if="has('product:product:create')"
           type="primary"
@@ -76,9 +104,24 @@
         </el-button>
       </div>
 
-      <el-table v-loading="loading" :data="records" border stripe>
-        <el-table-column prop="id" label="ID" width="190" />
-        <el-table-column label="主图" width="80" align="center">
+      <el-table
+        v-loading="loading"
+        :data="records"
+        stripe
+        class="product-page__table"
+      >
+        <el-table-column
+          prop="id"
+          label="ID"
+          width="190"
+          class-name="tabular"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="主图"
+          width="80"
+          align="center"
+        >
           <template #default="{ row }">
             <el-image
               v-if="(row as ProductItem).mainImageUrl"
@@ -89,20 +132,49 @@
               preview-teleported
             >
               <template #error>
-                <el-icon class="thumb-fallback"><PictureFilled /></el-icon>
+                <el-icon class="thumb-fallback">
+                  <PictureFilled />
+                </el-icon>
               </template>
             </el-image>
-            <span v-else class="thumb-empty">—</span>
+            <span
+              v-else
+              class="thumb-empty"
+            >—</span>
           </template>
         </el-table-column>
-        <el-table-column prop="code" label="商品编码" width="140" />
-        <el-table-column prop="name" label="商品名称" min-width="160" show-overflow-tooltip />
-        <el-table-column label="状态" width="100" align="center">
+        <el-table-column
+          prop="code"
+          label="商品编码"
+          width="140"
+          class-name="tabular"
+        />
+        <el-table-column
+          prop="name"
+          label="商品名称"
+          min-width="160"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="状态"
+          width="100"
+          align="center"
+        >
           <template #default="{ row }">
-            <el-tag :type="statusTagType((row as ProductItem).status)">{{ statusLabel((row as ProductItem).status) }}</el-tag>
+            <el-tag
+              :type="statusTagType((row as ProductItem).status)"
+              size="small"
+            >
+              {{ statusLabel((row as ProductItem).status) }}
+            </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="240" align="center" fixed="right">
+        <el-table-column
+          label="操作"
+          width="240"
+          align="center"
+          fixed="right"
+        >
           <template #default="{ row }">
             <el-button
               v-if="has('product:product:update')"
@@ -138,9 +210,14 @@
             </el-button>
           </template>
         </el-table-column>
+        <template #empty>
+          <div class="product-page__empty">
+            暂无商品数据
+          </div>
+        </template>
       </el-table>
 
-      <div class="pager">
+      <div class="admin-pager">
         <el-pagination
           v-model:current-page="page"
           v-model:page-size="size"
@@ -342,30 +419,54 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.product-page {
+.product-page__toolbar {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border-light);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-3) var(--admin-space-4);
+}
+
+.product-page__filter {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
 }
-.toolbar {
-  margin-bottom: 12px;
+
+.product-page__card {
+  overflow: hidden;
 }
-.pager {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
+
+.product-page__toolbar-inner {
+  padding: var(--admin-space-3) var(--admin-space-4);
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--admin-border-light);
 }
+
+.product-page__table {
+  width: 100%;
+}
+
+.product-page__empty {
+  padding: var(--admin-space-6);
+  color: var(--admin-text-tertiary);
+  font-size: 13px;
+  text-align: center;
+}
+
 .thumb {
   width: 48px;
   height: 48px;
-  border-radius: 4px;
-  border: 1px solid var(--el-border-color-lighter);
+  border-radius: var(--admin-radius-sm);
+  border: 1px solid var(--admin-border-light);
 }
+
 .thumb-fallback {
   font-size: 20px;
-  color: var(--el-text-color-placeholder);
+  color: var(--admin-text-placeholder);
 }
+
 .thumb-empty {
-  color: var(--el-text-color-placeholder);
+  color: var(--admin-text-placeholder);
 }
 </style>

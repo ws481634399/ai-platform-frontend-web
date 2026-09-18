@@ -16,7 +16,7 @@
         data-testid="checkout-addresses"
       >
         <div class="panel__head">
-          <h2>收货地址</h2>
+          <h2 class="panel__title">收货地址</h2>
           <router-link
             to="/member/addresses"
             class="panel__link"
@@ -42,14 +42,19 @@
               data-testid="checkout-address-radio"
               @change="loadPreview"
             >
-            <span class="address-item__name">{{ addr.receiverName }} {{ addr.receiverPhone }}</span>
-            <span class="address-item__detail">
-              {{ addr.province }}{{ addr.city }}{{ addr.district }}{{ addr.detailAddress }}
-            </span>
-            <span
-              v-if="addr.isDefault"
-              class="address-item__default"
-            >默认</span>
+            <div class="address-item__main">
+              <div class="address-item__head">
+                <span class="address-item__name">{{ addr.receiverName }}</span>
+                <span class="address-item__phone">{{ addr.receiverPhone }}</span>
+                <span
+                  v-if="addr.isDefault"
+                  class="address-item__default"
+                >默认</span>
+              </div>
+              <div class="address-item__detail">
+                {{ addr.province }}{{ addr.city }}{{ addr.district }}{{ addr.detailAddress }}
+              </div>
+            </div>
           </label>
         </div>
         <div
@@ -67,7 +72,7 @@
       <!-- 商品清单 -->
       <section class="panel">
         <div class="panel__head">
-          <h2>商品清单</h2>
+          <h2 class="panel__title">商品清单</h2>
           <span class="panel__tip">价格、库存以下单时服务端实时复核为准</span>
         </div>
         <div
@@ -109,13 +114,13 @@
                 {{ issueLabel(code) }}
               </div>
             </div>
-            <div class="goods-row__price">
+            <div class="goods-row__price tabular">
               ¥{{ fenToYuan(item.unitPriceFen) }}
             </div>
             <div class="goods-row__qty">
               ×{{ item.quantity }}
             </div>
-            <div class="goods-row__subtotal">
+            <div class="goods-row__subtotal tabular">
               ¥{{ fenToYuan(item.subtotalFen) }}
             </div>
           </div>
@@ -135,14 +140,19 @@
         class="panel summary"
         data-testid="checkout-summary"
       >
-        <div class="summary__row">
-          <span>商品总额</span><span>¥{{ fenToYuan(preview.goodsAmountFen) }}</span>
-        </div>
-        <div class="summary__row">
-          <span>运费</span><span>¥{{ fenToYuan(preview.freightAmountFen) }}</span>
-        </div>
-        <div class="summary__row summary__row--pay">
-          <span>应付金额</span><strong>¥{{ fenToYuan(preview.payAmountFen) }}</strong>
+        <div class="summary__rows">
+          <div class="summary__row">
+            <span>商品总额</span>
+            <span class="tabular">¥{{ fenToYuan(preview.goodsAmountFen) }}</span>
+          </div>
+          <div class="summary__row">
+            <span>运费</span>
+            <span class="tabular">¥{{ fenToYuan(preview.freightAmountFen) }}</span>
+          </div>
+          <div class="summary__row summary__row--pay">
+            <span>应付金额</span>
+            <strong class="tabular">¥{{ fenToYuan(preview.payAmountFen) }}</strong>
+          </div>
         </div>
         <button
           type="button"
@@ -265,39 +275,252 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.checkout { max-width: 1000px; margin: 0 auto; }
-.checkout__title { font-size: 20px; margin-bottom: 16px; }
-.panel { background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
-.panel__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.panel__head h2 { font-size: 16px; margin: 0; }
-.panel__link { color: #2563eb; font-size: 13px; text-decoration: none; }
-.panel__tip { color: #9ca3af; font-size: 12px; }
+.checkout {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.checkout__title {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
 
-.address-list { display: flex; flex-direction: column; gap: 8px; }
-.address-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer; }
-.address-item--active { border-color: #2563eb; background: #eff6ff; }
-.address-item__name { font-weight: 500; }
-.address-item__detail { color: #4b5563; font-size: 13px; }
-.address-item__default { background: #dbeafe; color: #1d4ed8; font-size: 11px; padding: 1px 6px; border-radius: 4px; }
-.address-empty { color: #6b7280; font-size: 14px; padding: 8px 0; }
-.address-empty a { color: #2563eb; }
+/* ── Panel ─────────────────────────── */
+.panel {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-4);
+}
+.panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  gap: var(--space-2);
+}
+.panel__title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.panel__link {
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+}
+.panel__tip {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+}
 
-.goods-row { display: grid; grid-template-columns: 64px 1fr 100px 70px 110px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
-.goods-row--invalid { opacity: 0.7; }
-.goods-row__img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; background: #f5f5f5; }
-.goods-row__img--placeholder { border: 1px solid #eee; }
-.goods-row__name { font-weight: 500; }
-.goods-row__spec { color: #9ca3af; font-size: 12px; }
-.goods-row__issue { color: #dc2626; font-size: 12px; }
-.goods-row__price, .goods-row__subtotal { color: #dc2626; }
-.goods-row__qty { color: #6b7280; }
-.goods-empty { color: #9ca3af; padding: 16px 0; }
+/* ── 地址 ──────────────────────────── */
+.address-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+.address-item {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.address-item:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-subtle);
+}
+.address-item--active {
+  border-color: var(--color-text);
+  background: var(--color-bg-subtle);
+}
+.address-item input {
+  margin: 0;
+  margin-top: var(--space-1);
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+}
+.address-item__main {
+  flex: 1;
+  min-width: 0;
+}
+.address-item__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+.address-item__name {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.address-item__phone {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.address-item__default {
+  padding: 0 var(--space-2);
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-xs);
+  font-weight: 500;
+}
+.address-item__detail {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+.address-empty {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  padding: var(--space-2) 0;
+}
 
-.summary { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.summary__row { display: flex; justify-content: space-between; width: 280px; color: #4b5563; font-size: 14px; }
-.summary__row--pay { font-size: 16px; color: #111827; }
-.summary__row--pay strong { color: #dc2626; font-size: 22px; }
-.summary__submit { margin-top: 8px; padding: 10px 48px; background: #dc2626; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
-.summary__submit:disabled { background: #d1d5db; cursor: not-allowed; }
-.summary__blocked { color: #dc2626; font-size: 13px; margin: 6px 0 0; }
+/* ── 商品清单 ──────────────────────── */
+.goods-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 70px 110px;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.goods-row:last-child {
+  border-bottom: none;
+}
+.goods-row--invalid {
+  opacity: 0.7;
+}
+.goods-row__img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+}
+.goods-row__img--placeholder {
+  border: 1px solid var(--color-border);
+}
+.goods-row__name {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+}
+.goods-row__spec {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
+}
+.goods-row__issue {
+  color: var(--color-danger);
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
+}
+.goods-row__price {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.goods-row__subtotal {
+  color: var(--color-price);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+.goods-row__qty {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+}
+.goods-empty {
+  color: var(--color-text-tertiary);
+  padding: var(--space-4) 0;
+  font-size: var(--text-sm);
+}
+
+/* ── 金额栏 ────────────────────────── */
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-4);
+  background: var(--color-bg-subtle);
+}
+.summary__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 320px;
+}
+.summary__row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+.summary__row--pay {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-md);
+  color: var(--color-text);
+}
+.summary__row--pay strong {
+  color: var(--color-price);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+.summary__submit {
+  width: 100%;
+  max-width: 320px;
+  padding: var(--space-3) var(--space-8);
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.summary__submit:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+.summary__submit:active:not(:disabled) {
+  background: var(--color-primary-active);
+}
+.summary__submit:disabled {
+  background: var(--color-bg-muted);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+.summary__blocked {
+  color: var(--color-danger);
+  font-size: var(--text-xs);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .goods-row {
+    grid-template-columns: 64px 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .goods-row__img {
+    width: 64px;
+    height: 64px;
+    grid-row: 1 / 3;
+  }
+  .goods-row__price,
+  .goods-row__qty,
+  .goods-row__subtotal {
+    grid-column: 2;
+    font-size: var(--text-xs);
+  }
+}
 </style>

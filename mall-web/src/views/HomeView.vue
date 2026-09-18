@@ -48,11 +48,12 @@ onMounted(loadHome)
       @retry="loadHome"
     >
       <template v-if="data">
-        <!-- 分类入口 -->
+        <!-- 分类入口：横向 chip 列表 -->
         <nav
           v-if="data.categoryEntries.length"
           class="home__categories"
           data-testid="home-categories"
+          aria-label="商品分类"
         >
           <button
             v-for="c in data.categoryEntries"
@@ -74,9 +75,17 @@ onMounted(loadHome)
           v-if="data.newArrivals.length"
           class="home__section"
         >
-          <h2 class="home__section-title">
-            新品上架
-          </h2>
+          <header class="home__section-header">
+            <h2 class="home__section-title">
+              新品上架
+            </h2>
+            <router-link
+              to="/products?sort=newest"
+              class="home__section-more"
+            >
+              查看全部
+            </router-link>
+          </header>
           <div class="home__grid">
             <ProductCard
               v-for="p in data.newArrivals"
@@ -91,9 +100,17 @@ onMounted(loadHome)
           v-if="data.recommends.length"
           class="home__section"
         >
-          <h2 class="home__section-title">
-            为你推荐
-          </h2>
+          <header class="home__section-header">
+            <h2 class="home__section-title">
+              为你推荐
+            </h2>
+            <router-link
+              to="/products"
+              class="home__section-more"
+            >
+              查看全部
+            </router-link>
+          </header>
           <div class="home__grid">
             <ProductCard
               v-for="p in data.recommends"
@@ -109,45 +126,84 @@ onMounted(loadHome)
 
 <style scoped>
 .home {
-  max-width: 960px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
+/* ── 分类 chip 列表 ─────────────────────── */
 .home__categories {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
 }
 
 .home__category {
-  padding: 8px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  background: #fff;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
   cursor: pointer;
-  font-size: 14px;
-  color: #374151;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
-
 .home__category:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: var(--color-text);
+  color: var(--color-text);
+  background: var(--color-bg-subtle);
+}
+.home__category:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
+/* ── 板块 ──────────────────────────────── */
 .home__section {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-12);
+}
+.home__section:last-child {
+  margin-bottom: 0;
 }
 
+.home__section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
 .home__section-title {
-  margin: 0 0 12px;
-  font-size: 18px;
-  color: #111827;
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
+.home__section-more {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+}
+.home__section-more:hover {
+  color: var(--color-accent);
 }
 
+/* ── 商品网格 ──────────────────────────── */
 .home__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ── 响应式 ────────────────────────────── */
+@media (max-width: 640px) {
+  .home__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .home__section-title {
+    font-size: var(--text-lg);
+  }
 }
 </style>
