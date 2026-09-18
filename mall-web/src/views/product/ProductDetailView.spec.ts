@@ -22,6 +22,10 @@ const memberMocks = vi.hoisted(() => ({
   restore: vi.fn().mockResolvedValue(true),
 }))
 
+const featuresMocks = vi.hoisted(() => ({
+  hasFeature: vi.fn().mockReturnValue(true),
+}))
+
 vi.mock('@/api/catalog', () => ({
   catalogApi: catalogMocks,
 }))
@@ -36,6 +40,10 @@ vi.mock('@/stores/checkout', () => ({
 
 vi.mock('@/stores/member', () => ({
   useMemberStore: () => memberMocks,
+}))
+
+vi.mock('@/stores/features', () => ({
+  useFeaturesStore: () => featuresMocks,
 }))
 
 import ProductDetailView from '@/views/product/ProductDetailView.vue'
@@ -104,6 +112,8 @@ async function mountView() {
 describe('ProductDetailView 商品详情页', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    memberMocks.isAuthenticated = true
+    vi.mocked(featuresMocks.hasFeature).mockReturnValue(true)
     catalogMocks.getSkuAvailability.mockResolvedValue([
       { skuId: '1', stockStatus: 'IN_STOCK' },
       { skuId: '2', stockStatus: 'OUT_OF_STOCK' },
@@ -114,8 +124,8 @@ describe('ProductDetailView 商品详情页', () => {
   it('加载成功渲染名称/品牌/面包屑并查询可售状态', async () => {
     catalogMocks.getProductDetail.mockResolvedValue(fullDetail())
     const wrapper = await mountView()
-    expect(wrapper.find('.name').text()).toContain('iPhone')
-    expect(wrapper.find('.brand').text()).toContain('Apple')
+    expect(wrapper.find('.info__name').text()).toContain('iPhone')
+    expect(wrapper.find('.info__brand').text()).toContain('Apple')
     expect(wrapper.find('.breadcrumb').text()).toContain('数码')
     expect(catalogMocks.getSkuAvailability).toHaveBeenCalledWith(['1', '2'])
   })
@@ -132,12 +142,36 @@ describe('ProductDetailView 商品详情页', () => {
     catalogMocks.getProductDetail.mockRejectedValue({ response: { status: 404 } })
     const wrapper = await mountView()
     expect(wrapper.find('.not-found').exists()).toBe(true)
-    expect(wrapper.find('.add-cart-btn').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="add-cart-btn"]').exists()).toBe(false)
   })
 
   it('未选齐 SKU 时加购按钮禁用', async () => {
     catalogMocks.getProductDetail.mockResolvedValue(fullDetail())
     const wrapper = await mountView()
-    expect(wrapper.find('.add-cart-btn').attributes('disabled')).toBeDefined()
+    expect(wrapper.find('[data-testid="add-cart-btn"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('FE-504 游客且游客车开关关闭：加购按钮禁用并展示登录引导，不触发加购', async () => {
+    catalogMocks.getProductDetail.mockResolvedValue(fullDetail())
+    memberMocks.isAuthenticated = false
+    vi.mocked(featuresMocks.hasFeature).mockReturnValue(false)
+    const wrapper = await mountView()
+
+    const addBtn = wrapper.find('[data-testid="add-cart-btn"]')
+    expect(addBtn.attributes('disabled')).toBeDefined()
+    const hint = wrapper.find('[data-testid="guest-cart-blocked-hint"]')
+    expect(hint.exists()).toBe(true)
+    expect(hint.text()).toContain('游客购物车暂未开放')
+    expect(hint.text()).toContain('请登录后加购')
+    expect(cartMocks.addItem).not.toHaveBeenCalled()
+  })
+
+  it('FE-504 开关缺省（fail-open）游客仍可见加购入口且无拦截提示', async () => {
+    catalogMocks.getProductDetail.mockResolvedValue(fullDetail())
+    memberMocks.isAuthenticated = false
+    vi.mocked(featuresMocks.hasFeature).mockReturnValue(true)
+    const wrapper = await mountView()
+    // 未选 SKU 时按钮仍禁用，但不应出现游客车关闭提示
+    expect(wrapper.find('[data-testid="guest-cart-blocked-hint"]').exists()).toBe(false)
   })
 })

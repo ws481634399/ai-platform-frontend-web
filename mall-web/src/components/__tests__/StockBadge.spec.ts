@@ -15,7 +15,7 @@ describe('StockBadge', () => {
   it('UNKNOWN 显示重试按钮', async () => {
     const w = mount(StockBadge, { props: { status: 'UNKNOWN' } })
     expect(w.text()).toContain('状态获取失败')
-    const btn = w.find('.retry-btn')
+    const btn = w.find('.stock-badge__retry')
     expect(btn.exists()).toBe(true)
     await btn.trigger('click')
     expect(w.emitted('retry')).toBeTruthy()
