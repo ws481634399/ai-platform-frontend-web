@@ -22,7 +22,7 @@ describe('商城商品搜索 API（CHG-0020 FE-501）', () => {
       envelope({
         items: [
           {
-            productId: 1001,
+            productId: '1001',
             productName: '机械键盘',
             mainImage: 'a.jpg',
             minPrice: 19900,
@@ -41,7 +41,7 @@ describe('商城商品搜索 API（CHG-0020 FE-501）', () => {
     expect(httpMocks.get).toHaveBeenCalledWith('/api/mall/search/products', {
       params: { keyword: '键盘', sort: 'price_asc', page: '1', size: '20' },
     })
-    expect(result.items[0].productId).toBe(1001)
+    expect(result.items[0].productId).toBe('1001')
     expect(result.items[0].brandName).toBe('HHKB')
     expect(result.total).toBe(1)
   })
@@ -55,8 +55,8 @@ describe('商城商品搜索 API（CHG-0020 FE-501）', () => {
     expect(
       serializeSearchQuery({
         keyword: '手机',
-        categoryId: 11,
-        brandId: 22,
+        categoryId: '11',
+        brandId: '22',
         minPriceFen: 500000,
         maxPriceFen: 1000000,
         sort: 'newest',

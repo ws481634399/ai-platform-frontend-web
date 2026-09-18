@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { ProductSearchSort } from '@/api/search'
+import { catalogApi, type BrandView, type CategoryNode } from '@/api/catalog'
 import { useSearchStore } from '@/stores/search'
 import { useFeaturesStore } from '@/stores/features'
 import StateView from '@/components/StateView.vue'
@@ -36,6 +37,46 @@ const DEFAULT_SIZE = 20
 
 const searchEnabled = computed(() => features.hasFeature('search.enabled', true))
 
+/**
+ * 分类/品牌筛选项（CHG-0020 AC-015）：挂载时复用公开分类树/品牌分页接口加载。
+ * 分类树拍平为带层级缩进的选项；加载失败静默（筛选项不渲染，关键词/价区仍可用）。
+ */
+interface FilterOption {
+  value: string
+  label: string
+}
+const categoryOptions = ref<FilterOption[]>([])
+const brandOptions = ref<FilterOption[]>([])
+
+function flattenCategories(nodes: CategoryNode[], depth: number, acc: FilterOption[]): void {
+  for (const node of nodes) {
+    acc.push({ value: node.id, label: `${'　'.repeat(depth)}${node.name}` })
+    if (node.children?.length) flattenCategories(node.children, depth + 1, acc)
+  }
+}
+
+onMounted(async () => {
+  try {
+    const [tree, brandPage] = await Promise.all([
+      catalogApi.getCategoriesTree(),
+      catalogApi.getBrands(1, 200),
+    ])
+    const flat: FilterOption[] = []
+    flattenCategories(tree, 0, flat)
+    categoryOptions.value = flat
+    brandOptions.value = brandPage.items.map((b: BrandView) => ({ value: b.id, label: b.name }))
+  } catch {
+    // 筛选元数据加载失败不阻塞搜索：静默降级为无下拉筛选
+    categoryOptions.value = []
+    brandOptions.value = []
+  }
+})
+
+/** 切换分类/品牌筛选：变更后回到第 1 页；选"全部"清除该条件 */
+function setFilter(key: 'categoryId' | 'brandId', value: string) {
+  router.replace({ name: 'search', query: buildRouterQuery({ [key]: value, page: '' }) })
+}
+
 // 搜索框 / 价格区间为本地输入态，提交时才写入 URL，并随 URL 变化回填
 const keywordInput = ref('')
 const minYuan = ref('')
@@ -53,14 +94,24 @@ function parsePositiveInt(value: unknown, fallback: number): number {
   return n != null && n > 0 ? n : fallback
 }
 
+/**
+ * 业务 ID（雪花 long）从 URL query 解析：仅接受纯数字串原样保留（保精度）；
+ * 空值/非法值（如手改 URL 垃圾字符）回退 undefined，由后端参数校验兜底。
+ */
+function parseId(value: unknown): string | undefined {
+  if (value == null) return undefined
+  const s = String(value).trim()
+  return /^\d+$/.test(s) ? s : undefined
+}
+
 /** 从 route.query 解析搜索参数（非法值回退默认，与 ProductListView 同范式） */
 function parseRouteQuery() {
   const q = route.query
   const sortRaw = q.sort ? String(q.sort) : ''
   return {
     keyword: q.keyword ? String(q.keyword).trim() : '',
-    categoryId: parseOptionalInt(q.categoryId),
-    brandId: parseOptionalInt(q.brandId),
+    categoryId: parseId(q.categoryId),
+    brandId: parseId(q.brandId),
     minPriceFen: parseOptionalInt(q.minPriceFen),
     maxPriceFen: parseOptionalInt(q.maxPriceFen),
     sort: (VALID_SORTS.includes(sortRaw as ProductSearchSort) ? sortRaw : '') as ProductSearchSort,
@@ -192,7 +243,7 @@ watch(
   { immediate: true },
 )
 
-function onCardClick(productId: number) {
+function onCardClick(productId: string) {
   void router.push(`/products/${productId}`)
 }
 </script>
@@ -277,6 +328,52 @@ function onCardClick(productId: number) {
       </div>
 
       <template v-else>
+        <!-- 分类/品牌筛选（AC-015）：变更写入 URL 并回到第 1 页 -->
+        <div
+          v-if="categoryOptions.length || brandOptions.length"
+          class="search-view__filters"
+          data-testid="search-filters"
+        >
+          <select
+            v-if="categoryOptions.length"
+            class="search-view__filter-select"
+            aria-label="按分类筛选"
+            data-testid="search-filter-category"
+            :value="currentQuery.categoryId ?? ''"
+            @change="setFilter('categoryId', ($event.target as HTMLSelectElement).value)"
+          >
+            <option value="">
+              全部分类
+            </option>
+            <option
+              v-for="opt in categoryOptions"
+              :key="opt.value"
+              :value="opt.value"
+            >
+              {{ opt.label }}
+            </option>
+          </select>
+          <select
+            v-if="brandOptions.length"
+            class="search-view__filter-select"
+            aria-label="按品牌筛选"
+            data-testid="search-filter-brand"
+            :value="currentQuery.brandId ?? ''"
+            @change="setFilter('brandId', ($event.target as HTMLSelectElement).value)"
+          >
+            <option value="">
+              全部品牌
+            </option>
+            <option
+              v-for="opt in brandOptions"
+              :key="opt.value"
+              :value="opt.value"
+            >
+              {{ opt.label }}
+            </option>
+          </select>
+        </div>
+
         <!-- 排序 tab + 价格区间 -->
         <div class="search-view__toolbar">
           <div
@@ -541,6 +638,30 @@ function onCardClick(productId: number) {
 .search-view__hot-chip:hover {
   border-color: var(--color-border-focus);
   color: var(--color-text);
+}
+
+/* ── 分类/品牌筛选条 ─────────────────────── */
+.search-view__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+.search-view__filter-select {
+  min-width: 160px;
+  max-width: 280px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  cursor: pointer;
+}
+.search-view__filter-select:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
 }
 
 /* ── 工具条：排序 + 价区 ────────────────── */

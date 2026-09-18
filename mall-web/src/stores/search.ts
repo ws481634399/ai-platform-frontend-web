@@ -8,10 +8,10 @@ import {
 } from '@/api/search'
 import { resolveErrorMessage } from '@/utils/http-error'
 
-/** 搜索筛选条件（分类/品牌/价区，金额为整数分） */
+/** 搜索筛选条件（分类/品牌 ID 为字符串，金额为整数分） */
 export interface SearchFilters {
-  categoryId?: number
-  brandId?: number
+  categoryId?: string
+  brandId?: string
   minPriceFen?: number
   maxPriceFen?: number
 }

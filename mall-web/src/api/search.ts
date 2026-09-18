@@ -5,16 +5,17 @@ import type { ApiResponse } from '@/types'
  * 商城商品搜索公开 API（CHG-0020 FE-501）。
  *
  * 契约：GET /api/mall/search/products（经 UnifyResult 解包）。
- * 金额域统一为整数分（number）；productId/categoryId/brandId 为后端 long 直出（number）。
+ * 金额域统一为整数分（number）；业务 ID（productId 等）遵循 @StringId 规范为字符串，
+ * 规避雪花 long 超出 JS Number.MAX_SAFE_INTEGER 的精度问题（与 catalog.ts 同口径）。
  * 搜索返回摘要 DTO 而非商品聚合，字段白名单与后端冻结一致。
  */
 
 /** 搜索排序：'' 默认（不传参，走后端综合排序）/ price_asc / price_desc / newest */
 export type ProductSearchSort = '' | 'price_asc' | 'price_desc' | 'newest'
 
-/** 搜索结果摘要项（仅结果页卡片所需字段） */
+/** 搜索结果摘要项（仅结果页卡片所需字段；productId 为字符串化业务 ID） */
 export interface ProductSearchItem {
-  productId: number
+  productId: string
   productName: string
   mainImage: string | null
   minPrice: number | null
@@ -31,11 +32,11 @@ export interface ProductSearchPage {
   size: number
 }
 
-/** 商品搜索查询参数 */
+/** 商品搜索查询参数（分类/品牌 ID 为字符串，URL query 原样透传，保精度） */
 export interface ProductSearchQuery {
   keyword?: string
-  categoryId?: number
-  brandId?: number
+  categoryId?: string
+  brandId?: string
   minPriceFen?: number
   maxPriceFen?: number
   sort?: ProductSearchSort
