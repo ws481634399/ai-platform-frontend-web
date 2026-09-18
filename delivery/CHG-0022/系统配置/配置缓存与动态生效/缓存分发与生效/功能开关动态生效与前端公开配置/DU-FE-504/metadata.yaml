@@ -1,4 +1,4 @@
-# OpenSpec Repository Delivery Unit Metadata
+﻿# OpenSpec Repository Delivery Unit Metadata
 #
 # 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
 # 不复制外部 Spec/Design（Reference do not duplicate），workspace-source 仅为相对引用。
@@ -39,10 +39,10 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: pending # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
-  commit: "daef5c03d2acda09c7c1aa5e8e069f157fd34dfe"
+  commit: "f5a4b941a42b4e777f84133e963007c0e368c329"
 result:
-  commit: ""
+  commit: "af19b9e6cdc213da032981d3fc39a26b4c8c2e83"
   paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
   symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
