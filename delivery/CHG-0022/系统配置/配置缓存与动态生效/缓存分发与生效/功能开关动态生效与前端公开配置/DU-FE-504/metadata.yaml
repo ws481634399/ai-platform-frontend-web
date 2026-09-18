@@ -1,0 +1,48 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制外部 Spec/Design（Reference do not duplicate），workspace-source 仅为相对引用。
+# Phase 4.4：DU 实体只存在于实现仓；本文件由 task 阶段物化生成，Agent 更新 status/result。
+
+id: DU-FE-504
+repository: "repo-2"
+parent:
+  change: "CHG-0022"
+feature-path:
+  level-1:
+    id: FEAT-006
+    name: 系统配置
+  level-2:
+    id: FEAT-006-02
+    name: 配置缓存与动态生效
+  level-3:
+    id: FEAT-006-02-01
+    name: 缓存分发与生效
+  story:
+    id: STORY-006-02-01-02
+    name: 功能开关动态生效与前端公开配置
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0022/requirement.md
+  spec: delivery/changes/CHG-0022/requirement-spec.md
+  design: delivery/changes/CHG-0022/requirement-design.md
+  story-design: delivery/changes/CHG-0022/系统配置/配置缓存与动态生效/缓存分发与生效/功能开关动态生效与前端公开配置/story-design.md
+  test-design: delivery/changes/CHG-0022/系统配置/配置缓存与动态生效/缓存分发与生效/功能开关动态生效与前端公开配置/test-design.md
+scope: []
+acceptance:
+  - AC-003
+  - AC-007
+dependencies:
+  - DU-BE-509
+implementation-guidance:
+  # Dev 前置实现指导声明（正文在 task-design.md，metadata 只存声明）
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: pending # pending / developing / testing / completed
+baseline:
+  commit: ""
+result:
+  commit: ""
+  paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
+  symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
