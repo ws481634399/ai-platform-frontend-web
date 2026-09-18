@@ -43,6 +43,7 @@
 | Commit | DU | 说明 |
 | --- | --- | --- |
 | ec0921b | DU-FE-501 | repo-2：mall-web 搜索 API 客户端/Pinia store/搜索结果页（URL 状态源、筛选排序分页、三态、元分换算）+ /search 路由与 nav 入口（同提交含 CHG-0022 search.enabled 关闭态） |
+| 5ab0979 | DU-FE-501 | review major 闭环：①productId/categoryId/brandId 改 string（@StringId 口径）；②SearchView 补分类树/品牌筛选下拉（AC-015 可达，写 URL 回第 1 页）；③新增 SearchView.spec.ts 3 例 |
 
 ## Deviations
 
@@ -72,6 +73,12 @@
 - 原因: 前端 Change 同步交付，同一提交 ec0921b 带入。
 - 影响评估: 开关缺省 fail-open，不影响 CHG-0020 默认体验；关闭态为本 Change 的额外增益。
 
+### DEV-4（sdd-review 闭环，提交 5ab0979）
+- 原 DU 建议: AC-015 要求结果页可使用分类/品牌/价格筛选；story-design 规定 productId 等业务 ID 遵循字符串化口径。
+- 实际实现: 初版 URL 层已支持 categoryId/brandId（parseRouteQuery/序列化/API 参数齐备）但页面**无分类/品牌选择控件**，两维筛选不可达；api/search.ts 将 productId 声明为 number。review 两项 major 闭环：SearchView 新增筛选条（挂载并发拉取公开分类树 getCategoriesTree 拍平带层级缩进 + getBrands 品牌下拉，onChange 写 URL 并回第 1 页，元数据加载失败静默降级为仅关键词/价区）；search.ts/SearchView/卡片跳转/query 类型全部改 string（parseId 仅接受纯数字串，非法 URL 值回退 undefined）；新增 SearchView.spec.ts 3 例（筛选渲染、选分类 URL 同步与查询态、19 位雪花 ID 详情跳转不丢精度）。
+- 原因: 控件遗漏属实现缺口；ID number 为初版对后端序列化形态的误判（后端 d7dc2b0 同步加 @StringId）。
+- 影响评估: mall-web vitest 105/105（新增 3 例）、type-check 0 error、lint 0 error、build 通过；stores/search.ts 的 requestSeq 竞态仍无专属 store spec（残留 minor，见 review EV）。
+
 ## 自检
 
 对照 task-spec.md Verification：
@@ -81,7 +88,7 @@
 - ✅ AC-003：StateView 三态；错误态 resolveErrorMessage 文案 + 重试；空态有热门词出口。
 - ✅ AC-004：卡片跳既有 /products/:id 详情页（路由真实存在）。
 - ✅ AC-005：yuanToFen/yuanFromFen 元分换算（Math.round 防浮点）；最低>最高即时提示不发请求；0 分边界序列化保留。
-- ⚠️ AC-006/任务 7：type-check/lint/build 门禁脚本齐备；vitest 现有 5 例（API 层）；store 竞态与视图三态/query 同步**尚缺独立 vitest**（DEV-2），字面验收未完全闭合，需补测试或在 Integration Gate 以联测覆盖。
+- ✅ AC-006/任务 7（review 后基本闭合）：type-check/lint/build 全绿；vitest 8 例与本页相关（API 层 search.spec 5 + SearchView.spec 3，覆盖筛选渲染/URL 同步/字符串 ID 跳转）；仅 stores/search.ts 的 requestSeq 竞态序仍无专属 store spec（DEV-2 残留 minor，Integration Gate 联测补）。
 - ✅ Error Case：store catch 归一错误文案，竞态仅末次响应落屏（requestSeq，逻辑已实现，缺自动化回归）。
 - ✅ Integration：联测归 Integration Gate（真实 GET /api/mall/search/products）。
 - 说明：未杜撰测试执行数字；search.spec.ts 5 例为源码 it 枚举，组件/store spec 文件经 glob 确认不存在。
