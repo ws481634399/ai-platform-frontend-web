@@ -40,7 +40,7 @@
         </div>
         <el-progress
           :percentage="progressPercent"
-          :status="activeTask.status === 'FAILED' ? 'exception' : activeTask.status === 'SUCCEEDED' ? 'success' : undefined"
+          :status="activeTask.status === 'FAILED' ? 'exception' : activeTask.status === 'SUCCESS' ? 'success' : undefined"
         />
         <div class="active-task__meta">
           已索引 {{ activeTask.indexedCount }} / {{ activeTask.totalCount }} 条
@@ -251,16 +251,12 @@
                   value="PENDING"
                 />
                 <el-option
-                  label="重试中"
-                  value="RETRYING"
-                />
-                <el-option
                   label="已成功"
-                  value="SUCCEEDED"
+                  value="SUCCESS"
                 />
                 <el-option
                   label="已失败（人工介入）"
-                  value="DEAD"
+                  value="FAILED_DEAD"
                 />
               </el-select>
             </el-form-item>
@@ -433,41 +429,41 @@ function extractMessage(ex: unknown, fallback: string): string {
   return fallback
 }
 
-function rebuildTagType(status: RebuildStatus): 'primary' | 'success' | 'danger' {
-  if (status === 'SUCCEEDED') return 'success'
+function rebuildTagType(status: RebuildStatus): 'primary' | 'success' | 'danger' | 'info' {
+  if (status === 'SUCCESS') return 'success'
   if (status === 'FAILED') return 'danger'
+  if (status === 'PENDING') return 'info'
   return 'primary'
 }
 
 function rebuildStatusLabel(status: RebuildStatus): string {
   const labels: Record<RebuildStatus, string> = {
+    PENDING: '待执行',
     RUNNING: '重建中',
-    SUCCEEDED: '已成功',
+    SUCCESS: '已成功',
     FAILED: '已失败',
   }
   return labels[status]
 }
 
-function failureTagType(status: SyncFailureStatus): 'warning' | 'primary' | 'success' | 'info' {
-  if (status === 'SUCCEEDED') return 'success'
-  if (status === 'DEAD') return 'info'
-  if (status === 'RETRYING') return 'primary'
+function failureTagType(status: SyncFailureStatus): 'warning' | 'success' | 'info' {
+  if (status === 'SUCCESS') return 'success'
+  if (status === 'FAILED_DEAD') return 'info'
   return 'warning'
 }
 
 function failureStatusLabel(status: SyncFailureStatus): string {
   const labels: Record<SyncFailureStatus, string> = {
     PENDING: '待处理',
-    RETRYING: '重试中',
-    SUCCEEDED: '已成功',
-    DEAD: '已失败（人工介入）',
+    SUCCESS: '已成功',
+    FAILED_DEAD: '已失败（人工介入）',
   }
   return labels[status]
 }
 
-/** 仅 PENDING / DEAD 允许人工重试 */
+/** 仅 PENDING / FAILED_DEAD 允许人工重试 */
 function canManualRetry(status: SyncFailureStatus): boolean {
-  return status === 'PENDING' || status === 'DEAD'
+  return status === 'PENDING' || status === 'FAILED_DEAD'
 }
 
 // ── ① 重建任务 ─────────────────────────────────────────────────
@@ -478,7 +474,7 @@ const activeTask = ref<RebuildTaskView | null>(null)
 
 const progressPercent = computed(() => {
   const task = activeTask.value
-  if (!task || task.totalCount <= 0) return task?.status === 'SUCCEEDED' ? 100 : 0
+  if (!task || task.totalCount <= 0) return task?.status === 'SUCCESS' ? 100 : 0
   return Math.min(100, Math.floor((task.indexedCount / task.totalCount) * 100))
 })
 
@@ -503,7 +499,7 @@ function startPolling(id: number): void {
         activeTask.value = task
         if (task.status === 'RUNNING') return
         stopPolling()
-        if (task.status === 'SUCCEEDED') {
+        if (task.status === 'SUCCESS') {
           ElMessage.success('索引重建已完成')
         } else {
           ElMessage.error(task.errorMessage || '索引重建失败')

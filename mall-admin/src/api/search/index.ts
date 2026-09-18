@@ -10,8 +10,8 @@ import type { ApiResponse } from '@/types'
  * - 触发重建时若已有 RUNNING 任务，后端返回 409 + code=B0503，由页面捕获提示
  */
 
-/** 重建任务状态 */
-export type RebuildStatus = 'RUNNING' | 'SUCCEEDED' | 'FAILED'
+/** 重建任务状态（对齐后端 RebuildStatus：PENDING/RUNNING/SUCCESS/FAILED） */
+export type RebuildStatus = 'PENDING' | 'RUNNING' | 'SUCCESS' | 'FAILED'
 
 /** 重建任务视图（对齐后端 RebuildTaskView） */
 export interface RebuildTaskView {
@@ -42,8 +42,8 @@ export interface ConsistencyCheckView {
   checkedAt: number
 }
 
-/** 同步失败记录状态 */
-export type SyncFailureStatus = 'PENDING' | 'RETRYING' | 'SUCCEEDED' | 'DEAD'
+/** 同步失败记录状态（对齐后端 SyncFailureStatus：PENDING/SUCCESS/FAILED_DEAD，无 RETRYING） */
+export type SyncFailureStatus = 'PENDING' | 'SUCCESS' | 'FAILED_DEAD'
 
 /** 商品变更同步失败记录（对齐后端 SyncFailureView） */
 export interface SyncFailureView {
