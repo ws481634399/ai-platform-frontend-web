@@ -11,13 +11,13 @@
 
 ## 任务清单
 
-- [ ] 任务 1 — 新建 src/api/security.ts，封装 admins（分页/创建/状态/密码/角色替换）、roles（CRUD）、menus/permissions 查询、role-authorizations 替换；TS 类型按 RbacAdministrationApplicationService 与 AdminUserApplicationService 实际 view 记录核对建模（verifies: TC-701-01, TC-701-05, TC-701-07）
-- [ ] 任务 2 — 新建 stores/security.ts：admins 分页状态/加载、roles/menus/permissions 加载、当前页过滤 computed（verifies: TC-701-02, TC-701-03）
-- [ ] 任务 3 — AdminUserListView.vue：分页表格+本地过滤、新建对话框（成功后引导分配角色）、启停、重置密码二次确认、分配角色对话框（提交裸数组）（verifies: TC-701-04, TC-701-05, TC-701-06）
-- [ ] 任务 4 — RoleListView.vue：角色 CRUD；权限分配抽屉（菜单树+权限点勾选、编辑回显、提交 targetId/permissionIds/menuIds）（verifies: TC-701-07, TC-701-08）
-- [ ] 任务 5 — MenuTreeView.vue：菜单+权限点只读树（verifies: TC-701-09）
-- [ ] 任务 6 — component-registry 注册三组件、/security/** 路由与权限指令 v-permission 接线（verifies: TC-701-10）
-- [ ] 任务 7 — 新增 api/store/视图 vitest 用例（TC-701-01~10）并跑通全量门禁（verifies: TC-701-01, TC-701-02, TC-701-03, TC-701-04, TC-701-05, TC-701-06, TC-701-07, TC-701-08, TC-701-09, TC-701-10, TC-701-12）
+- [ ] 任务 1 — 新建 src/api/security.ts，封装 admins（分页/创建/状态/密码/角色替换）、roles（CRUD）、menus/permissions 查询、role-authorizations 替换；TS 类型按 RbacAdministrationApplicationService 与 AdminUserApplicationService 实际 view 记录核对建模（verifies: TC-001, TC-005, TC-007）
+- [ ] 任务 2 — 新建 stores/security.ts：admins 分页状态/加载、roles/menus/permissions 加载、当前页过滤 computed（verifies: TC-002, TC-003）
+- [ ] 任务 3 — AdminUserListView.vue：分页表格+本地过滤、新建对话框（成功后引导分配角色）、启停、重置密码二次确认、分配角色对话框（提交裸数组）（verifies: TC-004, TC-005, TC-006）
+- [ ] 任务 4 — RoleListView.vue：角色 CRUD；权限分配抽屉（菜单树+权限点勾选、编辑回显、提交 targetId/permissionIds/menuIds）（verifies: TC-007, TC-008）
+- [ ] 任务 5 — MenuTreeView.vue：菜单+权限点只读树（verifies: TC-009）
+- [ ] 任务 6 — component-registry 注册三组件、/security/** 路由与权限指令 v-permission 接线（verifies: TC-010）
+- [ ] 任务 7 — 新增 api/store/视图 vitest 用例（TC-001~10）并跑通全量门禁（verifies: TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-012）
 
 ## Acceptance Criteria
 
@@ -41,5 +41,5 @@
 - Integration: N/A（前端组件级；真实登录联调属 C 类）
 - API: api spec 断言 URL/方法/请求体（含裸数组与 role-authorizations 复合体）
 - Migration: N/A
-- Error Case: TC-701-04 覆盖 409 提示与对话框保留；store 加载失败 message
+- Error Case: TC-004 覆盖 409 提示与对话框保留；store 加载失败 message
 - 全量门禁: `pnpm -C mall-admin test`、type-check、lint、build（基线用例 47，只许净增）

@@ -43,10 +43,18 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: pending # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
-  commit: ""
+  commit: 24847c3
 result:
-  commit: ""
-  paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
-  symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
+  commit: fa66f2b
+  paths:
+    - mall-admin/src/api/security.ts
+    - mall-admin/src/stores/security.ts
+    - mall-admin/src/views/security/AdminUserListView.vue
+    - mall-admin/src/views/security/RoleListView.vue
+    - mall-admin/src/views/security/MenuTreeView.vue
+    - mall-admin/src/router/component-registry.ts
+  symbols:
+    - mall-admin/src/api/security.ts::securityApi
+    - mall-admin/src/views/security/use-roles.ts::openAuthorization
