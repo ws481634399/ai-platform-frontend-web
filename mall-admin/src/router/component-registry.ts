@@ -15,6 +15,11 @@ const components: Record<string, () => Promise<Component>> = {
   FeatureConfigs: () => import('@/views/config/FeatureConfigsView.vue'),
   SystemParameters: () => import('@/views/config/SystemParametersView.vue'),
   ConfigHistory: () => import('@/views/config/ConfigHistoryView.vue'),
+  // M5：RBAC 管理台（CHG-0023 Story1，component_key 对齐后端 V11 菜单种子：
+  // /security/admins、/security/roles、/security/menus）
+  SecurityAdmins: () => import('@/views/security/AdminUserListView.vue'),
+  SecurityRoles: () => import('@/views/security/RoleListView.vue'),
+  SecurityMenus: () => import('@/views/security/MenuTreeView.vue'),
 }
 
 export function resolveComponent(key: string) {
