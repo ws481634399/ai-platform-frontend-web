@@ -208,6 +208,8 @@
             maxlength="512"
             placeholder="http(s):// 图片地址，可留空"
           />
+          <!-- CHG-0023：支持上传品牌图，成功后回填 URL 到输入框 -->
+          <ImageUploader v-model="form.logo" scene="BRAND" />
         </el-form-item>
         <el-form-item
           label="描述"
@@ -258,6 +260,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { brandApi } from '@/api/product/brand'
 import type { BrandItem, BrandStatus } from '@/api/product/brand'
 import { usePermission } from '@/composables/usePermission'
+import ImageUploader from './components/ImageUploader.vue'
 
 const { has } = usePermission()
 
@@ -466,5 +469,10 @@ onMounted(() => {
 
 .logo-empty {
   color: var(--el-text-color-placeholder);
+}
+
+/* 子组件 ImageUploader 的根节点会继承本页 scoped 标记 */
+.image-uploader {
+  margin-top: 8px;
 }
 </style>
