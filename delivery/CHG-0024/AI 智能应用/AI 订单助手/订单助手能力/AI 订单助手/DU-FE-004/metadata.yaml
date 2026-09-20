@@ -43,7 +43,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: ""
 result:
-  commit: "PENDING-SHA" # 本地提交（未推送）；DU-FE-002/003/004 共享同一 feat commit
+  commit: "f2fd7ca" # 本地提交（未推送）；DU-FE-002/003/004 共享同一 feat commit
   paths: # 实现影响路径（repo 相对路径；仅列本 DU 主导文件，共享接线文件见 implementation.md）
     - mall-web/src/api/ai.ts
     - mall-web/src/views/ai/OrderAssistantView.vue

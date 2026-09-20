@@ -21,7 +21,7 @@
 
 | 短 SHA | 类型 | 说明 |
 | --- | --- | --- |
-| PENDING-SHA | feat | DU-FE-002/003/004 联合：mall-web 对比/客服/订单助手 + mall-admin 知识库（代码+测试+证据） |
+| f2fd7ca | feat | DU-FE-002/003/004 联合：mall-web 对比/客服/订单助手 + mall-admin 知识库（代码+测试+证据） |
 
 ## Deviations
 
