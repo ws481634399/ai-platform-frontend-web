@@ -43,7 +43,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: ""
 result:
-  commit: "" # commit 后回填
+  commit: "5dd4508" # 本地提交（未推送）；MallLayout 中 CHG-0023 视觉改动已与本 DU 提交分离
   paths:
     - mall-web/src/api/ai.ts
     - mall-web/src/views/ai/AssistantView.vue
