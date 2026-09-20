@@ -1,56 +1,70 @@
 /**
- * mall-web Design Tokens
+ * mall-web Design Tokens — 潮流活力世界（CHG-0023 UI 升级）
  *
- * 统一的 color / spacing / radius / shadow / typography / transition 体系。
- * 所有页面组件优先引用 var(--*)，避免硬编码颜色与尺寸。
- *
- * 设计方向：现代、克制、高级、商品导向、内容优先。
- * 避免紫蓝渐变、玻璃拟态、模板化 Hero、Card 堆砌。
+ * 珊瑚橙 × 艳粉 × 葡萄紫渐变主调，活力青作点缀；暖白纸面 + 大圆角 +
+ * 品牌色光晕阴影 + 弹性质感动效。全站组件统一引用 var(--*)。
  */
 
 :root {
-  /* ── Color: 表面 ──────────────────────────── */
-  --color-bg: #ffffff;
-  --color-bg-subtle: #fafafa;
-  --color-bg-muted: #f4f4f5;
-  --color-bg-overlay: rgba(15, 23, 42, 0.45);
+  /* ── Color: 表面（暖白纸面） ─────────────── */
+  --color-bg: #fffdfa;
+  --color-bg-subtle: #fff6f0;
+  --color-bg-muted: #fceae1;
+  --color-bg-overlay: rgba(42, 16, 48, 0.5);
 
   /* ── Color: 边框 ──────────────────────────── */
-  --color-border: #e5e7eb;
-  --color-border-strong: #d4d4d8;
-  --color-border-focus: #1f2937;
+  --color-border: #f4e0d6;
+  --color-border-strong: #e8c8ba;
+  --color-border-focus: #ff3d77;
 
-  /* ── Color: 文字 ──────────────────────────── */
-  --color-text: #111827;
-  --color-text-secondary: #374151;
-  --color-text-tertiary: #6b7280;
-  --color-text-muted: #9ca3af;
+  /* ── Color: 文字（深梅墨，比纯黑更配暖色） ── */
+  --color-text: #2a1530;
+  --color-text-secondary: #5d4663;
+  --color-text-tertiary: #907a96;
+  --color-text-muted: #b9a6bd;
   --color-text-on-primary: #ffffff;
+  --color-text-on-dark: rgba(255, 255, 255, 0.92);
+  --color-text-on-dark-muted: rgba(255, 255, 255, 0.62);
 
-  /* ── Color: 品牌与语义 ────────────────────── */
-  /* 主操作色：克制深色（不使用紫蓝渐变） */
-  --color-primary: #111827;
-  --color-primary-hover: #1f2937;
-  --color-primary-active: #0f172a;
+  /* ── Color: 品牌（珊瑚→艳粉） ─────────────── */
+  --color-primary: #ff3d77;
+  --color-primary-hover: #f02463;
+  --color-primary-active: #d61052;
 
-  /* 强调色：链接/次级强调 */
-  --color-accent: #2563eb;
-  --color-accent-hover: #1d4ed8;
-  --color-accent-bg: #eff6ff;
+  --color-coral: #ff7a2f;
+  --color-pink: #ff2e88;
+  --color-violet: #8b5cf6;
+  --color-cyan: #12c8d6;
+  --color-mint: #2dd4a7;
 
-  /* 价格：商品价格统一红色 */
-  --color-price: #dc2626;
-  --color-price-strong: #b91c1c;
+  /* 强调色：紫（链接/次级强调） */
+  --color-accent: #7c3aed;
+  --color-accent-hover: #6d28d9;
+  --color-accent-bg: #f4ecfe;
 
-  /* 状态色 */
-  --color-success: #16a34a;
-  --color-success-bg: #ecfdf5;
-  --color-warning: #c2410c;
-  --color-warning-bg: #fff7ed;
-  --color-danger: #dc2626;
-  --color-danger-bg: #fef2f2;
-  --color-info: #4b5563;
-  --color-info-bg: #f4f4f5;
+  /* 价格：高饱和莓红 */
+  --color-price: #f2275c;
+  --color-price-strong: #d61048;
+  --color-price-bg: #fff0f4;
+
+  /* 状态色（与暖色调和） */
+  --color-success: #0fa968;
+  --color-success-bg: #e9fbf3;
+  --color-warning: #ea6a1a;
+  --color-warning-bg: #fff3e8;
+  --color-danger: #f2275c;
+  --color-danger-bg: #fff0f4;
+  --color-info: #8b5cf6;
+  --color-info-bg: #f4ecfe;
+
+  /* ── Gradient ─────────────────────────────── */
+  --gradient-brand: linear-gradient(120deg, #ff8a3d 0%, #ff3d77 48%, #9b5cf6 100%);
+  --gradient-brand-soft: linear-gradient(120deg, #ffe3d2 0%, #ffd9e8 52%, #e9deff 100%);
+  --gradient-berry: linear-gradient(120deg, #ff3d77 0%, #8b5cf6 100%);
+  --gradient-sunset: linear-gradient(120deg, #ff9a3d 0%, #ff2e88 100%);
+  --gradient-aqua: linear-gradient(120deg, #18d7e0 0%, #2dd4a7 100%);
+  --gradient-dark: linear-gradient(135deg, #321440 0%, #4d1d5a 55%, #6b2570 100%);
+  --gradient-hero-scrim: linear-gradient(100deg, rgba(38, 12, 46, 0.88) 0%, rgba(48, 14, 58, 0.62) 42%, rgba(60, 18, 70, 0.08) 78%);
 
   /* ── Spacing ─────────────────────────────── */
   --space-1: 4px;
@@ -65,25 +79,30 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  /* ── Radius ──────────────────────────────── */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
+  /* ── Radius（更大、更Q） ──────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-pill: 9999px;
 
-  /* ── Shadow（克制，避免装饰性） ─────────── */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12);
-  --shadow-focus: 0 0 0 3px rgba(17, 24, 39, 0.12);
+  /* ── Shadow（品牌色染色，柔而立体） ───────── */
+  --shadow-xs: 0 1px 2px rgba(255, 61, 119, 0.05);
+  --shadow-sm: 0 2px 10px rgba(160, 60, 120, 0.07);
+  --shadow-md: 0 10px 28px -8px rgba(214, 40, 110, 0.16);
+  --shadow-lg: 0 24px 56px -16px rgba(124, 58, 237, 0.28);
+  --shadow-focus: 0 0 0 4px rgba(255, 61, 119, 0.16);
+  --shadow-glow-brand: 0 10px 28px -6px rgba(255, 61, 119, 0.45);
+  --shadow-glow-violet: 0 12px 32px -8px rgba(139, 92, 246, 0.5);
+  --shadow-card-hover: 0 18px 44px -14px rgba(214, 40, 110, 0.28), 0 4px 10px rgba(214, 40, 110, 0.08);
 
   /* ── Typography ───────────────────────────── */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Sora Variable', 'Sora', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Sora Variable', 'Sora', 'Noto Sans SC', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
   --font-mono: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
   --text-xs: 12px;
@@ -91,27 +110,30 @@
   --text-base: 14px;
   --text-md: 15px;
   --text-lg: 16px;
-  --text-xl: 18px;
-  --text-2xl: 22px;
-  --text-3xl: 28px;
-  --text-4xl: 36px;
+  --text-xl: 19px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
+  --text-4xl: 40px;
 
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
+  --leading-tight: 1.22;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
 
-  --tracking-tight: -0.015em;
+  --tracking-tight: -0.022em;
   --tracking-normal: 0;
+  --tracking-wide: 0.04em;
 
-  /* ── Transition ──────────────────────────── */
-  --transition-fast: 120ms cubic-bezier(0.2, 0, 0.2, 1);
-  --transition: 180ms cubic-bezier(0.2, 0, 0.2, 1);
-  --transition-slow: 240ms cubic-bezier(0.2, 0, 0.2, 1);
+  /* ── Motion ─────────────────────────────── */
+  --transition-fast: 140ms cubic-bezier(0.34, 1.2, 0.5, 1);
+  --transition: 220ms cubic-bezier(0.34, 1.1, 0.4, 1);
+  --transition-slow: 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.44, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ── Layout ──────────────────────────────── */
-  --header-height: 56px;
-  --content-max-width: 1200px;
-  --content-padding: var(--space-4);
+  --header-height: 64px;
+  --content-max-width: 1240px;
+  --content-padding: var(--space-5);
 }
 
 /* ── 全局基础样式 ─────────────────────────── */
@@ -138,20 +160,33 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* 页面级环境彩晕：固定、极淡，不干扰内容 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 28rem at 88% -8%, rgba(255, 122, 47, 0.13), transparent 60%),
+    radial-gradient(38rem 26rem at -10% 8%, rgba(255, 61, 119, 0.12), transparent 62%),
+    radial-gradient(46rem 30rem at 50% 116%, rgba(139, 92, 246, 0.1), transparent 60%);
+}
+
 /* 数字字符等宽（价格/数量/订单号） */
 .tabular {
   font-variant-numeric: tabular-nums;
   font-feature-settings: 'tnum';
 }
 
-/* 通用聚焦样式：键盘可见 */
+/* 通用聚焦样式：键盘可见，品牌粉光环 */
 :focus-visible {
-  outline: 2px solid var(--color-border-focus);
+  outline: 3px solid var(--color-border-focus);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* 自定义滚动条（仅 webkit 内核） */
+/* 自定义滚动条（品牌色） */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -160,18 +195,25 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-strong);
+  background: linear-gradient(180deg, #ffa67d, #ff3d77);
   border-radius: var(--radius-pill);
-  border: 2px solid var(--color-bg);
+  border: 2px solid var(--color-bg-subtle);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-tertiary);
+  background: linear-gradient(180deg, #ff8a3d, #e01052);
 }
 
-/* 文本选中色 */
+/* 文本选中色：粉紫 */
 ::selection {
-  background: rgba(17, 24, 39, 0.12);
+  background: rgba(255, 61, 119, 0.22);
   color: var(--color-text);
+}
+
+/* 输入光标色 */
+input,
+textarea,
+select {
+  caret-color: var(--color-primary);
 }
 
 /* 链接默认 */
@@ -202,4 +244,69 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
+}
+
+/* ── 全局动效关键帧 ────────────────────────── */
+@keyframes brand-pan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-y-soft {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-130%) skewX(-18deg); }
+  60%, 100% { transform: translateX(230%) skewX(-18deg); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.86); }
+  60% { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes badge-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 61, 119, 0.55); }
+  70% { box-shadow: 0 0 0 8px rgba(255, 61, 119, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 61, 119, 0); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* 滚动进入：默认隐藏由 JS 加 .is-visible；无 JS 时直接可见 */
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: fade-up 0.7s var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+  }
 }

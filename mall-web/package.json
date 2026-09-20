@@ -17,6 +17,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource-variable/sora": "^5.3.0",
+    "@fontsource/noto-sans-sc": "^5.3.0",
     "axios": "^1.20.0",
     "dompurify": "^3.4.15",
     "pinia": "^4.0.3",
