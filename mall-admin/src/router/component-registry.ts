@@ -20,6 +20,8 @@ const components: Record<string, () => Promise<Component>> = {
   SecurityAdmins: () => import('@/views/security/AdminUserListView.vue'),
   SecurityRoles: () => import('@/views/security/RoleListView.vue'),
   SecurityMenus: () => import('@/views/security/MenuTreeView.vue'),
+  // M6：AI 知识库管理（CHG-0024 DU-FE-003，component_key 对齐 V12 菜单种子 /ai/knowledge）
+  AiKnowledge: () => import('@/views/knowledge/KnowledgeListView.vue'),
 }
 
 export function resolveComponent(key: string) {

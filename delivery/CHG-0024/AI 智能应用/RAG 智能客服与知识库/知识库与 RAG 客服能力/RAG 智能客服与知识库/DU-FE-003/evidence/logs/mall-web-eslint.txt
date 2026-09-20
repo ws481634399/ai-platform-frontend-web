@@ -1,0 +1,193 @@
+﻿
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\components\StateView.vue
+  48:43  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found    vue/singleline-html-element-content-newline
+  48:60  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\layouts\MallLayout.vue
+   43:29  warning  'class' should be on a new line                                         vue/max-attributes-per-line
+   43:51  warning  'data-testid' should be on a new line                                   vue/max-attributes-per-line
+   45:46  warning  'viewBox' should be on a new line                                       vue/max-attributes-per-line
+   45:66  warning  'fill' should be on a new line                                          vue/max-attributes-per-line
+   45:78  warning  'aria-hidden' should be on a new line                                   vue/max-attributes-per-line
+   60:38  warning  'data-testid' should be on a new line                                   vue/max-attributes-per-line
+   60:69  warning  '@submit.prevent' should be on a new line                               vue/max-attributes-per-line
+   61:44  warning  'viewBox' should be on a new line                                       vue/max-attributes-per-line
+   61:64  warning  'fill' should be on a new line                                          vue/max-attributes-per-line
+   61:76  warning  'aria-hidden' should be on a new line                                   vue/max-attributes-per-line
+   62:28  warning  'cy' should be on a new line                                            vue/max-attributes-per-line
+   62:35  warning  'r' should be on a new line                                             vue/max-attributes-per-line
+   62:41  warning  'stroke' should be on a new line                                        vue/max-attributes-per-line
+   62:63  warning  'stroke-width' should be on a new line                                  vue/max-attributes-per-line
+   76:11  warning  Disallow self-closing on HTML void elements (<input/>)                  vue/html-self-closing
+   77:33  warning  'class' should be on a new line                                         vue/max-attributes-per-line
+   77:60  warning  'aria-label' should be on a new line                                    vue/max-attributes-per-line
+   82:34  warning  'data-testid' should be on a new line                                   vue/max-attributes-per-line
+  138:44  warning  'viewBox' should be on a new line                                       vue/max-attributes-per-line
+  138:64  warning  'fill' should be on a new line                                          vue/max-attributes-per-line
+  138:76  warning  'aria-hidden' should be on a new line                                   vue/max-attributes-per-line
+  146:33  warning  'cy' should be on a new line                                            vue/max-attributes-per-line
+  146:43  warning  'r' should be on a new line                                             vue/max-attributes-per-line
+  146:51  warning  'fill' should be on a new line                                          vue/max-attributes-per-line
+  147:31  warning  'cy' should be on a new line                                            vue/max-attributes-per-line
+  147:41  warning  'r' should be on a new line                                             vue/max-attributes-per-line
+  147:49  warning  'fill' should be on a new line                                          vue/max-attributes-per-line
+  154:1   warning  Expected indentation of 12 spaces but found 14 spaces                   vue/html-indent
+  154:43  warning  Expected no line breaks before closing bracket, but 1 line break found  vue/html-closing-bracket-newline
+  159:39  warning  'class' should be on a new line                                         vue/max-attributes-per-line
+  159:64  warning  'data-testid' should be on a new line                                   vue/max-attributes-per-line
+  200:38  warning  'class' should be on a new line                                         vue/max-attributes-per-line
+  200:63  warning  'data-testid' should be on a new line                                   vue/max-attributes-per-line
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\NotFoundView.vue
+  3:37  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found     vue/singleline-html-element-content-newline
+  3:40  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found   vue/singleline-html-element-content-newline
+  4:39  warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found    vue/singleline-html-element-content-newline
+  4:44  warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found  vue/singleline-html-element-content-newline
+  5:37  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found     vue/singleline-html-element-content-newline
+  5:54  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found   vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\ai\AssistantView.vue
+   88:36   warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found        vue/singleline-html-element-content-newline
+   88:43   warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found      vue/singleline-html-element-content-newline
+   89:38   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+   89:50   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  152:46   warning  Expected 1 line break after opening tag (`<h3>`), but no line breaks found        vue/singleline-html-element-content-newline
+  152:68   warning  Expected 1 line break before closing tag (`</h3>`), but no line breaks found      vue/singleline-html-element-content-newline
+  153:47   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  153:64   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  154:46   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  154:112  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  170:10   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  170:12   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+  192:10   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  192:12   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\ai\CompareView.vue
+  128:34  warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found        vue/singleline-html-element-content-newline
+  128:41  warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found      vue/singleline-html-element-content-newline
+  129:36  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  129:54  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  222:16  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  222:17  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+  265:51  warning  Expected 1 line break after opening tag (`<th>`), but no line breaks found        vue/singleline-html-element-content-newline
+  265:55  warning  Expected 1 line break before closing tag (`</th>`), but no line breaks found      vue/singleline-html-element-content-newline
+  288:48  warning  Expected 1 line break after opening tag (`<th>`), but no line breaks found        vue/singleline-html-element-content-newline
+  288:67  warning  Expected 1 line break before closing tag (`</th>`), but no line breaks found      vue/singleline-html-element-content-newline
+  300:41  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  300:49  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  307:46  warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found        vue/singleline-html-element-content-newline
+  307:51  warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found      vue/singleline-html-element-content-newline
+  308:44  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  308:64  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  323:10  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  323:12  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\ai\OrderAssistantView.vue
+  143:36   warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found        vue/singleline-html-element-content-newline
+  143:43   warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found      vue/singleline-html-element-content-newline
+  144:38   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  144:51   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  158:8    warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  158:11   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+  215:47   warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  222:41   warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  222:69   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  222:104  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  224:45   warning  'data-testid' should be on a new line                                             vue/max-attributes-per-line
+  252:10   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  252:12   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+  274:10   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  274:12   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+  289:44   warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found        vue/singleline-html-element-content-newline
+  289:48   warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found      vue/singleline-html-element-content-newline
+  303:45   warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found         vue/singleline-html-element-content-newline
+  303:64   warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found       vue/singleline-html-element-content-newline
+  310:12   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found    vue/multiline-html-element-content-newline
+  310:15   warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found  vue/multiline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\ai\SupportView.vue
+   92:34  warning  Expected 1 line break after opening tag (`<h1>`), but no line breaks found             vue/singleline-html-element-content-newline
+   92:38  warning  Expected 1 line break before closing tag (`</h1>`), but no line breaks found           vue/singleline-html-element-content-newline
+   93:36  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found              vue/singleline-html-element-content-newline
+   93:50  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found            vue/singleline-html-element-content-newline
+  146:18  warning  Expected 1 line break after opening tag (`<summary>`), but no line breaks found        vue/multiline-html-element-content-newline
+  146:36  warning  Expected 1 line break before closing tag (`</summary>`), but no line breaks found      vue/multiline-html-element-content-newline
+  147:52  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found              vue/singleline-html-element-content-newline
+  147:72  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found            vue/singleline-html-element-content-newline
+  168:10  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/multiline-html-element-content-newline
+  168:17  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/multiline-html-element-content-newline
+  182:10  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found         vue/multiline-html-element-content-newline
+  182:12  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found       vue/multiline-html-element-content-newline
+  204:10  warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found         vue/multiline-html-element-content-newline
+  204:12  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found       vue/multiline-html-element-content-newline
+  213:8   warning  Expected 1 line break after opening tag (`<button>`), but no line breaks found         vue/multiline-html-element-content-newline
+  213:11  warning  Expected 1 line break before closing tag (`</button>`), but no line breaks found       vue/multiline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\auth\LoginView.vue
+  55:38  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found    vue/singleline-html-element-content-newline
+  55:52  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\auth\RegisterView.vue
+  51:38  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found    vue/singleline-html-element-content-newline
+  51:54  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\cart\CartView.vue
+  204:44  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found    vue/singleline-html-element-content-newline
+  204:51  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\checkout\CheckoutView.vue
+  19:36  warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found    vue/singleline-html-element-content-newline
+  19:40  warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found  vue/singleline-html-element-content-newline
+  75:36  warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found    vue/singleline-html-element-content-newline
+  75:40  warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\member\AddressListView.vue
+  186:43  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found    vue/singleline-html-element-content-newline
+  186:50  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\product\ProductDetailView.vue
+    2:33  warning  ':error' should be on a new line                                                       vue/max-attributes-per-line
+    2:48  warning  ':is-empty' should be on a new line                                                    vue/max-attributes-per-line
+    2:69  warning  '@retry' should be on a new line                                                       vue/max-attributes-per-line
+    5:38  warning  Expected 1 line break after opening tag (`<h2>`), but no line breaks found             vue/singleline-html-element-content-newline
+    5:43  warning  Expected 1 line break before closing tag (`</h2>`), but no line breaks found           vue/singleline-html-element-content-newline
+    6:36  warning  Expected 1 line break after opening tag (`<p>`), but no line breaks found              vue/singleline-html-element-content-newline
+    6:50  warning  Expected 1 line break before closing tag (`</p>`), but no line breaks found            vue/singleline-html-element-content-newline
+    7:37  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+    7:63  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+    7:70  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+   11:26  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+   12:33  warning  'aria-label' should be on a new line                                                   vue/max-attributes-per-line
+   13:31  warning  Expected 1 line break after opening tag (`<router-link>`), but no line breaks found    vue/singleline-html-element-content-newline
+   13:34  warning  Expected 1 line break before closing tag (`</router-link>`), but no line breaks found  vue/singleline-html-element-content-newline
+   14:53  warning  ':key' should be on a new line                                                         vue/max-attributes-per-line
+   23:39  warning  ':alt' should be on a new line                                                         vue/max-attributes-per-line
+   23:65  warning  '@error' should be on a new line                                                       vue/max-attributes-per-line
+   23:87  warning  Disallow self-closing on HTML void elements (<img/>)                                   vue/html-self-closing
+   25:46  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+   34:42  warning  ':alt' should be on a new line                                                         vue/max-attributes-per-line
+   34:68  warning  Disallow self-closing on HTML void elements (<img/>)                                   vue/html-self-closing
+   43:39  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+   46:40  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+   53:50  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+   95:1   warning  Expected indentation of 16 spaces but found 18 spaces                                  vue/html-indent
+   95:42  warning  Expected no line breaks before closing bracket, but 1 line break found                 vue/html-closing-bracket-newline
+  116:44  warning  'class' should be on a new line                                                        vue/max-attributes-per-line
+  117:42  warning  Expected 1 line break after opening tag (`<h3>`), but no line breaks found             vue/singleline-html-element-content-newline
+  117:46  warning  Expected 1 line break before closing tag (`</h3>`), but no line breaks found           vue/singleline-html-element-content-newline
+  118:34  warning  'v-html' should be on a new line                                                       vue/max-attributes-per-line
+  118:34  warning  'v-html' directive can lead to XSS attack                                              vue/no-v-html
+
+D:\Desktop\ai-platform\implementation\ai-platform-frontend\mall-web\src\views\search\SearchView.vue
+  453:55  warning  Expected 1 line break after opening tag (`<template>`), but no line breaks found    vue/singleline-html-element-content-newline
+  453:83  warning  Expected 1 line break before closing tag (`</template>`), but no line breaks found  vue/singleline-html-element-content-newline
+  505:53  warning  Expected 1 line break after opening tag (`<template>`), but no line breaks found    vue/singleline-html-element-content-newline
+  505:73  warning  Expected 1 line break before closing tag (`</template>`), but no line breaks found  vue/singleline-html-element-content-newline
+  506:74  warning  Expected 1 line break after opening tag (`<template>`), but no line breaks found    vue/singleline-html-element-content-newline
+  506:76  warning  Expected 1 line break before closing tag (`</template>`), but no line breaks found  vue/singleline-html-element-content-newline
+  507:56  warning  Expected 1 line break after opening tag (`<template>`), but no line breaks found    vue/singleline-html-element-content-newline
+  507:79  warning  Expected 1 line break before closing tag (`</template>`), but no line breaks found  vue/singleline-html-element-content-newline
+
+✖ 161 problems (0 errors, 161 warnings)
+  0 errors and 139 warnings potentially fixable with the `--fix` option.
+

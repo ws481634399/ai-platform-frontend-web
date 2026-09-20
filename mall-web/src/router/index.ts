@@ -60,6 +60,27 @@ const router = createRouter({
           meta: { title: 'AI 导购助手' },
         },
         {
+          // CHG-0024：AI 商品对比（GUEST 可用，开关显隐在 MallLayout，直达路由渲染空态）
+          path: 'ai/compare',
+          name: 'ai-compare',
+          component: () => import('@/views/ai/CompareView.vue'),
+          meta: { title: 'AI 商品对比' },
+        },
+        {
+          // CHG-0024：AI 订单助手（强制 MEMBER：守卫 + 后端 401 双保险）
+          path: 'ai/orders',
+          name: 'ai-orders',
+          component: () => import('@/views/ai/OrderAssistantView.vue'),
+          meta: { title: 'AI 订单助手', requiresMember: true },
+        },
+        {
+          // CHG-0024：RAG 智能客服（GUEST 可用，开关显隐在 MallLayout，直达路由渲染空态）
+          path: 'ai/support',
+          name: 'ai-support',
+          component: () => import('@/views/ai/SupportView.vue'),
+          meta: { title: '智能客服' },
+        },
+        {
           path: 'products/:id',
           name: 'product-detail',
           component: () => import('@/views/product/ProductDetailView.vue'),

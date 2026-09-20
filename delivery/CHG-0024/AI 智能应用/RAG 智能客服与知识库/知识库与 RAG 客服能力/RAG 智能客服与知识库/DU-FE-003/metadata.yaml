@@ -41,10 +41,24 @@ implementation-guidance:
   sketch: true
   pseudocode: false
   complexity-trigger: []
-status: pending # pending / developing / testing / completed
+status: completed # pending / developing / testing / completed
 baseline:
   commit: ""
 result:
-  commit: ""
-  paths: [] # 实现影响路径（可选，repo 相对路径；completed 时 Agent 回填，如 auth/service.go）
-  symbols: [] # 关键代码符号（可选，格式 <file>::<symbol>，如 auth/service.go::Login）
+  commit: "PENDING-SHA" # 本地提交（未推送）；DU-FE-002/003/004 共享同一 feat commit
+  paths: # 实现影响路径（repo 相对路径；仅列本 DU 主导文件，共享接线文件见 implementation.md）
+    - mall-admin/src/api/knowledge.ts
+    - mall-admin/src/views/knowledge/knowledge-validate.ts
+    - mall-admin/src/views/knowledge/KnowledgeListView.vue
+    - mall-admin/src/router/component-registry.ts
+    - mall-admin/src/views/knowledge/knowledge-validate.spec.ts
+    - mall-admin/src/views/knowledge/KnowledgeListView.contract.spec.ts
+    - mall-web/src/api/ai.ts
+    - mall-web/src/views/ai/SupportView.vue
+    - mall-web/src/router/index.ts
+    - mall-web/src/layouts/MallLayout.vue
+    - mall-web/src/views/ai/SupportView.spec.ts
+  symbols: # 关键代码符号（格式 <file>::<symbol>）
+    - mall-admin/src/api/knowledge.ts::knowledgeApi
+    - mall-admin/src/views/knowledge/knowledge-validate.ts::validateKnowledgeFile
+    - mall-web/src/api/ai.ts::aiApi.supportChat

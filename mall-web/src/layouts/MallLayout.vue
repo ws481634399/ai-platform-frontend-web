@@ -40,18 +40,9 @@ const isAuthed = computed(() => member.isAuthenticated)
   <div class="layout">
     <header class="header">
       <div class="header__inner">
-        <router-link
-          to="/"
-          class="header__brand"
-          data-testid="mall-title"
-        >
+        <router-link to="/" class="header__brand" data-testid="mall-title">
           <span class="header__brand-mark">
-            <svg
-              class="header__brand-spark"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
+            <svg class="header__brand-spark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M12 2.5l1.9 6.2 6.1 1.8-6.1 1.9L12 18.7l-1.9-6.3L4 10.5l6.1-1.8L12 2.5z"
                 fill="currentColor"
@@ -66,24 +57,9 @@ const isAuthed = computed(() => member.isAuthenticated)
           <span class="header__brand-name">{{ appStore.appName }}</span>
         </router-link>
 
-        <form
-          class="header__search"
-          data-testid="mall-search-form"
-          @submit.prevent="submitSearch"
-        >
-          <svg
-            class="header__search-icon"
-            viewBox="0 0 20 20"
-            fill="none"
-            aria-hidden="true"
-          >
-            <circle
-              cx="9"
-              cy="9"
-              r="6"
-              stroke="currentColor"
-              stroke-width="1.8"
-            />
+        <form class="header__search" data-testid="mall-search-form" @submit.prevent="submitSearch">
+          <svg class="header__search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8" />
             <path
               d="M13.8 13.8L18 18"
               stroke="currentColor"
@@ -97,20 +73,13 @@ const isAuthed = computed(() => member.isAuthenticated)
             class="header__search-input"
             placeholder="搜索商品 / 品牌 / 规格"
             aria-label="搜索商品"
-          >
-          <button
-            type="submit"
-            class="header__search-btn"
-            aria-label="搜索"
-          >
+          />
+          <button type="submit" class="header__search-btn" aria-label="搜索">
             <span class="header__search-btn-label">搜索</span>
           </button>
         </form>
 
-        <nav
-          class="header__nav"
-          data-testid="mall-user-area"
-        >
+        <nav class="header__nav" data-testid="mall-user-area">
           <!-- FE-504：搜索入口受 search.enabled 控制，未加载/缺键默认开放（fail-open） -->
           <router-link
             v-if="features.hasFeature('search.enabled', true)"
@@ -131,17 +100,42 @@ const isAuthed = computed(() => member.isAuthenticated)
             AI 助手
           </router-link>
 
+          <!-- CHG-0024：AI 商品对比入口受 ai.compare.enabled 控制（显隐仅体验层，安全边界在后端 fail-closed） -->
+          <router-link
+            v-if="features.hasFeature('ai.compare.enabled', true)"
+            to="/ai/compare"
+            class="header__nav-link"
+            data-testid="mall-compare-link"
+          >
+            商品对比
+          </router-link>
+
+          <!-- CHG-0024：AI 订单助手入口受 ai.order-assistant.enabled 控制且仅会员可见 -->
+          <router-link
+            v-if="features.hasFeature('ai.order-assistant.enabled', true) && isAuthed"
+            to="/ai/orders"
+            class="header__nav-link"
+            data-testid="mall-order-assistant-link"
+          >
+            订单助手
+          </router-link>
+
+          <!-- CHG-0024：智能客服入口受 ai.rag.enabled 控制（显隐仅体验层，安全边界在后端 fail-closed） -->
+          <router-link
+            v-if="features.hasFeature('ai.rag.enabled', true)"
+            to="/ai/support"
+            class="header__nav-link"
+            data-testid="mall-support-link"
+          >
+            智能客服
+          </router-link>
+
           <router-link
             to="/cart"
             class="header__nav-link header__cart"
             data-testid="mall-cart-link"
           >
-            <svg
-              class="header__cart-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
+            <svg class="header__cart-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M3 4h2l2.2 12.2a1.6 1.6 0 0 0 1.6 1.3h7.9a1.6 1.6 0 0 0 1.6-1.3L20 8H6"
                 stroke="currentColor"
@@ -149,33 +143,20 @@ const isAuthed = computed(() => member.isAuthenticated)
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <circle
-                cx="10.5"
-                cy="20.2"
-                r="1.3"
-                fill="currentColor"
-              />
-              <circle
-                cx="17"
-                cy="20.2"
-                r="1.3"
-                fill="currentColor"
-              />
+              <circle cx="10.5" cy="20.2" r="1.3" fill="currentColor" />
+              <circle cx="17" cy="20.2" r="1.3" fill="currentColor" />
             </svg>
             <span>购物车</span>
             <span
               v-if="cart.badgeCount > 0"
               class="header__cart-badge"
               data-testid="mall-cart-badge"
-            >{{ cart.badgeCount }}</span>
+              >{{ cart.badgeCount }}</span
+            >
           </router-link>
 
           <template v-if="isAuthed">
-            <router-link
-              to="/orders"
-              class="header__nav-link"
-              data-testid="mall-orders-link"
-            >
+            <router-link to="/orders" class="header__nav-link" data-testid="mall-orders-link">
               我的订单
             </router-link>
             <div class="header__dropdown">
@@ -216,11 +197,7 @@ const isAuthed = computed(() => member.isAuthenticated)
             </div>
           </template>
           <template v-else>
-            <router-link
-              to="/login"
-              class="header__nav-link"
-              data-testid="mall-login-link"
-            >
+            <router-link to="/login" class="header__nav-link" data-testid="mall-login-link">
               登录
             </router-link>
             <router-link
