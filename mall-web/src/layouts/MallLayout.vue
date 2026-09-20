@@ -40,40 +40,23 @@ const isAuthed = computed(() => member.isAuthenticated)
   <div class="layout">
     <header class="header">
       <div class="header__inner">
-        <router-link
-          to="/"
-          class="header__brand"
-          data-testid="mall-title"
-        >
+        <router-link to="/" class="header__brand" data-testid="mall-title">
           <span class="header__brand-mark">AI</span>
           <span class="header__brand-name">{{ appStore.appName }}</span>
         </router-link>
 
-        <form
-          class="header__search"
-          data-testid="mall-search-form"
-          @submit.prevent="submitSearch"
-        >
+        <form class="header__search" data-testid="mall-search-form" @submit.prevent="submitSearch">
           <input
             v-model="keyword"
             type="search"
             class="header__search-input"
             placeholder="搜索商品 / 品牌 / 规格"
             aria-label="搜索商品"
-          >
-          <button
-            type="submit"
-            class="header__search-btn"
-            aria-label="搜索"
-          >
-            搜索
-          </button>
+          />
+          <button type="submit" class="header__search-btn" aria-label="搜索">搜索</button>
         </form>
 
-        <nav
-          class="header__nav"
-          data-testid="mall-user-area"
-        >
+        <nav class="header__nav" data-testid="mall-user-area">
           <!-- FE-504：搜索入口受 search.enabled 控制，未加载/缺键默认开放（fail-open） -->
           <router-link
             v-if="features.hasFeature('search.enabled', true)"
@@ -82,6 +65,16 @@ const isAuthed = computed(() => member.isAuthenticated)
             data-testid="mall-search-link"
           >
             搜索
+          </router-link>
+
+          <!-- CHG-0024：AI 导购入口受 ai.shopping.enabled 控制（显隐仅体验层，安全边界在后端 fail-closed） -->
+          <router-link
+            v-if="features.hasFeature('ai.shopping.enabled', true)"
+            to="/ai/assistant"
+            class="header__nav-link"
+            data-testid="mall-ai-link"
+          >
+            AI 助手
           </router-link>
 
           <router-link
@@ -94,15 +87,12 @@ const isAuthed = computed(() => member.isAuthenticated)
               v-if="cart.badgeCount > 0"
               class="header__cart-badge"
               data-testid="mall-cart-badge"
-            >{{ cart.badgeCount }}</span>
+              >{{ cart.badgeCount }}</span
+            >
           </router-link>
 
           <template v-if="isAuthed">
-            <router-link
-              to="/orders"
-              class="header__nav-link"
-              data-testid="mall-orders-link"
-            >
+            <router-link to="/orders" class="header__nav-link" data-testid="mall-orders-link">
               我的订单
             </router-link>
             <div class="header__dropdown">
@@ -140,11 +130,7 @@ const isAuthed = computed(() => member.isAuthenticated)
             </div>
           </template>
           <template v-else>
-            <router-link
-              to="/login"
-              class="header__nav-link"
-              data-testid="mall-login-link"
-            >
+            <router-link to="/login" class="header__nav-link" data-testid="mall-login-link">
               登录
             </router-link>
             <router-link
@@ -244,7 +230,9 @@ const isAuthed = computed(() => member.isAuthenticated)
   border-radius: var(--radius-pill);
   background: var(--color-bg);
   overflow: hidden;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 .header__search:focus-within {
   border-color: var(--color-border-focus);
@@ -297,7 +285,9 @@ const isAuthed = computed(() => member.isAuthenticated)
   color: var(--color-text-secondary);
   font-weight: 500;
   white-space: nowrap;
-  transition: color var(--transition-fast), background var(--transition-fast);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
 }
 .header__nav-link:hover {
   color: var(--color-text);
@@ -354,7 +344,10 @@ const isAuthed = computed(() => member.isAuthenticated)
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
-  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    visibility var(--transition-fast);
 }
 .header__dropdown:hover .header__dropdown-menu,
 .header__dropdown:focus-within .header__dropdown-menu {
@@ -370,7 +363,9 @@ const isAuthed = computed(() => member.isAuthenticated)
   color: var(--color-text-secondary);
   font-size: var(--text-sm);
   text-align: left;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 .header__dropdown-item:hover {
   background: var(--color-bg-muted);

@@ -53,6 +53,13 @@ const router = createRouter({
           meta: { title: '商品搜索' },
         },
         {
+          // CHG-0024：AI 导购助手（GUEST 可用，开关显隐在 MallLayout，直达路由渲染空态）
+          path: 'ai/assistant',
+          name: 'ai-assistant',
+          component: () => import('@/views/ai/AssistantView.vue'),
+          meta: { title: 'AI 导购助手' },
+        },
+        {
           path: 'products/:id',
           name: 'product-detail',
           component: () => import('@/views/product/ProductDetailView.vue'),

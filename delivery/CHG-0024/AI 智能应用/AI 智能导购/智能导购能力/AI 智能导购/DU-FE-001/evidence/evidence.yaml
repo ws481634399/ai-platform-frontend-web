@@ -1,0 +1,22 @@
+# DU Evidence — DU-FE-001
+
+> EV 编号三位递增不复用（本 DU 内）。
+
+| EV    | 类型         | 关联验收        | 说明 |
+| ----- | ------------ | --------------- | ---- |
+| EV-001 | 组件测试（vitest） | AC-008, AC-012 | `pnpm vitest run`：23 文件 111 tests 全过（含新增 AssistantView.spec 6 用例，TC-010） |
+| EV-002 | 类型检查      | AC-013（跨 Story 质量） | `pnpm exec vue-tsc --noEmit`：exit=0 |
+
+## EV-001 用例→TC/AC 映射
+
+- 成功渲染：助手气泡 + `recommendation-{id}` 卡片（图/名/￥价/理由/"价格以结算页为准"）→ TC-010/AC-008
+- 澄清态：clarifyingQuestion → 仅追问气泡，无卡片 → TC-010/AC-008
+- 多轮会话：第二轮请求携带上轮 conversationId → TC-010（test-design §2 会话续轮断言）
+- 403：`state-disabled` 空态"AI 导购暂未开启" → AC-012
+- 502：`state-error` + 重试按钮，重试复用上一条消息 → AC-008
+- Loading：发送/输入禁用，不重复提交 → AC-008
+
+## EV-002 输出摘要
+
+- 命令：`pnpm exec vue-tsc --noEmit`（工作目录：implementation/ai-platform-frontend/mall-web）
+- 结果：exit=0（无类型错误）
