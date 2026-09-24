@@ -110,6 +110,7 @@ export interface CompensationView {
   businessType: string
   businessId: string
   operation: string
+  payload: string | null
   status: CompensationStatus
   retryCount: number
   maxRetries: number
@@ -117,6 +118,7 @@ export interface CompensationView {
   nextRetryAt: string | null
   createdAt: string
   updatedAt: string
+  traceId?: string | null
 }
 
 function unwrap<T>(response: { data: ApiResponse<T> }): T {
@@ -146,16 +148,29 @@ export const orderApi = {
 }
 
 export const compensationApi = {
-  async page(params: { status?: CompensationStatus; page?: number; size?: number }): Promise<PageView<CompensationView>> {
+  async page(params: {
+    operation?: string
+    aggregateId?: string
+    status?: CompensationStatus
+    page?: number
+    size?: number
+  }): Promise<PageView<CompensationView>> {
     const query: Record<string, string | number> = {
       page: params.page ?? 1,
       size: params.size ?? 20,
     }
+    if (params.operation?.trim()) query.operation = params.operation.trim()
+    if (params.aggregateId?.trim()) query.aggregateId = params.aggregateId.trim()
     if (params.status) query.status = params.status
     return unwrap(await http.get('/api/admin/compensations', { params: query }))
   },
 
   async retry(id: string): Promise<CompensationView> {
     return unwrap(await http.post(`/api/admin/compensations/${encodeURIComponent(id)}/retry`))
+  },
+
+  /** 人工标记完成（CHG-0025 STORY-009-05-01，AC-038）。 */
+  async complete(id: string): Promise<CompensationView> {
+    return unwrap(await http.post(`/api/admin/compensations/${encodeURIComponent(id)}/complete`))
   },
 }
