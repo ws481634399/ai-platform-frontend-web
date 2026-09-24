@@ -7,6 +7,38 @@
         class="compensation-page__filter"
         @submit.prevent
       >
+        <el-form-item label="操作类型">
+          <el-select
+            v-model="operation"
+            placeholder="全部操作"
+            clearable
+            style="width: 180px"
+            @change="handleSearch"
+          >
+            <el-option
+              label="确认扣减库存"
+              value="CONFIRM_INVENTORY"
+            />
+            <el-option
+              label="释放库存"
+              value="RELEASE_INVENTORY"
+            />
+            <el-option
+              label="自动取消订单"
+              value="AUTO_CANCEL_ORDER"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="聚合 ID">
+          <el-input
+            v-model="aggregateId"
+            placeholder="业务单号模糊匹配"
+            clearable
+            style="width: 220px"
+            @keyup.enter="handleSearch"
+            @clear="handleSearch"
+          />
+        </el-form-item>
         <el-form-item label="任务状态">
           <el-select
             v-model="status"
@@ -175,6 +207,8 @@ const total = ref(0)
 const page = ref(1)
 const size = ref(20)
 const status = ref<CompensationStatus | undefined>(undefined)
+const operation = ref<string | undefined>(undefined)
+const aggregateId = ref('')
 const retryingId = ref<string | null>(null)
 
 function compTagType(s: string): 'warning' | 'success' | 'danger' {
@@ -191,6 +225,8 @@ async function loadPage(): Promise<void> {
   loading.value = true
   try {
     const view = await compensationApi.page({
+      operation: operation.value,
+      aggregateId: aggregateId.value,
       status: status.value,
       page: page.value,
       size: size.value,
@@ -211,6 +247,8 @@ function handleSearch(): void {
 
 function handleReset(): void {
   status.value = undefined
+  operation.value = undefined
+  aggregateId.value = ''
   page.value = 1
   void loadPage()
 }
