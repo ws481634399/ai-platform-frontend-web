@@ -22,6 +22,8 @@ const components: Record<string, () => Promise<Component>> = {
   SecurityMenus: () => import('@/views/security/MenuTreeView.vue'),
   // M6：AI 知识库管理（CHG-0024 DU-FE-003，component_key 对齐 V12 菜单种子 /ai/knowledge）
   AiKnowledge: () => import('@/views/knowledge/KnowledgeListView.vue'),
+  // M7：Outbox 事件管理（CHG-0025 STORY-009-02-01，component_key 对齐 V13 菜单种子 /distributed/outbox）
+  OutboxList: () => import('@/views/distributed/OutboxListView.vue'),
 }
 
 export function resolveComponent(key: string) {
