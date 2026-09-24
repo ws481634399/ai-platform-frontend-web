@@ -1,0 +1,51 @@
+# OpenSpec Repository Delivery Unit Metadata
+#
+# 保存完整 Parent Chain：即使仓库被单独打开，也能追溯 DU → Story → Feature Path → Change。
+# 不复制外部 Spec/Design（Reference do not duplicate），workspace-source 仅为相对引用。
+# Phase 4.4：DU 实体只存在于实现仓；本文件由 task 阶段物化生成，Agent 更新 status/result。
+
+id: DU-FE-002
+repository: "repo-2"
+parent:
+  change: "CHG-0025"
+feature-path:
+  level-1:
+    id: FEAT-009
+    name: 分布式增强
+  level-2:
+    id: FEAT-009-04
+    name: 延迟订单自动取消
+  level-3:
+    id: FEAT-009-04-01
+    name: 延迟取消能力
+  story:
+    id: STORY-009-04-01
+    name: 延迟订单自动取消
+  candidate: false
+workspace-source:
+  requirement: delivery/changes/CHG-0025/requirement.md
+  spec: delivery/changes/CHG-0025/requirement-spec.md
+  design: delivery/changes/CHG-0025/requirement-design.md
+  story-design: delivery/changes/CHG-0025/stories/STORY-009-04-01/story-design.md
+  test-design: delivery/changes/CHG-0025/stories/STORY-009-04-01/test-design.md
+scope: []
+acceptance:
+  - AC-032
+dependencies:
+  - DU-BE-004
+implementation-guidance:
+  sketch: true
+  pseudocode: false
+  complexity-trigger: []
+status: completed # pending / developing / testing / completed
+baseline:
+  commit: "e964ae3483de361554030da01639ed741a3d372f"
+result:
+  commit: "61e2154"
+  paths:
+    - mall-admin/src/api/distributed.ts
+    - mall-admin/src/views/distributed/DelayTaskListView.vue
+    - mall-admin/src/router/component-registry.ts
+  symbols:
+    - delayTaskApi
+    - DelayTaskListView
