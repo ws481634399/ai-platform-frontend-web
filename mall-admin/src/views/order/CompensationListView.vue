@@ -1,5 +1,20 @@
 <template>
   <div class="admin-page compensation-page">
+    <!-- RocketMQ Dashboard 外链：地址由环境变量注入，未配置则不渲染 -->
+    <div
+      v-if="dashboardUrl"
+      class="compensation-page__header"
+    >
+      <a
+        :href="dashboardUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="compensation-page__dashboard"
+        data-testid="compensation-dashboard"
+      >
+        RocketMQ Dashboard（外链，新窗口打开）
+      </a>
+    </div>
     <!-- 查询区：扁平 toolbar -->
     <div class="compensation-page__toolbar">
       <el-form
@@ -132,9 +147,27 @@
         <el-table-column
           prop="lastError"
           label="最近错误"
-          min-width="220"
+          min-width="200"
           show-overflow-tooltip
         />
+        <el-table-column
+          label="载荷"
+          width="90"
+          align="center"
+        >
+          <template #default="{ row }">
+            <el-button
+              v-if="(row as CompensationView).payload"
+              link
+              type="primary"
+              data-testid="compensation-payload"
+              @click="openPayload(row as CompensationView)"
+            >
+              查看
+            </el-button>
+            <span v-else>—</span>
+          </template>
+        </el-table-column>
         <el-table-column
           label="下次重试"
           width="160"
@@ -157,13 +190,14 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="100"
+          width="170"
           align="center"
           fixed="right"
         >
           <template #default="{ row }">
             <el-button
               v-if="canRetry((row as CompensationView).status)"
+              v-permission="'system:compensation:retry'"
               link
               type="primary"
               :loading="retryingId === (row as CompensationView).id"
@@ -172,6 +206,25 @@
             >
               手动重试
             </el-button>
+            <el-popconfirm
+              v-if="canComplete((row as CompensationView).status)"
+              title="确认人工标记该任务完成？此操作将被审计记录。"
+              confirm-button-text="确认完成"
+              cancel-button-text="取消"
+              @confirm="onComplete(row as CompensationView)"
+            >
+              <template #reference>
+                <el-button
+                  v-permission="'system:compensation:complete'"
+                  link
+                  type="success"
+                  :loading="completingId === (row as CompensationView).id"
+                  data-testid="compensation-complete"
+                >
+                  标记完成
+                </el-button>
+              </template>
+            </el-popconfirm>
           </template>
         </el-table-column>
         <template #empty>
@@ -192,6 +245,16 @@
         />
       </div>
     </el-card>
+
+    <!-- Payload 查看弹窗：JSON 美化展示，原文不合法时回退原文 -->
+    <el-dialog
+      v-model="payloadVisible"
+      title="补偿载荷（Payload）"
+      width="560px"
+      append-to-body
+    >
+      <pre class="compensation-page__payload">{{ payloadPretty }}</pre>
+    </el-dialog>
   </div>
 </template>
 
@@ -210,6 +273,9 @@ const status = ref<CompensationStatus | undefined>(undefined)
 const operation = ref<string | undefined>(undefined)
 const aggregateId = ref('')
 const retryingId = ref<string | null>(null)
+const completingId = ref<string | null>(null)
+const payloadVisible = ref(false)
+const payloadPretty = ref('')
 
 function compTagType(s: string): 'warning' | 'success' | 'danger' {
   if (s === 'SUCCESS') return 'success'
@@ -219,6 +285,22 @@ function compTagType(s: string): 'warning' | 'success' | 'danger' {
 
 function canRetry(s: string): boolean {
   return s === 'PENDING' || s === 'FAILED_DEAD'
+}
+
+/** SUCCESS 任务无需再人工完成；其余状态均允许（人工确认业务闭环）。 */
+function canComplete(s: string): boolean {
+  return s !== 'SUCCESS'
+}
+
+/** 打开 payload：JSON 美化；非合法 JSON 时原样展示。 */
+function openPayload(row: CompensationView): void {
+  const raw = row.payload ?? ''
+  try {
+    payloadPretty.value = JSON.stringify(JSON.parse(raw), null, 2)
+  } catch {
+    payloadPretty.value = raw
+  }
+  payloadVisible.value = true
 }
 
 async function loadPage(): Promise<void> {
@@ -271,6 +353,20 @@ async function onRetry(row: CompensationView): Promise<void> {
   }
 }
 
+/** 人工标记完成（popconfirm 确认后触发，AC-038）。 */
+async function onComplete(row: CompensationView): Promise<void> {
+  completingId.value = row.id
+  try {
+    await compensationApi.complete(row.id)
+    ElMessage.success('已标记完成')
+    await loadPage()
+  } catch {
+    // 错误文案由拦截器统一提示
+  } finally {
+    completingId.value = null
+  }
+}
+
 onMounted(() => {
   void loadPage()
 })
@@ -296,5 +392,13 @@ onMounted(() => {
   color: var(--admin-text-tertiary);
   font-size: 13px;
   text-align: center;
+}
+
+.compensation-page__payload {
+  margin: 0;
+  max-height: 48vh;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.6;
 }
 </style>
