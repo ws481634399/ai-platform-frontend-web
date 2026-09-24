@@ -43,10 +43,11 @@ implementation-guidance:
   complexity-trigger: []
 status: completed # pending / developing / testing / completed
 baseline:
-  commit: ""
+  commit: "f38873a2b19b5675bf3d49f41baed6c5805dab20"
 result:
-  commit: "f2fd7ca" # 本地提交（未推送）；DU-FE-002/003/004 共享同一 feat commit
-  paths: # 实现影响路径（repo 相对路径；仅列本 DU 主导文件，共享接线文件见 implementation.md）
+  commit: "f38873a2b19b5675bf3d49f41baed6c5805dab20" # 本地提交（未推送）；DU-FE-002/003/004 共享同一 feat commit
+  paths:
+    # 实现影响路径（repo 相对路径；仅列本 DU 主导文件，共享接线文件见 implementation.md）
     - mall-admin/src/api/knowledge.ts
     - mall-admin/src/views/knowledge/knowledge-validate.ts
     - mall-admin/src/views/knowledge/KnowledgeListView.vue
@@ -58,7 +59,8 @@ result:
     - mall-web/src/router/index.ts
     - mall-web/src/layouts/MallLayout.vue
     - mall-web/src/views/ai/SupportView.spec.ts
-  symbols: # 关键代码符号（格式 <file>::<symbol>）
+  symbols:
+    # 关键代码符号（格式 <file>::<symbol>）
     - mall-admin/src/api/knowledge.ts::knowledgeApi
     - mall-admin/src/views/knowledge/knowledge-validate.ts::validateKnowledgeFile
     - mall-web/src/api/ai.ts::aiApi.supportChat
