@@ -24,6 +24,8 @@ const components: Record<string, () => Promise<Component>> = {
   AiKnowledge: () => import('@/views/knowledge/KnowledgeListView.vue'),
   // M7：Outbox 事件管理（CHG-0025 STORY-009-02-01，component_key 对齐 V13 菜单种子 /distributed/outbox）
   OutboxList: () => import('@/views/distributed/OutboxListView.vue'),
+  // M7：延迟取消任务（CHG-0025 STORY-009-04-01，component_key 对齐 V14 菜单种子 /distributed/delay）
+  DelayTaskList: () => import('@/views/distributed/DelayTaskListView.vue'),
 }
 
 export function resolveComponent(key: string) {
