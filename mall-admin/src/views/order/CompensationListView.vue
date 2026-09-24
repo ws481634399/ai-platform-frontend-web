@@ -265,6 +265,8 @@ import { compensationApi, type CompensationStatus, type CompensationView } from 
 import { compensationStatusLabel, formatDateTime, operationBizLabel } from './order-display'
 
 const loading = ref(false)
+/** RocketMQ Dashboard 地址（未配置/空白时不显示外链） */
+const dashboardUrl = (import.meta.env.VITE_ROCKETMQ_DASHBOARD_URL ?? '').trim() || undefined
 const records = ref<CompensationView[]>([])
 const total = ref(0)
 const page = ref(1)
@@ -373,6 +375,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.compensation-page__header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--admin-space-2);
+}
+
+.compensation-page__dashboard {
+  font-size: 13px;
+  color: var(--el-color-primary);
+  text-decoration: none;
+}
+
+.compensation-page__dashboard:hover {
+  text-decoration: underline;
+}
+
 .compensation-page__toolbar {
   background: var(--admin-bg);
   border: 1px solid var(--admin-border-light);
