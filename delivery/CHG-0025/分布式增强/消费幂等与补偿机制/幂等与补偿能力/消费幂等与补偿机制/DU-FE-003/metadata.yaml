@@ -41,7 +41,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "fab71350bfe3ff1e285dcc761ee0c7c8302c6528"
 result:
-  commit: "5ce2ad0"
+  commit: "8bbf356beae7569e8ebd447dfdf2b03bd972c1df"
   paths:
     - mall-admin/src/api/order/order.ts
     - mall-admin/src/views/order/CompensationListView.vue

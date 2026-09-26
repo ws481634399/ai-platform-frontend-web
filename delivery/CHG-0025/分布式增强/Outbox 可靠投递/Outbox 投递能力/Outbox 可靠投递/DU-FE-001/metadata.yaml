@@ -43,7 +43,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "c9c0e16514365f9aa315ac5afb1de82d0fea472f"
 result:
-  commit: "c7e38ec"
+  commit: "8bbf356beae7569e8ebd447dfdf2b03bd972c1df"
   paths:
     - mall-admin/src/api/distributed.ts
     - mall-admin/src/views/distributed/OutboxListView.vue

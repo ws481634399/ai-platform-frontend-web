@@ -41,7 +41,7 @@ status: completed # pending / developing / testing / completed
 baseline:
   commit: "e964ae3483de361554030da01639ed741a3d372f"
 result:
-  commit: "61e2154"
+  commit: "8bbf356beae7569e8ebd447dfdf2b03bd972c1df"
   paths:
     - mall-admin/src/api/distributed.ts
     - mall-admin/src/views/distributed/DelayTaskListView.vue
